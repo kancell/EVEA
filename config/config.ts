@@ -5,13 +5,14 @@ import autoprefixer from 'autoprefixer';
 import { useModel } from 'umi';
 
 export default defineConfig({
-  routes: routes,
+  routes: routes.defaultRouter,
   antd: {},
   /* esbuild无法使用，应该与postcss及插件tailwind有关
   esbuild: {
     target: 'es5',
   },
-   */
+  */
+  dynamicImport: {},
   layout: {
     name: 'To Eva',
     locale: false,
@@ -21,9 +22,9 @@ export default defineConfig({
     type: 'none',
   },
   fastRefresh: {},
-  extraPostCSSPlugins:[
+  extraPostCSSPlugins: [
     /* 配置tailwindcss，目前为postcss7.0兼容版本 */
     tailwindcss(),
     autoprefixer(),
-  ]
+  ],
 });

@@ -2,12 +2,12 @@ export async function getInitialState() {
   //const data = await fetchXXX();
   const data = {
     userId: 'any123',
-    role: 'admin',
+    role: 'user',
     settings: {
       layout: 'side',
-      name: 'admin'
-    }
-  }
+      name: 'admin',
+    },
+  };
   return data;
 }
 
@@ -20,7 +20,7 @@ import {
 export const layout = ({
   initialState,
 }: {
-  initialState: { settings?: LayoutSettings; };
+  initialState: { settings?: LayoutSettings };
 }): BasicLayoutProps => {
   return {
     menuHeaderRender: undefined,
