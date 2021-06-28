@@ -1,18 +1,23 @@
+import { history } from 'umi';
+
+function redirectToLogin() {
+  history.push('/login');
+}
+
 export async function getInitialState(): Promise<unknown> {
-  //const data = await fetchXXX();
   /*
   检查token，如果没有token，跳转至欢迎、登录界面
   登录成功后，执行setInitialState，填入localstroge与初始化数据，根据权限生成路由，调整layout
   */
-  const data = {
-    userId: 'any123',
-    role: 'user',
-    settings: {
-      layout: 'mixed',
-      title: 'admin',
-    },
-  };
-  return data;
+  let userData = {};
+
+  localStorage.getItem('evea_users_data') === null
+    ? redirectToLogin()
+    : (userData = JSON.parse(
+        localStorage.getItem('evea_users_data') as string,
+      ));
+
+  return userData;
 }
 
 /* 运行时layout配置 */
