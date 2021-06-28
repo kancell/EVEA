@@ -7,6 +7,9 @@ import { useModel } from 'umi';
 export default defineConfig({
   routes: routes.defaultRouter,
   antd: {},
+  theme: {
+    '@primary-color': '#1DA57A',
+  },
   /* esbuild无法使用，应该与postcss及插件tailwind有关
   esbuild: {
     target: 'es5',
@@ -14,7 +17,7 @@ export default defineConfig({
   */
   dynamicImport: {},
   layout: {
-    name: 'To Eva',
+    title: 'To Eva',
     locale: false,
     layout: 'side',
   },

@@ -1,4 +1,7 @@
-declare module '@antv/l7'
+declare module 'umi';
+declare module '@tailwindcss/postcss7-compat';
+declare module 'autoprefixer';
+declare module '@antv/l7';
 declare module '*.css';
 declare module '*.less';
 declare module '*.png';
