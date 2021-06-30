@@ -1,4 +1,5 @@
 declare module 'umi';
+declare module 'uuid';
 declare module '@tailwindcss/postcss7-compat';
 declare module 'autoprefixer';
 declare module '@antv/l7';

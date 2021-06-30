@@ -2,10 +2,11 @@ module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
-    height: {
-      exactH: 'calc(100vh - 96px)'
-    }
+    extend: {
+      height: {
+        exactH: 'calc(100vh - 96px)',
+      },
+    },
   },
   variants: {
     extend: {},
@@ -14,4 +15,4 @@ module.exports = {
     preflight: false,
   },
   plugins: [],
-}
+};

@@ -28,6 +28,5 @@ export default defineConfig({
   extraPostCSSPlugins: [
     /* 配置tailwindcss，目前为postcss7.0兼容版本 */
     tailwindcss(),
-    autoprefixer(),
   ],
 });

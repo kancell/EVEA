@@ -1,7 +1,8 @@
 import { history } from 'umi';
+import './style.css';
 
 function redirectToLogin() {
-  history.push('/login');
+  //history.push('/login');
 }
 
 export async function getInitialState(): Promise<unknown> {

@@ -1,11 +1,10 @@
-import * as React from 'react'
+import React, { ReactChild } from 'react';
 import { Button } from 'antd';
-import "@tailwindcss/postcss7-compat/tailwind.css"
 
-export default function IndexPage() {
+export default function IndexPage(): ReactChild {
   return (
     <div>
-      <div className="text-red-500 h-24">asdasdas</div>
+      <div className="text-red-500 h-96 w-24 bg-red-700">asdasdas</div>
       <Button type="primary">Primary Button</Button>
       <Button>Default Button</Button>
       <Button type="dashed">Dashed Button</Button>
