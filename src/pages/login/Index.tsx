@@ -2,8 +2,11 @@ import React, { useMemo, useEffect, useState, ReactChild } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
+import { request, useModel, history } from 'umi';
 
 const LoginForm = (): ReactChild => {
+  const { initialState, loading, error, refresh, setInitialState } =
+    useModel('@@initialState');
   const [verifyRandomKey, setVerifyRandomKey] = useState(uuidv4() as string);
   const [verifyCodePic, setVerifyCodePic] = useState('');
   const [loginData, setLoginData] = useState({
@@ -27,18 +30,21 @@ const LoginForm = (): ReactChild => {
   }, [verifyRandomKey]);
 
   const getData = async () => {
-    const response = await fetch(
-      `http://localhost:9527/exam/api/sys/user/login`,
-      {
-        method: 'post',
-        headers: {
-          'content-Type': 'application/json;charset=UTF-8',
-        },
-        body: JSON.stringify(loginData),
+    await request(`http://localhost:9527/exam/api/sys/user/login`, {
+      method: 'post',
+      headers: {
+        'content-Type': 'application/json;charset=UTF-8',
       },
-    ).then((res) => {
-      console.log(res);
-    });
+      body: JSON.stringify(loginData),
+    })
+      .then((res: { [key: string]: string | string[] | number }) => {
+        setInitialState(res.data);
+        localStorage.setItem('evea_users_data', JSON.stringify(res.data));
+        history.push('/');
+      })
+      .catch((res: { [key: string]: string | string[] | number }) => {
+        console.log(res);
+      });
   };
 
   return (
@@ -51,20 +57,20 @@ const LoginForm = (): ReactChild => {
             alt="Workflow"
           />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            登录数科考试系统
+            数科考试系统
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             <a
               href="#"
               className="font-medium text-indigo-600 hover:text-indigo-500"
             >
-              前往注册
+              没有账号？前往注册
             </a>
           </p>
         </div>
         <Form
           name="login"
-          className="max-w-md w-full space-y-8"
+          className="max-w-md w-ful"
           initialValues={{
             remember: true,
           }}
@@ -148,7 +154,7 @@ const LoginForm = (): ReactChild => {
             onClick={() => getData()}
             type="primary"
             htmlType="submit"
-            className="group relative w-full flex justify-center py-2 px-4"
+            className="group relative w-full flex justify-center py-2 px-4 mt-4"
           >
             登录
           </Button>

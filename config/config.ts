@@ -1,8 +1,6 @@
 import { defineConfig } from 'umi';
 import routes from './routes';
 import tailwindcss from '@tailwindcss/postcss7-compat';
-import autoprefixer from 'autoprefixer';
-import { useModel } from 'umi';
 
 export default defineConfig({
   routes: routes.defaultRouter,
@@ -20,6 +18,9 @@ export default defineConfig({
     title: 'To Eva',
     locale: false,
     layout: 'side',
+  },
+  request: {
+    dataField: 'data',
   },
   nodeModulesTransform: {
     type: 'none',

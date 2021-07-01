@@ -1,3 +1,10 @@
+const exam = {
+  path: '/',
+  name: '首页',
+  component: 'Index',
+  icon: 'smile',
+  routes: [{}],
+};
 export default {
   defaultRouter: [
     {
@@ -15,22 +22,19 @@ export default {
       flatMenu: true,
       routes: [
         {
-          exact: true,
           path: '/',
           name: '首页',
           component: 'Index',
           icon: 'smile',
         },
         {
-          exact: true,
           path: '/chart',
           name: '图表',
           component: 'chart/Index',
           icon: 'Crown',
-          access: 'canReadPageA',
+          access: 'admin',
         },
         {
-          exact: true,
           path: '/map',
           name: '地图',
           component: 'map/Index',

@@ -1,14 +1,23 @@
-import { useModel } from 'umi';
-
-export default function (initialState: { userId: any; role: any }) {
-  const { userId, role } = initialState;
+export default function (initialState: {
+  userName: string;
+  token: string;
+  state: number;
+  roles: string[];
+  roleType: number;
+  realName: string;
+  points: number;
+  id: string;
+  dataScope: number;
+}): {
+  admin: boolean;
+  subAdmin: boolean;
+  user: boolean;
+} {
+  const { roles } = initialState;
 
   return {
-    canReadPageA: role === 'admin' || role === 'user',
-    canReadFoo: true,
-    canUpdateFoo: role === 'admin',
-    canDeleteFoo: (foo: { ownerId: any }) => {
-      return foo.ownerId === userId;
-    },
+    admin: roles.includes('sa'),
+    subAdmin: roles.includes('suba'),
+    user: roles.includes('user'),
   };
 }
