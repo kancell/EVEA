@@ -17,7 +17,7 @@ export default defineConfig({
   layout: {
     title: 'To Eva',
     locale: false,
-    layout: 'side',
+    layout: 'mixed',
   },
   request: {
     dataField: 'data',

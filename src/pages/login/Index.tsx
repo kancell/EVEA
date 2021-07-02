@@ -22,7 +22,7 @@ const LoginForm = (): ReactChild => {
 
   useEffect(() => {
     const verifyRandomKeyUrl = () => {
-      const objectURL = `http://localhost:9527/common/api/captcha/gen?key=${verifyRandomKey}`;
+      const objectURL = `http://localhost:8101/common/api/captcha/gen?key=${verifyRandomKey}`;
       setVerifyCodePic(objectURL);
       setLoginData({ ...loginData, captchaKey: verifyRandomKey });
     };
@@ -30,7 +30,7 @@ const LoginForm = (): ReactChild => {
   }, [verifyRandomKey]);
 
   const getData = async () => {
-    await request(`http://localhost:9527/exam/api/sys/user/login`, {
+    await request(`http://localhost:8101/exam/api/sys/user/login`, {
       method: 'post',
       headers: {
         'content-Type': 'application/json;charset=UTF-8',
@@ -44,6 +44,7 @@ const LoginForm = (): ReactChild => {
       })
       .catch((res: { [key: string]: string | string[] | number }) => {
         console.log(res);
+        verifyRandomKeyGenerate();
       });
   };
 
@@ -133,7 +134,7 @@ const LoginForm = (): ReactChild => {
               />
             </Form.Item>
             <img
-              className="w-1/3 h-8 block"
+              className="w-1/3 h-8 block cursor-pointer"
               src={verifyCodePic}
               onClick={() => verifyRandomKeyGenerate()}
             ></img>

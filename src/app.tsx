@@ -27,14 +27,19 @@ let userData: {
   id: '',
   dataScope: 0,
 };
-
 export async function getInitialState(): Promise<unknown> {
   const reload = () => {
     history.push('/login');
   };
-  const validCheck = (data: {
-    [key: string]: string | string[] | number | undefined;
-  }): boolean => {
+  const validCheck = (
+    data:
+      | null
+      | undefined
+      | { [key: string]: string | string[] | number | undefined },
+  ): boolean => {
+    console.log(3123123);
+    if (data === null || data === undefined || typeof data !== 'object')
+      return false;
     for (const item of Object.entries(data)) {
       if (item[0][1] === undefined) {
         return false;
@@ -42,11 +47,22 @@ export async function getInitialState(): Promise<unknown> {
     }
     return true;
   };
-  const localUserData = JSON.parse(
-    localStorage.getItem('evea_users_data') as string,
-  );
+
+  let localUserData;
+  try {
+    localStorage.getItem('evea_users_data') === null
+      ? (localUserData = {})
+      : (localUserData = JSON.parse(
+          localStorage.getItem('evea_users_data') as string,
+        ));
+  } catch (error) {
+    localStorage.removeItem('evea_users_data');
+    console.log(error);
+  }
+
   if (validCheck(localUserData)) {
     userData = {
+      ...userData,
       ...localUserData,
     };
   } else {
@@ -69,6 +85,21 @@ export const layout = ({
   initialState: { settings?: LayoutSettings };
 }): BasicLayoutProps => {
   return {
+    onPageChange: () => {
+      const { token } = initialState;
+      const { location } = history;
+      // 如果没有登录，重定向到 login
+      if (!token && location.pathname !== '/login') {
+        history.push('/user/login');
+      }
+    },
+    logout: () => {
+      localStorage.removeItem('evea_users_data');
+      history.push('/login');
+    },
+    onError: (error: Error, info: any) => {
+      console.log(error, info);
+    },
     ...initialState?.settings,
   };
 };
