@@ -3,6 +3,7 @@ const exam = {
   name: '在线考试',
   icon: 'smile',
   access: 'user',
+  hideInBreadcrumb: true,
   routes: [
     {
       path: '/examUser/exam',
@@ -17,8 +18,8 @@ const exam = {
       icon: 'smile',
     },
     {
-      path: '/examUser/exam',
-      name: '在线考试',
+      path: '/examUser/practice',
+      name: '题库训练',
       component: 'examUser/index',
       icon: 'smile',
     },
@@ -29,6 +30,7 @@ const examManage = {
   name: '考试管理',
   icon: 'smile',
   access: 'admin',
+  hideInBreadcrumb: true,
   routes: [
     {
       path: '/examManage/exam',
@@ -55,6 +57,7 @@ const setting = {
   name: '系统设置',
   icon: 'smile',
   access: 'admin',
+  hideInBreadcrumb: true,
   routes: [
     {
       path: '/setting/system',
@@ -99,6 +102,7 @@ const statistics = {
   name: '数据统计',
   icon: 'smile',
   access: 'admin',
+  hideInBreadcrumb: true,
   routes: [
     {
       path: '/statistics/user',
@@ -117,13 +121,14 @@ const statistics = {
 export default {
   defaultRouter: [
     {
-      path: '/login',
+      path: 'user/login',
       name: '登录',
       component: 'login/Index',
       hideInMenu: true,
       headerRender: false,
       footerRender: false,
       menuRender: false,
+      hideInBreadcrumb: true,
     },
     {
       path: '/',

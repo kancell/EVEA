@@ -1,4 +1,4 @@
-module.exports = {
+/* module.exports = {
   env: {
     browser: true,
     es2021: true,
@@ -18,4 +18,12 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {},
+}; */
+module.exports = {
+  extends: [require.resolve('@umijs/fabric/dist/eslint')],
+  globals: {
+    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: true,
+    page: true,
+    REACT_APP_ENV: true,
+  },
 };

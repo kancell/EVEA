@@ -38,9 +38,11 @@ const LoginForm = (): ReactChild => {
       body: JSON.stringify(loginData),
     })
       .then((res: { [key: string]: string | string[] | number }) => {
-        setInitialState(res.data);
         localStorage.setItem('evea_users_data', JSON.stringify(res.data));
-        history.push('/');
+        refresh();
+        setTimeout(() => {
+          history.push('/');
+        }, 0);
       })
       .catch((res: { [key: string]: string | string[] | number }) => {
         console.log(res);

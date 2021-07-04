@@ -1,6 +1,7 @@
 import { defineConfig } from 'umi';
 import routes from './routes';
 import tailwindcss from '@tailwindcss/postcss7-compat';
+import { BasicLayoutProps } from '@ant-design/pro-layout';
 
 export default defineConfig({
   routes: routes.defaultRouter,
@@ -14,11 +15,7 @@ export default defineConfig({
   },
   */
   dynamicImport: {},
-  layout: {
-    title: 'To Eva',
-    locale: false,
-    layout: 'mixed',
-  },
+  layout: {},
   request: {
     dataField: 'data',
   },
