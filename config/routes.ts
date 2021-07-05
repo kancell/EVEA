@@ -1,26 +1,25 @@
 const exam = {
-  path: 'examUser',
+  path: 'exam',
   name: '在线考试',
   icon: 'smile',
   access: 'user',
-  hideInBreadcrumb: true,
   routes: [
     {
-      path: '/examUser/exam',
+      path: '/exam/exam',
       name: '在线考试',
-      component: 'examUser/index',
+      component: 'exam/index',
       icon: 'smile',
     },
     {
-      path: '/examUser/score',
+      path: '/exam/score',
       name: '我的成绩',
-      component: 'examUser/index',
+      component: 'exam/index',
       icon: 'smile',
     },
     {
-      path: '/examUser/practice',
+      path: '/exam/practice',
       name: '题库训练',
-      component: 'examUser/index',
+      component: 'exam/index',
       icon: 'smile',
     },
   ],

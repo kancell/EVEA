@@ -1,7 +1,6 @@
 import { defineConfig } from 'umi';
 import routes from './routes';
 import tailwindcss from '@tailwindcss/postcss7-compat';
-import { BasicLayoutProps } from '@ant-design/pro-layout';
 
 export default defineConfig({
   routes: routes.defaultRouter,
@@ -27,4 +26,40 @@ export default defineConfig({
     /* 配置tailwindcss，目前为postcss7.0兼容版本 */
     tailwindcss(),
   ],
+  /*   chainWebpack(config){
+    config.optimization.splitChunks({
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.(css|less)$/,
+          chunks: 'async',
+          minChunks: 1,
+          minSize: 0,
+        }
+      },
+    });
+    config.merge({
+      optimization: {
+        minimize: true,
+        splitChunks: {
+          chunks: 'async',
+          minSize: 30000,
+          minChunks: 2,
+          automaticNameDelimiter: '.',
+          cacheGroups: {
+            vendor: {
+              name: 'vendors',
+              test: /^.*node_modules[\\/](?!ag-grid-|lodash|wangeditor|react-virtualized|rc-select|rc-drawer|rc-time-picker|rc-tree|rc-table|rc-calendar|antd).*$/,
+              chunks: "all",
+              priority: 10,
+            },
+          }
+        }
+      }
+    });
+    //过滤掉momnet的那些不使用的国际化文件
+    config.plugin("replace").use(require("webpack").ContextReplacementPlugin).tap(() => {
+        return [/moment[/\\]locale$/, /zh-cn/];
+    });
+  } */
 });

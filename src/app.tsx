@@ -4,7 +4,7 @@
 登录成功后，执行setInitialState，填入localstroge与初始化数据，根据权限生成路由，调整layout
 */
 import { history } from 'umi';
-import './style.css';
+import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
 import type {
   BasicLayoutProps,
   Settings as LayoutSettings,
@@ -12,7 +12,8 @@ import type {
 import { PageLoading } from '@ant-design/pro-layout';
 import { Button, Descriptions, Result, Avatar, Space, Statistic } from 'antd';
 import { LikeOutlined, UserOutlined } from '@ant-design/icons';
-import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
+import './style.css';
+
 export const initialStateConfig = {
   loading: <PageLoading />,
 };
@@ -28,9 +29,10 @@ declare type userData = {
   dataScope?: number;
 };
 
+let runTimeToken: string = '';
 export async function getInitialState(): Promise<unknown> {
   const reload = () => {
-    history.push('/login');
+    history.push('/user/login');
   };
   const validCheck = (data: userData): boolean => {
     if (data === null || data === undefined || typeof data !== 'object')
@@ -90,10 +92,10 @@ export async function getInitialState(): Promise<unknown> {
       ...initUserData,
       ...localUserData,
     };
+    runTimeToken = result.users.token;
   } else {
     reload();
   }
-
   return result;
 }
 
@@ -120,7 +122,7 @@ export const layout: RunTimeLayoutConfig = ({
       return (
         <div
           className={`${
-            layoutType === 'top' ? 'text-purple-50' : 'text-gray-900'
+            layoutType === 'top' ? 'text-gray-900' : 'text-gray-900'
           }`}
         >
           <div className="px-2">{initialState.users.realName}</div>
@@ -154,6 +156,8 @@ export const layout: RunTimeLayoutConfig = ({
 /*
 初始化fetch网络请求配置
 */
+
+const baseUrl = 'http://localhost:8101';
 export const request: RequestConfig = {
   timeout: 5000,
   errorConfig: {
@@ -174,13 +178,24 @@ export const request: RequestConfig = {
     },
   ],
   requestInterceptors: [
-    function InterA(url, options) {
-      console.log('inter before');
+    (url, options) => {
       return {
-        url: `${url}`,
-        options: { ...options, interceptors: true },
+        url: `${baseUrl}${url}`,
+        options: {
+          ...options,
+          interceptors: true,
+          headers: {
+            token: runTimeToken,
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+        },
       };
     },
   ],
-  responseInterceptors: [],
+  responseInterceptors: [
+    (response, options) => {
+      console.log(response, options);
+      return response;
+    },
+  ],
 };

@@ -30,7 +30,7 @@ const LoginForm = (): ReactChild => {
   }, [verifyRandomKey]);
 
   const getData = async () => {
-    await request(`http://localhost:8101/exam/api/sys/user/login`, {
+    await request(`/exam/api/sys/user/login`, {
       method: 'post',
       headers: {
         'content-Type': 'application/json;charset=UTF-8',

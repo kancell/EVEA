@@ -3,14 +3,27 @@ import { PageHeader } from 'antd';
 import { Breadcrumb } from 'antd';
 import { useLocation } from 'umi';
 import { useRouteMatch } from 'umi';
+import { Link } from 'umi';
+//ant-page-header
+import defaultRouter from '../../config/routes';
+const breadRoutes = {
+  itemRender: (route, params, routes, paths) => {
+    console.log(route, params, routes, paths);
+    const secondRoute = routes.indexOf(route) === 1;
+    return secondRoute ? (
+      <Link to={route.path} style={{ color: 'rgba(0,0,0,0.65)' }}>
+        {route.name}
+      </Link>
+    ) : (
+      <span>{route.name}</span>
+    );
+  },
+};
 
 export default (props) => {
-  const location = useLocation();
-  console.log(location.pathname.split('/').length);
   return (
-    <div>
-      <PageHeaderWrapper title={false}></PageHeaderWrapper>
+    <>
       <div className="p-2">{props.children}</div>
-    </div>
+    </>
   );
 };
