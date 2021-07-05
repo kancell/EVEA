@@ -5,13 +5,8 @@
 */
 import { history } from 'umi';
 import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
-import type {
-  BasicLayoutProps,
-  Settings as LayoutSettings,
-} from '@ant-design/pro-layout';
+import type { BasicLayoutProps } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
-import { Button, Descriptions, Result, Avatar, Space, Statistic } from 'antd';
-import { LikeOutlined, UserOutlined } from '@ant-design/icons';
 import './style.css';
 
 export const initialStateConfig = {
@@ -56,7 +51,7 @@ export async function getInitialState(): Promise<unknown> {
     id: '',
     dataScope: 0,
   };
-  let LayoutSettingData: LayoutSettings = {
+  let LayoutSettingData: BasicLayoutProps = {
     title: '考试平台',
     layout: 'side',
   };
@@ -73,8 +68,11 @@ export async function getInitialState(): Promise<unknown> {
     console.log(error);
   }
 
-  let result = {
-    users: {
+  let result: {
+    user: userData;
+    layout: BasicLayoutProps;
+  } = {
+    user: {
       ...initUserData,
     },
     layout: {
@@ -88,11 +86,11 @@ export async function getInitialState(): Promise<unknown> {
     ) {
       result.layout.layout = 'top';
     }
-    result.users = {
+    result.user = {
       ...initUserData,
       ...localUserData,
     };
-    runTimeToken = result.users.token;
+    runTimeToken = result.user.token;
   } else {
     reload();
   }
@@ -105,27 +103,38 @@ export async function getInitialState(): Promise<unknown> {
 export const layout: RunTimeLayoutConfig = ({
   initialState,
 }): BasicLayoutProps => {
-  const layoutType = initialState.layout.layout;
+  const initialStateTrans = initialState as {
+    user: userData;
+    layout: BasicLayoutProps;
+  };
   return {
     navTheme: 'light',
     siderWidth: 208,
     onPageChange: () => {
-      const token = initialState?.users?.token;
-      const roles = initialState?.users?.roles;
+      const token = initialStateTrans?.user?.token;
+      const roles = initialStateTrans?.user?.roles;
       const { location } = history;
       // 如果没有登录，重定向到 login
       if (!token && location.pathname !== '/user/login') {
         history.push('/user/login');
       }
     },
-    rightRender: (initialState: any) => {
+    /*
+    这四项配置为umi自己扩展，不在BasicLayoutProps中
+     */
+    /* ts ignore */
+    rightRender: (initialStateTrans: {
+      user: userData;
+      layout: BasicLayoutProps;
+    }) => {
+      const layoutType = initialStateTrans?.layout?.layout;
       return (
         <div
           className={`${
             layoutType === 'top' ? 'text-gray-900' : 'text-gray-900'
           }`}
         >
-          <div className="px-2">{initialState.users.realName}</div>
+          <div className="px-2">{initialStateTrans.user.realName}</div>
         </div>
       );
     },
@@ -136,7 +145,11 @@ export const layout: RunTimeLayoutConfig = ({
     onError: (error: Error, info: any) => {
       console.log(error, info);
     },
-    title: 'Remax',
+    ErrorComponent: () => {
+      return <div>some wrongs...</div>;
+    },
+    /*
+     */
     logo: 'https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ',
     menuHeaderRender: (logo, title) => (
       <div
@@ -149,14 +162,13 @@ export const layout: RunTimeLayoutConfig = ({
         {title}
       </div>
     ),
-    ...initialState.layout,
+    ...initialStateTrans.layout,
   };
 };
 
 /*
 初始化fetch网络请求配置
 */
-
 const baseUrl = 'http://localhost:8101';
 export const request: RequestConfig = {
   timeout: 5000,
