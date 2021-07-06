@@ -13,7 +13,9 @@ export default defineConfig({
     target: 'es5',
   },
   */
-  dynamicImport: {},
+  dynamicImport: {
+    loading: '@/components/Loading',
+  },
   layout: {},
   request: {
     dataField: 'data',

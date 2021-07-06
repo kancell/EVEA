@@ -2,62 +2,161 @@
 /* eslint-disable */
 
 declare namespace API {
-  type WarpEaxmPaging = {
-    code: number;
-    msg: string;
-    success: boolean;
-    data: EaxmPaging;
+  type ExamInfo = {
+    actionInterval: number;
+    actionOn: boolean;
+    answerDevice: number;
+    camInterval: number;
+    camOn: boolean;
+    chance: number;
+    content: string;
+    createBy: string;
+    createTime: string;
+    dataFlag: number;
+    endTime: string;
+    examType: string;
+    examType_dictText: string;
+    handMin: number;
+    hasSaq: boolean;
+    id: string;
+    lateMax: number;
+    leaveCheck: number;
+    leaveCount: number;
+    leaveOn: boolean;
+    objScore: number;
+    openType: number;
+    password: string;
+    points: number;
+    qualifyScore: number;
+    resultType: number;
+    startTime: string;
+    state: number;
+    subjScore: number;
+    thanks: string;
+    timeLimit: boolean;
+    title: string;
+    tmplId: string;
+    totalScore: number;
+    totalTime: number;
+    updateBy: string;
+    updateTime: string;
   };
-  type EaxmPaging = {
+  type ExamPaging = {
     current: number;
     hitCount: boolean;
     optimizeCountSql: boolean;
     orders: any[];
     pages: number;
-    records: {
-      actionInterval: number;
-      actionOn: boolean;
-      answerDevice: number;
-      camInterval: number;
-      camOn: boolean;
-      chance: number;
-      content: string;
-      createBy: string;
-      createTime: string;
-      dataFlag: number;
-      endTime: string;
-      examType: string;
-      examType_dictText: string;
-      handMin: number;
-      hasSaq: boolean;
-      id: string;
-      lateMax: number;
-      leaveCheck: number;
-      leaveCount: number;
-      leaveOn: boolean;
-      objScore: 100;
-      openType: number;
-      password: string;
-      points: number;
-      qualifyScore: number;
-      resultType: number;
-      startTime: string;
-      state: number;
-      subjScore: number;
-      thanks: string;
-      timeLimit: boolean;
-      title: string;
-      tmplId: string;
-      totalScore: number;
-      totalTime: number;
-      updateBy: string;
-      updateTime: string;
-    }[];
+    records: ExamInfo[];
     searchCount: boolean;
     size: number;
     total: number;
   };
-  type WarpEaxmCreate = {
+  type WarpExamPaging = {
+    code: number;
+    msg: string;
+    success: boolean;
+    data: ExamPaging;
+  };
+
+  type AnswerList = {
+    abc: string;
+    answer: string;
+    answerId: string;
+    checked: boolean;
+    content: string;
+    id: string;
+    image: string;
+    isRight: true;
+    paperId: string;
+    pathScore: number;
+    quId: string;
+    sort: number;
+  }[];
+  type QuestionList = {
+    actualScore: number;
+    analysis: string;
+    answer: string;
+    answerList: AnswerList;
+    answered: boolean;
+    content: string;
+    groupId: string;
+    id: string;
+    image: string;
+    isRight: boolean;
+    mark: boolean;
+    paperId: string;
+    quId: string;
+    quType: string;
+    quType_dictText: string;
+    score: number;
+    sort: number;
+    video: string;
+  }[];
+  type QuestionGroupList = {
+    id: string;
+    itemRand: boolean;
+    paperId: string;
+    pathScore: boolean;
+    perScore: number;
+    quCount: number;
+    quRand: boolean;
+    quType: string;
+    quType_dictText: string;
+    strictSort: boolean;
+    title: string;
+    totalScore: number;
+    quList: QuestionList;
+  }[];
+  type QuestionPaging = {
+    actionInterval: number;
+    actionOn: boolean;
+    answerDevice: number;
+    camInterval: number;
+    camOn: boolean;
+    chance: number;
+    createBy: string;
+    createTime: string;
+    dataFlag: number;
+    departId: string;
+    departId_dictText: string;
+    deptCode: string;
+    examId: string;
+    handMin: number;
+    hasSaq: boolean;
+    id: string;
+    lateMax: number;
+    leaveActual: number;
+    leaveCheck: number;
+    leaveCount: number;
+    leaveOn: boolean;
+    leftSeconds: number;
+    limitTime: string;
+    objScore: number;
+    passed: boolean;
+    points: number;
+    qualifyScore: number;
+    state: number;
+    subjScore: number;
+    title: number;
+    totalScore: number;
+    totalTime: number;
+    updateBy: string;
+    updateTime: string;
+    userId: string;
+    userId_dictText: string;
+    userScore: number;
+    userTime: number;
+    groupList: QuestionGroupList;
+  };
+  type WarpQuestionPaging = {
+    code: number;
+    msg: string;
+    success: boolean;
+    data: QuestionPaging;
+  };
+
+  type WarpExamCreate = {
     code: number;
     data: {
       id: string;

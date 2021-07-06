@@ -5,21 +5,27 @@ const exam = {
   access: 'user',
   routes: [
     {
-      path: '/exam/exam',
+      path: '/exam/examList',
+      name: '考试列表',
+      component: 'exam/examList',
+      icon: 'smile',
+    },
+    {
+      path: '/exam/examSite',
       name: '在线考试',
-      component: 'exam/index',
+      component: 'exam/examSite',
       icon: 'smile',
     },
     {
       path: '/exam/score',
       name: '我的成绩',
-      component: 'exam/index',
+      component: 'exam/score',
       icon: 'smile',
     },
     {
       path: '/exam/practice',
       name: '题库训练',
-      component: 'exam/index',
+      component: 'exam/practice',
       icon: 'smile',
     },
   ],
