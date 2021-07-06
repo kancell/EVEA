@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useMemo, useEffect, useState } from 'react';
 import { Scene, PointLayer, CityBuildingLayer } from '@antv/l7';
-import { GaodeMapV2, Mapbox } from '@antv/l7-maps';
+import { GaodeMapV2, GaodeMap, Mapbox } from '@antv/l7-maps';
 
 export default React.memo(function Map() {
   const [data, setData] = useState();
@@ -26,7 +26,7 @@ export default React.memo(function Map() {
   useEffect(() => {
     scene = new Scene({
       id: 'map',
-      map: new GaodeMapV2({
+      map: new GaodeMap({
         style: 'dark',
         center: [120.173104, 30.244072],
         pitch: 70.41138037735848,
@@ -42,7 +42,7 @@ export default React.memo(function Map() {
   }, []);
 
   return (
-    <div className="h-exactH">
+    <div className="relative h-exactH w-full overflow-hidden">
       <div id="map"></div>
     </div>
   );

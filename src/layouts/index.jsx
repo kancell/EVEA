@@ -3,6 +3,7 @@ import { PageHeader } from 'antd';
 import { Breadcrumb } from 'antd';
 import { useLocation } from 'umi';
 import { useRouteMatch } from 'umi';
+import { withRouter } from 'umi';
 import { Link } from 'umi';
 //ant-page-header
 import defaultRouter from '../../config/routes';
@@ -20,10 +21,12 @@ const breadRoutes = {
   },
 };
 
-export default (props) => {
+export default withRouter(({ history, location, match, children }) => {
   return (
     <>
-      <div className="p-4 animate-spin-slow">{props.children}</div>
+      <div className="p-4 animate-spin-slow" key={location.pathname}>
+        {children}
+      </div>
     </>
   );
-};
+});

@@ -102,7 +102,7 @@ export default function ExamList() {
           current: 1,
           size: 10,
           params: {},
-          t: moment(),
+          t: moment().unix(),
         },
       });
       setExamList(currentUser.data);

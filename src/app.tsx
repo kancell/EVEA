@@ -25,10 +25,8 @@ declare type userData = {
 };
 
 let runTimeToken: string = '';
+const loginPath = '/user/login';
 export async function getInitialState(): Promise<unknown> {
-  const reload = () => {
-    history.push('/user/login');
-  };
   const validCheck = (data: userData): boolean => {
     if (data === null || data === undefined || typeof data !== 'object')
       return false;
@@ -54,6 +52,7 @@ export async function getInitialState(): Promise<unknown> {
   let LayoutSettingData: BasicLayoutProps = {
     title: '考试平台',
     layout: 'side',
+    logo: 'https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ',
   };
 
   let localUserData;
@@ -92,7 +91,8 @@ export async function getInitialState(): Promise<unknown> {
     };
     runTimeToken = result.user.token;
   } else {
-    reload();
+    history.push(loginPath);
+    localStorage.removeItem('evea_users_data');
   }
   return result;
 }
@@ -111,12 +111,13 @@ export const layout: RunTimeLayoutConfig = ({
     navTheme: 'light',
     siderWidth: 208,
     onPageChange: () => {
-      const token = initialStateTrans?.user?.token;
+      const token = runTimeToken;
       const roles = initialStateTrans?.user?.roles;
       const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!token && location.pathname !== '/user/login') {
-        history.push('/user/login');
+      // 如果没有登录，重定向到 login,后续可以在这里加token校验
+      // 跳转到登录和清理localstroge应同时进行
+      if ((!token || token === '') && location.pathname !== loginPath) {
+        history.push(loginPath);
       }
     },
     /*
@@ -140,7 +141,7 @@ export const layout: RunTimeLayoutConfig = ({
     },
     logout: () => {
       localStorage.removeItem('evea_users_data');
-      history.push('/user/login');
+      history.push(loginPath);
     },
     onError: (error: Error, info: any) => {
       console.log(error, info);
@@ -150,7 +151,7 @@ export const layout: RunTimeLayoutConfig = ({
     },
     /*
      */
-    logo: 'https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ',
+
     menuHeaderRender: (logo, title) => (
       <div
         id="customize_menu_header"
@@ -205,8 +206,15 @@ export const request: RequestConfig = {
     },
   ],
   responseInterceptors: [
-    (response, options) => {
-      console.log(response, options);
+    async (response, options) => {
+      const data = await response.clone().json();
+      if (
+        data.code === 10010002 &&
+        data.success === false &&
+        location.pathname !== loginPath
+      ) {
+        history.push(loginPath);
+      }
       return response;
     },
   ],
