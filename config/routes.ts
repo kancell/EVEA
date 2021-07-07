@@ -159,7 +159,7 @@ export default {
         },
         {
           path: '/map',
-          name: '地图',
+          name: '我的练习',
           component: 'map/Index',
           icon: 'Tablet',
         },
