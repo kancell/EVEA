@@ -59,7 +59,7 @@ declare namespace API {
     data: ExamPaging;
   };
 
-  type AnswerList = {
+  type Answer = {
     abc: string;
     answer: string;
     answerId: string;
@@ -72,12 +72,12 @@ declare namespace API {
     pathScore: number;
     quId: string;
     sort: number;
-  }[];
-  type QuestionList = {
+  };
+  type Question = {
     actualScore: number;
     analysis: string;
     answer: string;
-    answerList: AnswerList;
+    answerList: Answer[];
     answered: boolean;
     content: string;
     groupId: string;
@@ -92,8 +92,8 @@ declare namespace API {
     score: number;
     sort: number;
     video: string;
-  }[];
-  type QuestionGroupList = {
+  };
+  type QuestionGroup = {
     id: string;
     itemRand: boolean;
     paperId: string;
@@ -106,8 +106,8 @@ declare namespace API {
     strictSort: boolean;
     title: string;
     totalScore: number;
-    quList: QuestionList;
-  }[];
+    quList: Question[];
+  };
   type QuestionPaging = {
     actionInterval: number;
     actionOn: boolean;
@@ -147,7 +147,7 @@ declare namespace API {
     userId_dictText: string;
     userScore: number;
     userTime: number;
-    groupList: QuestionGroupList;
+    groupList: QuestionGroup[];
   };
   type WarpQuestionPaging = {
     code: number;

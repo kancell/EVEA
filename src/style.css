@@ -8,5 +8,9 @@
 
 /* 撑满剩余空间 */
 .ant-pro-basicLayout {
-  height: fill-available;
+  min-height: 100vh;
+
+}
+.ant-layout {
+  min-height: 100%;
 }
