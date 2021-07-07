@@ -28,8 +28,7 @@ let runTimeToken: string = '';
 const loginPath = '/user/login';
 export async function getInitialState(): Promise<unknown> {
   const validCheck = (data: userData): boolean => {
-    if (data === null || data === undefined || typeof data !== 'object')
-      return false;
+    if (data === null || data === undefined || typeof data !== 'object') return false;
     for (const item of Object.entries(data)) {
       if (item[0][1] === undefined) {
         return false;
@@ -57,11 +56,7 @@ export async function getInitialState(): Promise<unknown> {
 
   let localUserData;
   try {
-    localStorage.getItem('evea_users_data') === null
-      ? (localUserData = {})
-      : (localUserData = JSON.parse(
-          localStorage.getItem('evea_users_data') as string,
-        ));
+    localStorage.getItem('evea_users_data') === null ? (localUserData = {}) : (localUserData = JSON.parse(localStorage.getItem('evea_users_data') as string));
   } catch (error) {
     localStorage.removeItem('evea_users_data');
     console.log(error);
@@ -79,10 +74,7 @@ export async function getInitialState(): Promise<unknown> {
     },
   };
   if (validCheck(localUserData)) {
-    if (
-      localUserData.hasOwnProperty('roles') &&
-      localUserData.roles.includes('student')
-    ) {
+    if (localUserData.hasOwnProperty('roles') && localUserData.roles.includes('student')) {
       result.layout.layout = 'top';
     }
     result.user = {
@@ -100,9 +92,7 @@ export async function getInitialState(): Promise<unknown> {
 /*
 初始化layout布局配置
 */
-export const layout: RunTimeLayoutConfig = ({
-  initialState,
-}): BasicLayoutProps => {
+export const layout: RunTimeLayoutConfig = ({ initialState }): BasicLayoutProps => {
   const initialStateTrans = initialState as {
     user: userData;
     layout: BasicLayoutProps;
@@ -124,17 +114,10 @@ export const layout: RunTimeLayoutConfig = ({
     这四项配置为umi自己扩展，不在BasicLayoutProps中
      */
     /* ts ignore */
-    rightRender: (initialStateTrans: {
-      user: userData;
-      layout: BasicLayoutProps;
-    }) => {
+    rightRender: (initialStateTrans: { user: userData; layout: BasicLayoutProps }) => {
       const layoutType = initialStateTrans?.layout?.layout;
       return (
-        <div
-          className={`${
-            layoutType === 'top' ? 'text-gray-900' : 'text-gray-900'
-          }`}
-        >
+        <div className={`${layoutType === 'top' ? 'text-gray-900' : 'text-gray-900'}`}>
           <div className="px-2">{initialStateTrans.user.realName}</div>
         </div>
       );
@@ -208,11 +191,7 @@ export const request: RequestConfig = {
   responseInterceptors: [
     async (response, options) => {
       const data = await response.clone().json();
-      if (
-        data.code === 10010002 &&
-        data.success === false &&
-        location.pathname !== loginPath
-      ) {
+      if (data.code === 10010002 && data.success === false && location.pathname !== loginPath) {
         history.push(loginPath);
       }
       return response;
