@@ -56,7 +56,9 @@ export async function getInitialState(): Promise<unknown> {
 
   let localUserData;
   try {
-    localStorage.getItem('evea_users_data') === null ? (localUserData = {}) : (localUserData = JSON.parse(localStorage.getItem('evea_users_data') as string));
+    localStorage.getItem('evea_users_data') === null
+      ? (localUserData = {})
+      : (localUserData = JSON.parse(localStorage.getItem('evea_users_data') as string));
   } catch (error) {
     localStorage.removeItem('evea_users_data');
     console.log(error);
@@ -168,9 +170,7 @@ export const request: RequestConfig = {
   },
   middlewares: [
     async function middlewareA(ctx, next) {
-      console.log('A before');
       await next();
-      console.log('A after');
     },
   ],
   requestInterceptors: [

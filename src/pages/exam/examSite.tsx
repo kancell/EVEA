@@ -52,13 +52,42 @@ export default function ExamSite() {
     }
   };
   const setNextQuestion = (groupIndex: number, questionIndex: number) => {
-    console.log(groupIndex, questionIndex);
     const examId = exam && exam.id;
     const questionID = exam && exam.groupList[groupIndex].quList[questionIndex].quId;
     if (examId && questionID) {
       queryQuestionContent(examId, questionID);
     }
   };
+
+  useEffect(() => {
+    //每次选答案都发一次请求？还是在本地的exam变量里修改
+    /* if (question) {
+      for (const answer of question.answerList) {
+        if (answer.checked === true) {
+          exam
+        }
+      }
+    }
+
+    question && question.answerList.forEach(item => {
+      item.checked === true
+
+    })
+    const pendingExam = exam //如何进行复杂对象的setState
+    if (pendingExam && pendingExam.groupList && question) {
+      for (const group of pendingExam.groupList) {
+        if (group.quType === question.quType) {
+          for (let replaceQuestion of group.quList) {
+            if (replaceQuestion.quId === question.quId) {
+              replaceQuestion.answered = true
+            }
+          }
+        }
+      }
+    }
+    pendingExam && setExam({...pendingExam})
+    console.log(question) */
+  }, [question]);
 
   useEffect(() => {
     queryExamContent();
