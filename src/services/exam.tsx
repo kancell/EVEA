@@ -29,4 +29,19 @@ export async function examContent(options?: { [key: string]: any }) {
   });
 }
 
+export async function questionContent(options?: { [key: string]: any }) {
+  return request<API.WarpQuestion>('/exam/api/paper/paper/qu-detail', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
+export async function fillAnswer(options?: { [key: string]: any }) {
+  return request<any>('/exam/api/paper/paper/fill-answer', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+//http://localhost:8101/exam/api/paper/paper/fill-answer
+//http://localhost:8101/exam/api/paper/paper/qu-detail
 //http://localhost:8101/exam/api/paper/paper/check-process 检查状态

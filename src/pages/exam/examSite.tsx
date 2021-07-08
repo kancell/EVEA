@@ -1,8 +1,8 @@
 import { history, useLocation } from 'umi';
-import { examContent } from '@/services/exam';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { examContent, questionContent } from '@/services/exam';
+import { useEffect, useState } from 'react';
 import QuestionSelectBar from '@/components/QuestionSelectBar';
+import Question from '@/components/Question';
 
 declare type queryLocation = {
   hash: string;
@@ -31,9 +31,32 @@ export default function ExamSite() {
         },
       });
       setExam(currentExam.data);
-      console.log(currentExam);
+      queryQuestionContent(currentExam.data.id, currentExam.data.groupList[0].quList[0].quId);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const [question, setQuestion] = useState<API.Question>();
+  const queryQuestionContent = async (currentExamID: string, currentQuestionID: string) => {
+    try {
+      const currentQuestion: API.WarpQuestion = await questionContent({
+        data: {
+          paperId: currentExamID,
+          quId: currentQuestionID,
+        },
+      });
+      setQuestion(currentQuestion.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const setNextQuestion = (groupIndex: number, questionIndex: number) => {
+    console.log(groupIndex, questionIndex);
+    const examId = exam && exam.id;
+    const questionID = exam && exam.groupList[groupIndex].quList[questionIndex].quId;
+    if (examId && questionID) {
+      queryQuestionContent(examId, questionID);
     }
   };
 
@@ -41,35 +64,9 @@ export default function ExamSite() {
     queryExamContent();
   }, []);
   return (
-    <div className="max-w-screen-lg mx-auto flex flex-col bg-white">
-      {exam && (
-        <QuestionSelectBar data={[...exam.groupList]}></QuestionSelectBar>
-      )}
-
-      <div>
-        {exam &&
-          exam.groupList.map((item: API.QuestionGroup) => {
-            return (
-              <div key={item.id}>
-                {item.title}
-                {item.quList.map((question: API.Question) => {
-                  return (
-                    <div key={question.quId}>
-                      <div>本题分值：{question.score}</div>
-                      <div>{question.content}</div>
-                      <div>
-                        {question.answerList.length !== 0 &&
-                          question.answerList.map((answer: API.Answer) => {
-                            return <div key={answer.id}>{answer.content}</div>;
-                          })}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
-      </div>
+    <div className="grid grid-flow-row grid-cols-6 grid-rows-1 gap-4">
+      {exam && <QuestionSelectBar data={[...exam.groupList]} selectQuestion={setNextQuestion}></QuestionSelectBar>}
+      {question && <Question content={question} setContent={setQuestion}></Question>}
     </div>
   );
 }

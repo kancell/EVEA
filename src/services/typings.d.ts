@@ -155,7 +155,18 @@ declare namespace API {
     success: boolean;
     data: QuestionPaging;
   };
-
+  type WarpQuestion = {
+    code: number;
+    msg: string;
+    success: boolean;
+    data: Question;
+  };
+  type WarpProcess = {
+    code: number;
+    data: any;
+    msg: string;
+    success: boolean;
+  };
   type WarpExamCreate = {
     code: number;
     data: {
