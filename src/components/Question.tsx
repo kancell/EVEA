@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react';
 export default function Question(props: { content: API.Question; setContent: Function }) {
   const uploadQuestionAnswer = async () => {
     try {
-      const result: API.WarpProcess = await fillAnswer();
+      const result: API.WarpProcess = await fillAnswer({
+        data: props.content,
+      });
       console.log(result);
     } catch (error) {
       console.log(error);
@@ -33,9 +35,8 @@ export default function Question(props: { content: API.Question; setContent: Fun
     props.setContent((question: API.Question) => {
       return { ...question, answerList };
     });
-    console.log(props.content.answerList[0].checked);
+    uploadQuestionAnswer();
     //调用fillanswer,需处理setState同步
-    //尝试用useEffect解决
   };
   return (
     <div className="max-w-full px-8 py-4 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 mb-2 col-span-4 w-full">
