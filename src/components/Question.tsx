@@ -5,14 +5,16 @@ import { useEffect, useState } from 'react';
 export default function Question(props: { content: API.Question; setContent: Function }) {
   const [nowChecked, setNowChecked] = useState<string[]>([]);
   useEffect(() => {
-    const checkArr: string[] = [];
     /* "1", "2", "3"分别是单选、多选、判断。筛选出有选项的题目在标签中显示 */
+    const checkArr: string[] = [];
     if (['1', '2', '3'].includes(props.content.quType)) {
       props.content.answerList.forEach((item) => {
         if (item.checked && item.abc !== '') checkArr.push(' ' + item.abc);
       });
     }
     setNowChecked(checkArr);
+
+    uploadQuestionAnswer(props.content);
   }, [props.content]);
 
   const uploadQuestionAnswer = async (question: API.Question) => {
@@ -20,14 +22,17 @@ export default function Question(props: { content: API.Question; setContent: Fun
       const result: API.WarpProcess = await fillAnswer({
         data: question,
       });
-      console.log(result);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const AnswerModify = (answerValue: string) => {
+    /* 需要防抖优化 */
+    props.setContent({ ...props.content, answer: answerValue });
+  };
   const AnswerListModify = (answerId: string) => {
-    //需处理多选、单选、选择
+    /* 需处理多选、单选、选择.1、3为单选、判断。2为多选 */
     const answerList = props.content.answerList;
     answerList.forEach((item) => {
       switch (props.content.quType.toString()) {
@@ -49,7 +54,6 @@ export default function Question(props: { content: API.Question; setContent: Fun
     });
 
     props.setContent({ ...props.content, answerList });
-    uploadQuestionAnswer(props.content);
   };
 
   return (
@@ -69,23 +73,33 @@ export default function Question(props: { content: API.Question; setContent: Fun
         </span>
       </div>
       <div className="shadow rounded-lg p-4">
-        {props.content &&
-          props.content.answerList.map((answer: API.Answer) => {
-            return (
-              <div
-                className={`text-sm font-semibold px-6 py-2 rounded-lg flex justify-between my-1 cursor-pointer border-2 border-solid border-opacity-0
+        {props.content.quType === '4' && (
+          <textarea
+            onChange={(e) => AnswerModify(e.target.value)}
+            value={props.content.answer}
+            className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+          />
+        )}
+        {
+          /* quType为4是简答题，有answer字段，无checked字段 */
+          props.content.quType !== '4' &&
+            props.content.answerList.map((answer: API.Answer) => {
+              return (
+                <div
+                  className={`text-sm font-semibold px-6 py-2 rounded-lg flex justify-between my-1 cursor-pointer border-2 border-solid border-opacity-0
                 ${answer.checked ? 'border-yellow-600 border-opacity-80' : ''}`}
-                key={answer.id}
-                onClick={() => AnswerListModify(answer.answerId)}
-              >
-                <span>
-                  <span className="mr-4">{answer.abc}.</span>
-                  <span>{answer.content}</span>
-                </span>
-                <span>{answer.answer}</span>
-              </div>
-            );
-          })}
+                  key={answer.id}
+                  onClick={() => AnswerListModify(answer.answerId)}
+                >
+                  <span>
+                    <span className="mr-4">{answer.abc}.</span>
+                    <span>{answer.content}</span>
+                  </span>
+                  <span>{answer.answer}</span>
+                </div>
+              );
+            })
+        }
       </div>
     </div>
   );

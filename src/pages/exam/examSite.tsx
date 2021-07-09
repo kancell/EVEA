@@ -59,41 +59,38 @@ export default function ExamSite() {
     }
   };
 
-  useEffect(() => {
-    //每次选答案都发一次请求？还是在本地的exam变量里修改
-    /* if (question) {
-      for (const answer of question.answerList) {
-        if (answer.checked === true) {
-          exam
-        }
+  const questionChecked = (question: API.Question): boolean => {
+    for (const answer of question.answerList) {
+      if (answer.checked) {
+        return true;
       }
     }
-
-    question && question.answerList.forEach(item => {
-      item.checked === true
-
-    })
-    const pendingExam = exam //如何进行复杂对象的setState
+    return false;
+  };
+  useEffect(() => {
+    const pendingExam = { ...exam }; //如何进行复杂对象的setState
     if (pendingExam && pendingExam.groupList && question) {
       for (const group of pendingExam.groupList) {
         if (group.quType === question.quType) {
           for (let replaceQuestion of group.quList) {
-            if (replaceQuestion.quId === question.quId) {
-              replaceQuestion.answered = true
+            if (['1', '2', '3'].includes(replaceQuestion.quType) && replaceQuestion.quId === question.quId) {
+              questionChecked(question) ? (replaceQuestion.answered = true) : (replaceQuestion.answered = false);
+            }
+            if (replaceQuestion.quType === '4' && replaceQuestion.quId === question.quId) {
+              question.answer !== '' ? (replaceQuestion.answered = true) : (replaceQuestion.answered = false);
             }
           }
         }
       }
+      setExam(pendingExam as API.QuestionPaging);
     }
-    pendingExam && setExam({...pendingExam})
-    console.log(question) */
   }, [question]);
 
   useEffect(() => {
     queryExamContent();
   }, []);
   return (
-    <div className="grid grid-flow-row grid-cols-6 grid-rows-1 gap-4">
+    <div className="grid grid-flow-row grid-cols-4 xl:grid-cols-6 grid-rows-1 gap-4">
       {exam && <QuestionSelectBar data={[...exam.groupList]} selectQuestion={setNextQuestion}></QuestionSelectBar>}
       {question && <Question content={question} setContent={setQuestion}></Question>}
     </div>
