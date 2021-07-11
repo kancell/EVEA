@@ -1,18 +1,12 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useModel } from 'umi';
 
 export default function QuestionSelectBar(props: {
   data: API.QuestionGroup[];
   selectQuestion: (groupIndex: number, questionIndex: number) => void;
 }) {
-  const [nowQuestionIndex, setNowQuestionIndex] = useState({
-    groupIndex: 0,
-    questionIndex: 0,
-  });
-  const [examLength, setExamLength] = useState<{ groupLength: number; questionLengthArr: number[] }>({
-    groupLength: 0,
-    questionLengthArr: [],
-  });
+  const { nowQuestionIndex, setNowQuestionIndex, setExamLength } = useModel('useQuestionIndexModel');
 
   useEffect(() => {
     const calcExamLength = () => {
@@ -31,21 +25,15 @@ export default function QuestionSelectBar(props: {
   useEffect(() => {
     props.selectQuestion(nowQuestionIndex.groupIndex, nowQuestionIndex.questionIndex);
   }, [nowQuestionIndex]);
-  const selectNextQuestion = () => {
-    if (nowQuestionIndex.questionIndex < examLength.questionLengthArr[nowQuestionIndex.groupIndex] - 1) {
-      setNowQuestionIndex({ ...nowQuestionIndex, questionIndex: nowQuestionIndex.questionIndex + 1 });
-    } else if (
-      nowQuestionIndex.questionIndex === examLength.questionLengthArr[nowQuestionIndex.groupIndex] - 1 &&
-      nowQuestionIndex.groupIndex < examLength.groupLength - 1
-    ) {
-      console.log(1);
-      setNowQuestionIndex({ questionIndex: 0, groupIndex: nowQuestionIndex.groupIndex + 1 });
-    } else {
-      return;
+
+  const focusNowSelect = (groupIndex: number, questionIndex: number): boolean => {
+    if (groupIndex === nowQuestionIndex.groupIndex && questionIndex === nowQuestionIndex.questionIndex) {
+      return true;
     }
+    return false;
   };
   return (
-    <div className="">
+    <div className="max-h-screen overflow-y-auto">
       {props.data &&
         props.data.map((group: API.QuestionGroup, groupIndex) => {
           return (
@@ -63,11 +51,12 @@ export default function QuestionSelectBar(props: {
                   return (
                     <div
                       key={question.id}
-                      className={`${
-                        question.answered ? 'bg-green-500' : 'bg-gray-300'
-                      } flex cursor-pointer items-center justify-center m-2 py-2 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-400`}
+                      className={`
+                        ${focusNowSelect(groupIndex, questionIndex) ? 'animate-bounce' : ''}
+                        ${
+                          question.answered ? 'bg-green-500' : 'bg-gray-300'
+                        } flex cursor-pointer items-center justify-center m-2 py-2 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-400`}
                       onClick={() => {
-                        props.selectQuestion(groupIndex, questionIndex);
                         setNowQuestionIndex({
                           groupIndex: groupIndex,
                           questionIndex: questionIndex,
@@ -82,17 +71,6 @@ export default function QuestionSelectBar(props: {
             </div>
           );
         })}
-      <div className="px-4 py-2 my-2 font-bold tracking-wide text-white text-center cursor-pointer capitalize transition-colors duration-200 transform bg-green-500 rounded-md">
-        上一题
-      </div>
-      <div
-        onClick={() => {
-          selectNextQuestion();
-        }}
-        className="px-4 py-2 my-2 font-bold tracking-wide text-white text-center cursor-pointer capitalize transition-colors duration-200 transform bg-blue-500 rounded-md"
-      >
-        下一题
-      </div>
     </div>
   );
 }

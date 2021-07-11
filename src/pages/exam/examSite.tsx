@@ -1,7 +1,8 @@
 import { history, useLocation } from 'umi';
-import { examContent, questionContent } from '@/services/exam';
+import { examContent, questionContent, fillExam } from '@/services/exam';
 import { useEffect, useState } from 'react';
-import QuestionSelectBar from '@/components/QuestionSelectBar';
+import QuestionSelectCard from '@/components/QuestionSelectCard';
+import QuestionSubCard from '@/components/QuestionSubCard';
 import Question from '@/components/Question';
 
 declare type queryLocation = {
@@ -36,6 +37,9 @@ export default function ExamSite() {
       console.log(error);
     }
   };
+  useEffect(() => {
+    queryExamContent();
+  }, []);
 
   const [question, setQuestion] = useState<API.Question>();
   const queryQuestionContent = async (currentExamID: string, currentQuestionID: string) => {
@@ -58,7 +62,6 @@ export default function ExamSite() {
       queryQuestionContent(examId, questionID);
     }
   };
-
   const questionChecked = (question: API.Question): boolean => {
     for (const answer of question.answerList) {
       if (answer.checked) {
@@ -86,13 +89,30 @@ export default function ExamSite() {
     }
   }, [question]);
 
-  useEffect(() => {
-    queryExamContent();
-  }, []);
+  const fillExamRequest = async () => {
+    try {
+      await fillExam({
+        data: {
+          handFlag: 0,
+          id: exam?.id,
+        },
+      }).then((res: API.WarpProcess) => {
+        console.log(res);
+      });
+    } catch (error) {}
+  };
   return (
     <div className="grid grid-flow-row grid-cols-4 xl:grid-cols-6 grid-rows-1 gap-4">
-      {exam && <QuestionSelectBar data={[...exam.groupList]} selectQuestion={setNextQuestion}></QuestionSelectBar>}
+      {exam && <QuestionSelectCard data={[...exam.groupList]} selectQuestion={setNextQuestion}></QuestionSelectCard>}
       {question && <Question content={question} setContent={setQuestion}></Question>}
+      {exam && (
+        <QuestionSubCard
+          totalTime={exam.totalTime}
+          createdTime={exam.createTime}
+          useCamera={exam.camOn}
+          fill={fillExamRequest}
+        ></QuestionSubCard>
+      )}
     </div>
   );
 }

@@ -163,7 +163,7 @@ declare namespace API {
   };
   type WarpProcess = {
     code: number;
-    data: any;
+    data?: any;
     msg: string;
     success: boolean;
   };

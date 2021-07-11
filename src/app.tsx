@@ -7,6 +7,7 @@ import { history } from 'umi';
 import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
 import type { BasicLayoutProps } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
+
 import './style.css';
 
 export const initialStateConfig = {
