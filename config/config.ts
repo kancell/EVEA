@@ -14,7 +14,7 @@ export default defineConfig({
   },
   */
   dynamicImport: {
-    loading: '@/components/Loading',
+    loading: '@/components/loading/Loading',
   },
   layout: {},
   request: {

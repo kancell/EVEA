@@ -3,6 +3,7 @@ const exam = {
   name: '在线考试',
   icon: 'smile',
   access: 'user',
+  flatMenu: true,
   routes: [
     {
       path: '/exam/examList',
@@ -14,12 +15,20 @@ const exam = {
       path: '/exam/examSite',
       name: '在线考试',
       component: 'exam/examSite',
+      hideInMenu: true,
+      icon: 'smile',
+    },
+    {
+      path: '/exam/examRecord',
+      name: '成绩记录',
+      component: 'exam/practice',
       icon: 'smile',
     },
     {
       path: '/exam/examResult',
       name: '我的成绩',
       component: 'exam/examResult',
+      hideInMenu: true,
       icon: 'smile',
     },
     {

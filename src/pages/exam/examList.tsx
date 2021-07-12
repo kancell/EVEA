@@ -1,49 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { currentExam } from '@/services/exam';
-import ExamStartCheck from '@/components/EaxmStartCheck';
+import ExamStartCheck from '@/components/exam/verify/EaxmStartCheck';
 import moment from 'moment';
 
 export default function ExamList() {
   const [examList, setExamList] = useState<API.ExamPaging>();
-  const [examSelect, setExamSelect] = useState<API.ExamInfo>({
-    actionInterval: 0,
-    actionOn: false,
-    answerDevice: 0,
-    camInterval: 0,
-    camOn: false,
-    chance: 0,
-    content: '',
-    createBy: '',
-    createTime: '',
-    dataFlag: 0,
-    endTime: '',
-    examType: '',
-    examType_dictText: '',
-    handMin: 0,
-    hasSaq: false,
-    id: '',
-    lateMax: 0,
-    leaveCheck: 0,
-    leaveCount: 0,
-    leaveOn: false,
-    objScore: 100,
-    openType: 0,
-    password: '',
-    points: 0,
-    qualifyScore: 0,
-    resultType: 0,
-    startTime: '',
-    state: 0,
-    subjScore: 0,
-    thanks: '',
-    timeLimit: false,
-    title: '',
-    tmplId: '',
-    totalScore: 0,
-    totalTime: 0,
-    updateBy: '',
-    updateTime: '',
-  });
+  const [examSelect, setExamSelect] = useState<API.ExamInfo>();
   const [checkShow, setCheckShow] = useState(false);
   const queryCurrentExam = async () => {
     try {
@@ -66,9 +28,9 @@ export default function ExamList() {
 
   return (
     <>
-      <ExamStartCheck exam={examSelect} show={checkShow} setShow={setCheckShow}></ExamStartCheck>
+      {examSelect && <ExamStartCheck exam={examSelect} show={checkShow} setShow={setCheckShow}></ExamStartCheck>}
       {examList && (
-        <div className="w-full max-w-screen-2xl mx-auto">
+        <div className="w-full xl:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto">
           <div className="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -162,7 +124,7 @@ export default function ExamList() {
                           )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{exam.totalTime}分钟</td>
-                        <td className="px-6 py-4 whitespace-nowrap w-1/4 text-sm text-gray-500 sm:whitespace-normal">
+                        <td className="px-6 py-4 whitespace-nowrap w-1/4 text-sm text-gray-500 xl:whitespace-normal">
                           {exam.content}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">

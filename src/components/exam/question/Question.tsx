@@ -52,7 +52,6 @@ export default function Question(props: { content: API.Question; setContent: Fun
           break;
       }
     });
-
     props.setContent({ ...props.content, answerList });
   };
 

@@ -3,9 +3,12 @@ import { examContent, questionContent, fillExam } from '@/services/exam';
 import { useEffect, useState } from 'react';
 import QuestionSelectCard from '@/components/QuestionSelectCard';
 import QuestionSubCard from '@/components/QuestionSubCard';
-import Question from '@/components/Question';
+import Question from '@/components/exam/question/Question';
+import { useModel } from 'umi';
 
 export default function ExamSite() {
+  const { nowQuestionIndex, setNowQuestionIndex, setExamLength } = useModel('useQuestionIndexModel');
+
   const location = useLocation();
   const queryLocationData = location as unknown as queryLocation;
 
@@ -29,7 +32,25 @@ export default function ExamSite() {
   };
   useEffect(() => {
     queryExamContent();
+    return () => {
+      setNowQuestionIndex({ groupIndex: 0, questionIndex: 0 });
+    };
   }, []);
+
+  const calcExamLength = () => {
+    if (exam === undefined) return;
+    const result: number[] = [];
+    for (let i = 0; i < exam.groupList.length; i++) {
+      result.push(exam.groupList[i].quList.length);
+    }
+    setExamLength({
+      groupLength: exam.groupList.length,
+      questionLengthArr: result,
+    });
+  };
+  useEffect(() => {
+    calcExamLength();
+  }, [exam]);
 
   const [question, setQuestion] = useState<API.Question>();
   const queryQuestionContent = async (currentExamID: string, currentQuestionID: string) => {
@@ -60,20 +81,17 @@ export default function ExamSite() {
     }
     return false;
   };
+
   useEffect(() => {
-    const pendingExam = { ...exam }; //如何进行复杂对象的setState
+    /* 判断问题是否为已答，如是，更改exam中的answered字段 */
+    const pendingExam = { ...exam };
     if (pendingExam && pendingExam.groupList && question) {
-      for (const group of pendingExam.groupList) {
-        if (group.quType === question.quType) {
-          for (let replaceQuestion of group.quList) {
-            if (['1', '2', '3'].includes(replaceQuestion.quType) && replaceQuestion.quId === question.quId) {
-              questionChecked(question) ? (replaceQuestion.answered = true) : (replaceQuestion.answered = false);
-            }
-            if (replaceQuestion.quType === '4' && replaceQuestion.quId === question.quId) {
-              question.answer !== '' ? (replaceQuestion.answered = true) : (replaceQuestion.answered = false);
-            }
-          }
-        }
+      let nowQuestion = pendingExam.groupList[nowQuestionIndex.groupIndex].quList[nowQuestionIndex.questionIndex];
+      if (['1', '2', '3'].includes(nowQuestion.quType) && nowQuestion.quId === question.quId) {
+        questionChecked(question) ? (nowQuestion.answered = true) : (nowQuestion.answered = false);
+      }
+      if (nowQuestion.quType === '4' && nowQuestion.quId === question.quId) {
+        question.answer !== '' ? (nowQuestion.answered = true) : (nowQuestion.answered = false);
       }
       setExam(pendingExam as API.PaperDetail);
     }
@@ -90,9 +108,7 @@ export default function ExamSite() {
         const createResult = exam as { id: any };
         history.push({
           pathname: '/exam/examResult',
-          query: {
-            id: createResult.id,
-          },
+          query: { id: createResult.id },
         });
       });
     } catch (error) {}

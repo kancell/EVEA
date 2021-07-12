@@ -7,21 +7,7 @@ export default function QuestionSelectBar(props: {
   data: API.QuestionGroup[];
   selectQuestion: (groupIndex: number, questionIndex: number) => void;
 }) {
-  const { nowQuestionIndex, setNowQuestionIndex, setExamLength } = useModel('useQuestionIndexModel');
-
-  useEffect(() => {
-    const calcExamLength = () => {
-      const result: number[] = [];
-      for (let i = 0; i < props.data.length; i++) {
-        result.push(props.data[i].quList.length);
-      }
-      return result;
-    };
-    setExamLength({
-      groupLength: props.data.length,
-      questionLengthArr: calcExamLength(),
-    });
-  }, []);
+  const { nowQuestionIndex, setNowQuestionIndex } = useModel('useQuestionIndexModel');
 
   useEffect(() => {
     props.selectQuestion(nowQuestionIndex.groupIndex, nowQuestionIndex.questionIndex);
