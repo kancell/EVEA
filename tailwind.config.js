@@ -7,12 +7,12 @@ module.exports = {
         exactH: 'calc(100vh - 96px)',
       },
       animation: {
-        'spin-slow': 'appear 1s linear 1',
+        'spin-slow': 'appear 0.4s linear 1',
       },
       keyframes: {
         appear: {
           '0%': { opacity: 0 },
-          '30%': { opacity: 0.2 },
+          '30%': { opacity: 0.3 },
           '100%': { opacity: 1 },
         },
       },

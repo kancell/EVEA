@@ -114,19 +114,20 @@ export default function ExamSite() {
     } catch (error) {}
   };
   return (
-    <div className="grid grid-flow-row grid-cols-4 xl:grid-cols-6 grid-rows-1 gap-4 min-h-full h-full overflow-auto">
-      {exam && (
-        <QuestionSelectCard type={'exam'} data={[...exam.groupList]} selectQuestion={setNextQuestion}></QuestionSelectCard>
+    <>
+      {(!exam || !question) && <div>loading</div>}
+      {exam && question && (
+        <div className="grid grid-flow-row grid-cols-4 xl:grid-cols-6 grid-rows-1 gap-4 min-h-full h-full overflow-auto">
+          <QuestionSelectCard type={'exam'} data={[...exam.groupList]} selectQuestion={setNextQuestion}></QuestionSelectCard>
+          <Question content={question} setContent={setQuestion}></Question>
+          <QuestionSubCard
+            totalTime={exam.totalTime}
+            createdTime={exam.createTime}
+            useCamera={exam.camOn}
+            fill={fillExamRequest}
+          ></QuestionSubCard>
+        </div>
       )}
-      {question && <Question content={question} setContent={setQuestion}></Question>}
-      {exam && (
-        <QuestionSubCard
-          totalTime={exam.totalTime}
-          createdTime={exam.createTime}
-          useCamera={exam.camOn}
-          fill={fillExamRequest}
-        ></QuestionSubCard>
-      )}
-    </div>
+    </>
   );
 }
