@@ -1,5 +1,15 @@
 // @ts-ignore
 /* eslint-disable */
+declare module 'uuid';
+declare type queryLocation = {
+  hash: string;
+  key: string;
+  pathname: string;
+  query?: {
+    id: string;
+  };
+  search: string;
+};
 
 declare namespace API {
   type ExamInfo = {
@@ -67,7 +77,7 @@ declare namespace API {
     content: string;
     id: string;
     image: string;
-    isRight: true;
+    isRight: boolean;
     paperId: string;
     pathScore: number;
     quId: string;
@@ -108,7 +118,7 @@ declare namespace API {
     totalScore: number;
     quList: Question[];
   };
-  type QuestionPaging = {
+  type PaperDetail = {
     actionInterval: number;
     actionOn: boolean;
     answerDevice: number;
@@ -149,11 +159,11 @@ declare namespace API {
     userTime: number;
     groupList: QuestionGroup[];
   };
-  type WarpQuestionPaging = {
+  type WarpPaperDetail = {
     code: number;
     msg: string;
     success: boolean;
-    data: QuestionPaging;
+    data: PaperDetail;
   };
   type WarpQuestion = {
     code: number;
@@ -161,17 +171,45 @@ declare namespace API {
     success: boolean;
     data: Question;
   };
-  type WarpProcess = {
+  type PaperResult = {
+    createBy: string;
+    createTime: string;
+    dataFlag: number;
+    departId: string;
+    departId_dictText: string;
+    deptCode: string;
+    examId: string;
+    hasSaq: boolean;
+    id: string;
+    leaveActual: number;
+    limitTime: string;
+    objScore: number;
+    passed: boolean;
+    qualifyScore: number;
+    resultType: number;
+    state: number;
+    subjScore: number;
+    thanks: string;
+    title: string;
+    totalScore: number;
+    totalTime: number;
+    updateBy: string;
+    updateTime: string;
+    userId: string;
+    userId_dictText: string;
+    userScore: number;
+    userTime: number;
+    groupList: QuestionGroup[];
+  };
+  type WarpPaperResult = {
     code: number;
-    data?: any;
     msg: string;
     success: boolean;
+    data: PaperResult;
   };
-  type WarpExamCreate = {
+  type WarpProcess = {
     code: number;
-    data: {
-      id: string;
-    };
+    data?: unknown;
     msg: string;
     success: boolean;
   };

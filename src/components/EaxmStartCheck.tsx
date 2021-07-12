@@ -1,11 +1,7 @@
 import { createExam } from '@/services/exam';
 import { history } from 'umi';
 
-export default function ExamStartCheck(props: {
-  exam: API.ExamInfo;
-  show: Boolean;
-  setShow: Function;
-}) {
+export default function ExamStartCheck(props: { exam: API.ExamInfo; show: Boolean; setShow: Function }) {
   const createNewExam = async (id: string) => {
     try {
       await createExam({
@@ -13,21 +9,18 @@ export default function ExamStartCheck(props: {
           examId: id,
         },
       }).then((res) => {
+        const createResult = res.data as { id: any };
         history.push({
           pathname: '/exam/examSite',
           query: {
-            id: res.data.id,
+            id: createResult.id,
           },
         });
       });
     } catch (error) {}
   };
   return (
-    <div
-      className={`${
-        props.show ? 'fixed' : 'hidden'
-      } w-full h-full bg-gray-300 bg-opacity-30 `}
-    >
+    <div className={`${props.show ? 'fixed' : 'hidden'} w-full h-full bg-gray-300 bg-opacity-30 `}>
       <div className="flex h-full justify-center items-center relative -top-32">
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -49,10 +42,7 @@ export default function ExamStartCheck(props: {
                 </svg>
               </div>
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                <h3
-                  className="text-lg leading-6 font-medium text-gray-900"
-                  id="modal-title"
-                >
+                <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
                   进入{props.exam.title}（{props.exam.examType_dictText}）
                 </h3>
                 <div className="mt-2">

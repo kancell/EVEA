@@ -5,12 +5,9 @@
 #root {
   min-height: 100%;
 }
-
 /* 撑满剩余空间 */
 .ant-pro-basicLayout {
   min-height: 100vh;
+  height: max-content;
+}
 
-}
-.ant-layout {
-  min-height: 100%;
-}

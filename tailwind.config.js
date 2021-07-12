@@ -12,7 +12,7 @@ module.exports = {
       keyframes: {
         appear: {
           '0%': { opacity: 0 },
-          '30%': { opacity: 0 },
+          '30%': { opacity: 0.2 },
           '100%': { opacity: 1 },
         },
       },

@@ -5,8 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { request, useModel, history } from 'umi';
 
 const LoginForm = (): ReactChild => {
-  const { initialState, loading, error, refresh, setInitialState } =
-    useModel('@@initialState');
+  const { initialState, loading, error, refresh, setInitialState } = useModel('@@initialState');
   const [verifyRandomKey, setVerifyRandomKey] = useState(uuidv4() as string);
   const [verifyCodePic, setVerifyCodePic] = useState('');
   const [loginData, setLoginData] = useState({
@@ -29,7 +28,7 @@ const LoginForm = (): ReactChild => {
     verifyRandomKeyUrl();
   }, [verifyRandomKey]);
 
-  const getData = async () => {
+  const Login = async () => {
     await request(`/exam/api/sys/user/login`, {
       method: 'post',
       headers: {
@@ -59,14 +58,9 @@ const LoginForm = (): ReactChild => {
             src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
             alt="Workflow"
           />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            数科考试系统
-          </h2>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">数科考试系统</h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            <a
-              href="#"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
+            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
               没有账号？前往注册
             </a>
           </p>
@@ -89,9 +83,7 @@ const LoginForm = (): ReactChild => {
           >
             <Input
               className="h-8"
-              onChange={(e) =>
-                setLoginData({ ...loginData, username: e.target.value })
-              }
+              onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
               prefix={<UserOutlined />}
               placeholder="登录账号"
             />
@@ -107,9 +99,7 @@ const LoginForm = (): ReactChild => {
           >
             <Input
               className="h-8"
-              onChange={(e) =>
-                setLoginData({ ...loginData, password: e.target.value })
-              }
+              onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
               prefix={<LockOutlined />}
               type="password"
               placeholder="登录密码"
@@ -128,33 +118,24 @@ const LoginForm = (): ReactChild => {
             >
               <Input
                 className="h-8"
-                onChange={(e) =>
-                  setLoginData({ ...loginData, captchaValue: e.target.value })
-                }
+                onChange={(e) => setLoginData({ ...loginData, captchaValue: e.target.value })}
                 prefix={<LockOutlined />}
                 placeholder="验证码"
               />
             </Form.Item>
-            <img
-              className="w-1/3 h-8 block cursor-pointer"
-              src={verifyCodePic}
-              onClick={() => verifyRandomKeyGenerate()}
-            ></img>
+            <img className="w-1/3 h-8 block cursor-pointer" src={verifyCodePic} onClick={() => verifyRandomKeyGenerate()}></img>
           </div>
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>记住密码</Checkbox>
           </Form.Item>
           <span className="text-sm ">
-            <a
-              href="#"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
+            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
               忘记密码？
             </a>
           </span>
 
           <Button
-            onClick={() => getData()}
+            onClick={() => Login()}
             type="primary"
             htmlType="submit"
             className="group relative w-full flex justify-center py-2 px-4 mt-4"

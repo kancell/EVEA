@@ -16,7 +16,6 @@ export default function (props: { totalTime: number; createdTime: string; useCam
 
   useEffect(() => {
     const timer = setInterval(() => {
-      console.log(1);
       setRestTime(calcTime());
     }, 1000);
     return () => {

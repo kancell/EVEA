@@ -58,10 +58,10 @@ export default function Question(props: { content: API.Question; setContent: Fun
 
   return (
     <div className="max-w-full px-8 py-4 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 mb-2 col-span-4 w-full">
-      <div className="w-full flex text-sm font-medium text-gray-500  mb-2">
+      <div className="w-full flex text-sm font-medium text-gray-500 mb-2">
         <span className="bg-gray-200 px-3 py-2 rounded-lg mr-2">{props.content.quType_dictText}</span>
         <span className={`bg-gray-200 px-3 py-2 rounded-lg ${nowChecked.length === 0 ? 'hidden' : ''}`}>
-          我的答案
+          我的答案：
           {nowChecked.map((item) => (
             <span key={item}>{item}</span>
           ))}
@@ -87,7 +87,7 @@ export default function Question(props: { content: API.Question; setContent: Fun
               return (
                 <div
                   className={`text-sm font-semibold px-6 py-2 rounded-lg flex justify-between my-1 cursor-pointer border-2 border-solid border-opacity-0
-                ${answer.checked ? 'border-yellow-600 border-opacity-80' : ''}`}
+                  ${answer.checked ? 'border-yellow-600 border-opacity-80' : ''}`}
                   key={answer.id}
                   onClick={() => AnswerListModify(answer.answerId)}
                 >

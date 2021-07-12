@@ -17,9 +17,9 @@ const exam = {
       icon: 'smile',
     },
     {
-      path: '/exam/score',
+      path: '/exam/examResult',
       name: '我的成绩',
-      component: 'exam/score',
+      component: 'exam/examResult',
       icon: 'smile',
     },
     {

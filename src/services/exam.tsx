@@ -16,14 +16,14 @@ export async function currentExam(options?: { [key: string]: any }) {
 }
 /* http://localhost:8101/exam/api/paper/paper/create-paper  传入点击列表中{examId: "1392018972039213058"} */
 export async function createExam(options?: { [key: string]: any }) {
-  return request<API.WarpExamCreate>('/exam/api/paper/paper/create-paper', {
+  return request<API.WarpProcess>('/exam/api/paper/paper/create-paper', {
     method: 'POST',
     ...(options || {}),
   });
 }
 /* http://localhost:8101/exam/api/paper/paper/paper-detail 试卷详情，传入createExam中返回值 {id: "1411980052448317442"} */
 export async function examContent(options?: { [key: string]: any }) {
-  return request<API.WarpQuestionPaging>('/exam/api/paper/paper/paper-detail', {
+  return request<API.WarpPaperDetail>('/exam/api/paper/paper/paper-detail', {
     method: 'POST',
     ...(options || {}),
   });
@@ -50,6 +50,12 @@ export async function fillExam(options?: { [key: string]: any }) {
   });
 }
 
+export async function examResult(options?: { [key: string]: any }) {
+  return request<API.WarpPaperResult>('/exam/api/paper/paper/paper-result', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
 //http://localhost:8101/exam/api/paper/paper/paper-result 最后提交的结果
 //http://localhost:8101/exam/api/paper/paper/fill-answer
 //http://localhost:8101/exam/api/paper/paper/qu-detail

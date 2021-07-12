@@ -5,28 +5,18 @@ import QuestionSelectCard from '@/components/QuestionSelectCard';
 import QuestionSubCard from '@/components/QuestionSubCard';
 import Question from '@/components/Question';
 
-declare type queryLocation = {
-  hash: string;
-  key: string;
-  pathname: string;
-  query?: {
-    id: string;
-  };
-  search: string;
-};
-
 export default function ExamSite() {
   const location = useLocation();
   const queryLocationData = location as unknown as queryLocation;
 
-  const [exam, setExam] = useState<API.QuestionPaging>();
+  const [exam, setExam] = useState<API.PaperDetail>();
   const queryExamContent = async () => {
     if (queryLocationData.query === undefined) {
       console.log('异常，跳转至首页');
       return;
     }
     try {
-      const currentExam: API.WarpQuestionPaging = await examContent({
+      const currentExam: API.WarpPaperDetail = await examContent({
         data: {
           id: queryLocationData.query.id,
         },
@@ -85,7 +75,7 @@ export default function ExamSite() {
           }
         }
       }
-      setExam(pendingExam as API.QuestionPaging);
+      setExam(pendingExam as API.PaperDetail);
     }
   }, [question]);
 
@@ -97,13 +87,21 @@ export default function ExamSite() {
           id: exam?.id,
         },
       }).then((res: API.WarpProcess) => {
-        console.log(res);
+        const createResult = exam as { id: any };
+        history.push({
+          pathname: '/exam/examResult',
+          query: {
+            id: createResult.id,
+          },
+        });
       });
     } catch (error) {}
   };
   return (
-    <div className="grid grid-flow-row grid-cols-4 xl:grid-cols-6 grid-rows-1 gap-4">
-      {exam && <QuestionSelectCard data={[...exam.groupList]} selectQuestion={setNextQuestion}></QuestionSelectCard>}
+    <div className="grid grid-flow-row grid-cols-4 xl:grid-cols-6 grid-rows-1 gap-4 min-h-full h-full overflow-auto">
+      {exam && (
+        <QuestionSelectCard type={'exam'} data={[...exam.groupList]} selectQuestion={setNextQuestion}></QuestionSelectCard>
+      )}
       {question && <Question content={question} setContent={setQuestion}></Question>}
       {exam && (
         <QuestionSubCard
