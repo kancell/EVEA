@@ -1,7 +1,7 @@
 import { createExam } from '@/services/exam';
 import { history } from 'umi';
 
-export default function ExamStartCheck(props: { exam: API.ExamInfo; show: Boolean; setShow: Function }) {
+export default function ExamStartCheck(props: { exam: API.Exam; show: Boolean; setShow: Function }) {
   const createNewExam = async (id: string) => {
     try {
       await createExam({

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { examPaper } from '@/services/exam';
+import { ExamRecordPaging } from '@/services/exam';
 import moment from 'moment';
 import { useLocation } from 'umi';
 
@@ -7,7 +7,7 @@ export default function examRecordPaper() {
   const location = useLocation();
   const queryLocationData = location as unknown as queryLocation;
 
-  const [examList, setExamList] = useState<API.ExamPaging>();
+  const [examList, setExamList] = useState<API.ExamRecordPaging>();
   const requestExamRecord = async () => {
     console.log(location);
     if (queryLocationData.query === undefined || queryLocationData.query.id === undefined) {
@@ -15,7 +15,7 @@ export default function examRecordPaper() {
       return;
     }
     try {
-      const currentRecord = await examPaper({
+      const currentRecord = await ExamRecordPaging({
         data: {
           current: 1,
           size: 10,
@@ -51,19 +51,19 @@ export default function examRecordPaper() {
                         分数信息
                       </th>
                       <th scope="col" className="px-6 py-3 text-left base font-medium text-gray-500 uppercase tracking-wider">
-                        起止时间
+                        考试时间
                       </th>
                       <th scope="col" className="px-6 py-3 text-left base font-medium text-gray-500 uppercase tracking-wider">
-                        当前状态
+                        通过情况
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left base font-medium text-gray-500 uppercase tracking-wider">
+                        试卷状态
                       </th>
                       <th scope="col" className="px-6 py-3 text-left base font-medium text-gray-500 uppercase tracking-wider">
                         考试时长
                       </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 w-1/4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        考试说明
+                      <th scope="col" className="px-6 py-3 text-left base font-medium text-gray-500 uppercase tracking-wider">
+                        考试监控
                       </th>
                       <th
                         scope="col"
@@ -80,49 +80,54 @@ export default function examRecordPaper() {
                           <div className="flex items-center">
                             <div>
                               <div className="font-bold text-base text-blue-400 ">{exam.title}</div>
-                              <div className="text-sm text-gray-500">
-                                {exam.examType_dictText}（{exam.hasSaq ? '人工阅卷' : '自动阅卷'}）
-                              </div>
+                              <div className="text-sm text-gray-500">{exam.hasSaq ? '人工阅卷' : '自动阅卷'}</div>
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">满分：{exam.totalScore}</div>
-                          <div className="text-sm text-gray-500">及格分：{exam.qualifyScore}</div>
+                          <div className="text-sm text-gray-900">我的分数：{exam.userScore}</div>
+                          <div className="text-sm text-gray-500">
+                            满分：{exam.totalScore}（{exam.qualifyScore}分及格）
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {exam.timeLimit ? (
-                            <>
-                              <div className="text-sm text-gray-900">开始时间：{exam.startTime}</div>
-                              <div className="text-sm text-gray-500">结束时间：{exam.endTime}</div>
-                            </>
+                          <div className="text-sm text-gray-900">开始时间：{exam.createTime}</div>
+                          <div className="text-sm text-gray-500">交卷时间：{exam.updateTime}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {exam.passed ? (
+                            <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                              通过
+                            </span>
                           ) : (
-                            <div className="text-sm text-gray-900">无时间限制</div>
+                            <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-gray-800">
+                              未通过
+                            </span>
                           )}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {exam.state === 0 ? (
                             <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              进行中
+                              已弃考
                             </span>
                           ) : (
                             ''
                           )}
                           {exam.state === 1 ? (
                             <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                              已禁用
+                              未知
                             </span>
                           ) : (
                             ''
                           )}
-                          {exam.state === 2 ? (
+                          {exam.state === 2 && exam.hasSaq === true ? (
                             <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                              未开始
+                              待阅卷
                             </span>
                           ) : (
                             ''
                           )}
-                          {exam.state === 3 ? (
+                          {exam.state === 2 && exam.hasSaq === false ? (
                             <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
                               已结束
                             </span>
@@ -131,13 +136,13 @@ export default function examRecordPaper() {
                           )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{exam.totalTime}分钟</td>
-                        <td className="px-6 py-4 whitespace-nowrap w-1/4 text-sm text-gray-500 xl:whitespace-normal">
-                          {exam.content}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <div className="text-sm text-gray-500">离开考试界面次数：{exam.leaveActual}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <p className="text-indigo-600 hover:text-indigo-900 cursor-pointer" onClick={() => {}}>
-                            前往考试
-                          </p>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                          <span className="text-indigo-600 hover:text-indigo-900 cursor-pointer" onClick={() => {}}>
+                            查看详情
+                          </span>
                         </td>
                       </tr>
                     ))}

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { examRecord as queryExamRecord } from '@/services/exam';
+import { PaperRecord as queryExamRecord } from '@/services/exam';
 import moment from 'moment';
 import { history } from 'umi';
 
 export default function examRecordList() {
-  const [examRecord, setExamRecord] = useState<API.ExamRecord>();
+  const [PaperRecord, setExamRecord] = useState<API.PaperRecord>();
   const requestExamRecord = async () => {
     try {
       const currentRecord = await queryExamRecord({
@@ -35,7 +35,7 @@ export default function examRecordList() {
 
   return (
     <>
-      {examRecord && (
+      {PaperRecord && (
         <div className="w-full xl:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto">
           <div className="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -64,7 +64,7 @@ export default function examRecordList() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {examRecord.records.map((exam, index) => (
+                    {PaperRecord.records.map((exam, index) => (
                       <tr key={exam.id} className=" border-gray-200 border-solid border">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
@@ -92,14 +92,14 @@ export default function examRecordList() {
                           )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <p
+                          <span
                             className="text-indigo-600 hover:text-indigo-900 cursor-pointer"
                             onClick={() => {
                               goToRecordPaper(exam.examId);
                             }}
                           >
                             查看记录
-                          </p>
+                          </span>
                         </td>
                       </tr>
                     ))}

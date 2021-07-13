@@ -5,7 +5,7 @@ import moment from 'moment';
 
 export default function ExamList() {
   const [examList, setExamList] = useState<API.ExamPaging>();
-  const [examSelect, setExamSelect] = useState<API.ExamInfo>();
+  const [examSelect, setExamSelect] = useState<API.Exam>();
   const [checkShow, setCheckShow] = useState(false);
   const queryCurrentExam = async () => {
     try {

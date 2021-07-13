@@ -59,15 +59,15 @@ export async function examResult(options?: { [key: string]: any }) {
   });
 }
 /* 参加过的考试列表 */
-export async function examRecord(options?: { [key: string]: any }) {
-  return request<API.WarpExamRecord>('/exam/api/user/exam/my-paging', {
+export async function PaperRecord(options?: { [key: string]: any }) {
+  return request<API.WarpPaperRecord>('/exam/api/user/exam/my-paging', {
     method: 'POST',
     ...(options || {}),
   });
 }
 /* 对应试卷的考试记录 */
-export async function examPaper(options?: { [key: string]: any }) {
-  return request<API.WarpExamPaging>('/exam/api/paper/paper/my-paging', {
+export async function ExamRecordPaging(options?: { [key: string]: any }) {
+  return request<API.WarpExamRecordPaging>('/exam/api/paper/paper/my-paging', {
     method: 'POST',
     ...(options || {}),
   });

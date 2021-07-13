@@ -6,7 +6,7 @@ declare namespace API {
     success: boolean;
   };
 
-  type ExamInfo = {
+  type Exam = {
     actionInterval: number;
     actionOn: boolean;
     answerDevice: number;
@@ -49,9 +49,9 @@ declare namespace API {
     current: number;
     hitCount: boolean;
     optimizeCountSql: boolean;
-    orders: any[];
+    orders: unknown[];
     pages: number;
-    records: ExamInfo[];
+    records: Exam[];
     searchCount: boolean;
     size: number;
     total: number;
@@ -217,7 +217,7 @@ declare namespace API {
     updateTime: string;
     userId: string;
   };
-  type ExamRecord = {
+  type PaperRecord = {
     current: number;
     hitCount: boolean;
     optimizeCountSql: boolean;
@@ -228,11 +228,58 @@ declare namespace API {
     total: number;
     records: Record[];
   };
-  type WarpExamRecord = {
+  type WarpPaperRecord = {
     code: number;
     msg: string;
     success: boolean;
-    data: ExamRecord;
+    data: PaperRecord;
+  };
+
+  type ExamRecord = {
+    captures: unknown[];
+    createBy: string;
+    createTime: string;
+    dataFlag: number;
+    departId: string;
+    departId_dictText: string;
+    deptCode: string;
+    examId: string;
+    hasSaq: boolean;
+    id: string;
+    leaveActual: number;
+    limitTime: string;
+    objScore: number;
+    passed: boolean;
+    qualifyScore: number;
+    realName: string;
+    state: number;
+    subjScore: number;
+    title: string;
+    totalScore: number;
+    totalTime: number;
+    updateBy: string;
+    updateTime: string;
+    userId: string;
+    userId_dictText: string;
+    userScore: number;
+    userTime: number;
+  };
+  type ExamRecordPaging = {
+    current: number;
+    hitCount: boolean;
+    optimizeCountSql: boolean;
+    orders: any[];
+    pages: number;
+    records: ExamRecord[];
+    searchCount: boolean;
+    size: number;
+    total: number;
+  };
+  type WarpExamRecordPaging = {
+    code: number;
+    msg: string;
+    success: boolean;
+    data: ExamRecordPaging;
   };
 
   type CurrentUser = {
