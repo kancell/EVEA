@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ExamRecordPaging } from '@/services/exam';
 import moment from 'moment';
 import { useLocation } from 'umi';
+import { history } from 'umi';
 
 export default function examRecordPaper() {
   const location = useLocation();
@@ -34,11 +35,18 @@ export default function examRecordPaper() {
     requestExamRecord();
   }, []);
 
+  const gotoExmaResult = (id: string) => {
+    history.push({
+      pathname: '/exam/examResult',
+      query: { id: id },
+    });
+  };
+
   return (
     <>
       {examList && (
         <div className="w-full xl:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto">
-          <div className="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="my-2 overflow-x-auto">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -106,13 +114,6 @@ export default function examRecordPaper() {
                           )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {exam.state === 0 ? (
-                            <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              已弃考
-                            </span>
-                          ) : (
-                            ''
-                          )}
                           {exam.state === 1 ? (
                             <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
                               未知
@@ -128,8 +129,15 @@ export default function examRecordPaper() {
                             ''
                           )}
                           {exam.state === 2 && exam.hasSaq === false ? (
-                            <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                              已结束
+                            <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                              考试完成
+                            </span>
+                          ) : (
+                            ''
+                          )}
+                          {exam.state === 3 ? (
+                            <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                              已弃考
                             </span>
                           ) : (
                             ''
@@ -140,7 +148,10 @@ export default function examRecordPaper() {
                           <div className="text-sm text-gray-500">离开考试界面次数：{exam.leaveActual}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm ">
-                          <span className="text-indigo-600 hover:text-indigo-900 cursor-pointer" onClick={() => {}}>
+                          <span
+                            className="text-indigo-600 hover:text-indigo-900 cursor-pointer"
+                            onClick={() => gotoExmaResult(exam.id)}
+                          >
                             查看详情
                           </span>
                         </td>

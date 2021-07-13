@@ -37,7 +37,7 @@ export default function examRecordList() {
     <>
       {PaperRecord && (
         <div className="w-full xl:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto">
-          <div className="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="my-2 overflow-x-auto">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -53,7 +53,7 @@ export default function examRecordList() {
                         最后考试时间
                       </th>
                       <th scope="col" className="px-6 py-3 text-left base font-medium text-gray-500 uppercase tracking-wider">
-                        当前状态
+                        最新状态
                       </th>
                       <th
                         scope="col"
