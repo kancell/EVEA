@@ -1,7 +1,7 @@
 import { useLocation, useModel } from 'umi';
 import { examResult as examFinalResult } from '@/services/exam';
-import QuestionSelectCard from '@/components/QuestionSelectCard';
-import QuestionResolution from '@/components/QuestionResolution';
+import QuestionSelectCard from '@/components/exam/question/QuestionSelectCard';
+import QuestionResolution from '@/components/exam/question/QuestionResolution';
 import ThanksResult from '@/components/exam/result/ThanksResult';
 import ScoreResult from '@/components/exam/result/ScoreResult';
 import { useEffect, useState } from 'react';

@@ -11,7 +11,7 @@ export default function ExamStartCheck(props: { exam: API.ExamInfo; show: Boolea
       }).then((res) => {
         const createResult = res.data as { id: any };
         history.push({
-          pathname: '/exam/examSite',
+          pathname: '/exam/examPaper',
           query: {
             id: createResult.id,
           },

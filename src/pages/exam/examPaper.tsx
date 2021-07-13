@@ -1,12 +1,12 @@
 import { history, useLocation } from 'umi';
 import { examContent, questionContent, fillExam } from '@/services/exam';
 import { useEffect, useState } from 'react';
-import QuestionSelectCard from '@/components/QuestionSelectCard';
-import QuestionSubCard from '@/components/QuestionSubCard';
+import QuestionSelectCard from '@/components/exam/question/QuestionSelectCard';
+import QuestionSubCard from '@/components/exam/question/QuestionSubCard';
 import Question from '@/components/exam/question/Question';
 import { useModel } from 'umi';
 
-export default function ExamSite() {
+export default function ExamPaper() {
   const { nowQuestionIndex, setNowQuestionIndex, setExamLength } = useModel('useQuestionIndexModel');
 
   const location = useLocation();

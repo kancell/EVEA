@@ -1,34 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { currentExam } from '@/services/exam';
-import ExamStartCheck from '@/components/exam/verify/EaxmStartCheck';
+import { examPaper } from '@/services/exam';
 import moment from 'moment';
+import { useLocation } from 'umi';
 
-export default function ExamList() {
+export default function examRecordPaper() {
+  const location = useLocation();
+  const queryLocationData = location as unknown as queryLocation;
+
   const [examList, setExamList] = useState<API.ExamPaging>();
-  const [examSelect, setExamSelect] = useState<API.ExamInfo>();
-  const [checkShow, setCheckShow] = useState(false);
-  const queryCurrentExam = async () => {
+  const requestExamRecord = async () => {
+    console.log(location);
+    if (queryLocationData.query === undefined || queryLocationData.query.id === undefined) {
+      console.log('异常，跳转至首页');
+      return;
+    }
     try {
-      const currentExamResult = await currentExam({
+      const currentRecord = await examPaper({
         data: {
           current: 1,
           size: 10,
-          params: {},
+          params: {
+            examId: queryLocationData.query.id,
+          },
           t: moment().unix(),
         },
       });
-      setExamList(currentExamResult.data);
+      setExamList(currentRecord.data);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    queryCurrentExam();
+    requestExamRecord();
   }, []);
 
   return (
     <>
-      {examSelect && <ExamStartCheck exam={examSelect} show={checkShow} setShow={setCheckShow}></ExamStartCheck>}
       {examList && (
         <div className="w-full xl:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto">
           <div className="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -128,13 +135,7 @@ export default function ExamList() {
                           {exam.content}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <p
-                            className="text-indigo-600 hover:text-indigo-900 cursor-pointer"
-                            onClick={() => {
-                              setExamSelect(exam);
-                              setCheckShow(true);
-                            }}
-                          >
+                          <p className="text-indigo-600 hover:text-indigo-900 cursor-pointer" onClick={() => {}}>
                             前往考试
                           </p>
                         </td>

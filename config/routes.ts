@@ -12,16 +12,23 @@ const exam = {
       icon: 'smile',
     },
     {
-      path: '/exam/examSite',
+      path: '/exam/examPaper',
       name: '在线考试',
-      component: 'exam/examSite',
+      component: 'exam/examPaper',
       hideInMenu: true,
       icon: 'smile',
     },
     {
-      path: '/exam/examRecord',
+      path: '/exam/examRecordList',
       name: '成绩记录',
-      component: 'exam/practice',
+      component: 'exam/examRecordList',
+      icon: 'smile',
+    },
+    {
+      path: '/exam/examRecordPaper',
+      name: '在线考试',
+      component: 'exam/examRecordPaper',
+      hideInMenu: true,
       icon: 'smile',
     },
     {

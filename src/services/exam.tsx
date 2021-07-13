@@ -1,9 +1,9 @@
 import { request } from 'umi';
 
-/** 获取当前的用户 GET /api/currentUser */
+/** 获取当前的用户 POST exam/api/paper/paper/check-process */
 export async function currentUser(options?: { [key: string]: any }) {
-  return request<API.CurrentUser>('/api/currentUser', {
-    method: 'GET',
+  return request<API.WarpProcess>('exam/api/paper/paper/check-process', {
+    method: 'POST',
     ...(options || {}),
   });
 }
@@ -14,35 +14,36 @@ export async function currentExam(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
-/* http://localhost:8101/exam/api/paper/paper/create-paper  传入点击列表中{examId: "1392018972039213058"} */
+
+/* 传入考试examId创建试卷 */
 export async function createExam(options?: { [key: string]: any }) {
   return request<API.WarpProcess>('/exam/api/paper/paper/create-paper', {
     method: 'POST',
     ...(options || {}),
   });
 }
-/* http://localhost:8101/exam/api/paper/paper/paper-detail 试卷详情，传入createExam中返回值 {id: "1411980052448317442"} */
+/* 传入createExam返回值中试卷id，获取试卷详细内容 */
 export async function examContent(options?: { [key: string]: any }) {
   return request<API.WarpPaperDetail>('/exam/api/paper/paper/paper-detail', {
     method: 'POST',
     ...(options || {}),
   });
 }
-
+/* 传入问题id，获取试卷详细内容 */
 export async function questionContent(options?: { [key: string]: any }) {
   return request<API.WarpQuestion>('/exam/api/paper/paper/qu-detail', {
     method: 'POST',
     ...(options || {}),
   });
 }
-
+/* 传入问题详细信息，提交本问题答案 */
 export async function fillAnswer(options?: { [key: string]: any }) {
   return request<API.WarpProcess>('/exam/api/paper/paper/fill-answer', {
     method: 'POST',
     ...(options || {}),
   });
 }
-
+/* 传入试卷id，提交试卷 */
 export async function fillExam(options?: { [key: string]: any }) {
   return request<API.WarpProcess>('/exam/api/paper/paper/hand-exam', {
     method: 'POST',
@@ -50,14 +51,24 @@ export async function fillExam(options?: { [key: string]: any }) {
   });
 }
 
+/* 获取试卷批阅信息 */
 export async function examResult(options?: { [key: string]: any }) {
   return request<API.WarpPaperResult>('/exam/api/paper/paper/paper-result', {
     method: 'POST',
     ...(options || {}),
   });
 }
-//http://localhost:8101/exam/api/paper/paper/paper-result 最后提交的结果
-//http://localhost:8101/exam/api/paper/paper/fill-answer
-//http://localhost:8101/exam/api/paper/paper/qu-detail
-//http://localhost:8101/exam/api/paper/paper/check-process 检查状态
-//http://localhost:8101/exam/api/paper/paper/
+/* 参加过的考试列表 */
+export async function examRecord(options?: { [key: string]: any }) {
+  return request<API.WarpExamRecord>('/exam/api/user/exam/my-paging', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+/* 对应试卷的考试记录 */
+export async function examPaper(options?: { [key: string]: any }) {
+  return request<API.WarpExamPaging>('/exam/api/paper/paper/my-paging', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
