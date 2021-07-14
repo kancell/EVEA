@@ -48,6 +48,8 @@ export default function examResult() {
           {examResult.resultType === 1 && <ThanksResult msg={examResult.thanks} />}
           {examResult.resultType === 2 && (
             <ScoreResult
+              msg={examResult.thanks}
+              userName={examResult.userId_dictText}
               totalScore={examResult.totalScore}
               objScore={examResult.objScore}
               userScore={examResult.userScore}

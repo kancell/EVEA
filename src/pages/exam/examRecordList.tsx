@@ -36,7 +36,7 @@ export default function examRecordList() {
   return (
     <>
       {PaperRecord && (
-        <div className="w-full xl:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto">
+        <div className="w-full container mx-auto">
           <div className="my-2 overflow-x-auto">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
