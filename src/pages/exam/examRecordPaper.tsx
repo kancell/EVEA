@@ -3,14 +3,21 @@ import { ExamRecordPaging } from '@/services/exam';
 import moment from 'moment';
 import { useLocation } from 'umi';
 import { history } from 'umi';
+import Pagination from '@/components/pagination/Pagination';
 
 export default function examRecordPaper() {
   const location = useLocation();
   const queryLocationData = location as unknown as queryLocation;
 
+  const [page, setPage] = useState({
+    current: 1,
+    pages: 1,
+    size: 7,
+    total: 1,
+  });
+
   const [examList, setExamList] = useState<API.ExamRecordPaging>();
-  const requestExamRecord = async () => {
-    console.log(location);
+  const requestExamRecord = async (current = page.current, size = page.size) => {
     if (queryLocationData.query === undefined || queryLocationData.query.id === undefined) {
       console.log('异常，跳转至首页');
       return;
@@ -18,8 +25,8 @@ export default function examRecordPaper() {
     try {
       const currentRecord = await ExamRecordPaging({
         data: {
-          current: 1,
-          size: 10,
+          current: current,
+          size: size,
           params: {
             examId: queryLocationData.query.id,
           },
@@ -27,6 +34,12 @@ export default function examRecordPaper() {
         },
       });
       setExamList(currentRecord.data);
+      setPage({
+        current: currentRecord.data.current,
+        pages: currentRecord.data.pages,
+        size: currentRecord.data.size,
+        total: currentRecord.data.total,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +69,7 @@ export default function examRecordPaper() {
                         考试信息
                       </th>
                       <th scope="col" className="px-6 py-3 text-left base font-medium text-gray-500 uppercase tracking-wider">
-                        分数信息
+                        得分
                       </th>
                       <th scope="col" className="px-6 py-3 text-left base font-medium text-gray-500 uppercase tracking-wider">
                         考试时间
@@ -114,21 +127,21 @@ export default function examRecordPaper() {
                           )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {exam.state === 0 ? (
+                            <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                              考试中
+                            </span>
+                          ) : (
+                            ''
+                          )}
                           {exam.state === 1 ? (
                             <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                              未知
+                              简答题待阅卷
                             </span>
                           ) : (
                             ''
                           )}
-                          {exam.state === 2 && exam.hasSaq === true ? (
-                            <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                              待阅卷
-                            </span>
-                          ) : (
-                            ''
-                          )}
-                          {exam.state === 2 && exam.hasSaq === false ? (
+                          {exam.state === 2 ? (
                             <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                               考试完成
                             </span>
@@ -159,6 +172,7 @@ export default function examRecordPaper() {
                     ))}
                   </tbody>
                 </table>
+                <Pagination page={page} setPage={requestExamRecord}></Pagination>
               </div>
             </div>
           </div>

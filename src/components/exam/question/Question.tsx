@@ -86,7 +86,7 @@ export default function Question(props: { content: API.Question; setContent: Fun
               return (
                 <div
                   className={`text-sm font-semibold px-6 py-2 rounded-lg flex justify-between my-1 cursor-pointer border-2 border-solid border-opacity-0
-                  ${answer.checked ? 'border-yellow-600 border-opacity-80' : ''}`}
+                ${answer.checked ? 'border-yellow-600 border-opacity-80' : ''}`}
                   key={answer.id}
                   onClick={() => AnswerListModify(answer.answerId)}
                 >

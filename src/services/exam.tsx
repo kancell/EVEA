@@ -1,8 +1,8 @@
 import { request } from 'umi';
 
-/** 获取当前的用户 POST exam/api/paper/paper/check-process */
-export async function currentUser(options?: { [key: string]: any }) {
-  return request<API.WarpProcess>('exam/api/paper/paper/check-process', {
+/** 获取当前进行中的考试 POST exam/api/paper/paper/check-process */
+export async function processExam(options?: { [key: string]: any }) {
+  return request<API.WarpProcessExam>('/exam/api/paper/paper/check-process', {
     method: 'POST',
     ...(options || {}),
   });

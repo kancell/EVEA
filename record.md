@@ -2,6 +2,8 @@
 - 初始化于app.tsx中的getInitialState，先检查localStorage中的evea_users_data，如果为null，则返回空对象
 - login中登录成功会调用setInitialState修改InitialState的值，由于传入值变动，access.ts中函数重新执行，将登录返回信息写入evea_users_data，并重新设定权限
 
+## 时间控制设定
+	检查时间强制交卷
 ## 动态返回路由参数
 ```javascript
 //admin端

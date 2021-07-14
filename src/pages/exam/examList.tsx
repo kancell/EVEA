@@ -1,23 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { currentExam } from '@/services/exam';
+import { currentExam, processExam } from '@/services/exam';
 import ExamStartCheck from '@/components/exam/verify/EaxmStartCheck';
+import Pagination from '@/components/pagination/Pagination';
 import moment from 'moment';
+import { history } from 'umi';
 
 export default function ExamList() {
   const [examList, setExamList] = useState<API.ExamPaging>();
   const [examSelect, setExamSelect] = useState<API.Exam>();
+  const [nowProcessExam, setNowProcessExam] = useState<API.ProcessExam>();
   const [checkShow, setCheckShow] = useState(false);
-  const queryCurrentExam = async () => {
+
+  const [page, setPage] = useState({
+    current: 1,
+    pages: 1,
+    size: 7,
+    total: 1,
+  });
+
+  const queryCurrentExam = async (current = page.current, size = page.size) => {
     try {
       const currentExamResult = await currentExam({
         data: {
-          current: 1,
-          size: 10,
+          current: current,
+          size: size,
           params: {},
           t: moment().unix(),
         },
       });
       setExamList(currentExamResult.data);
+      setPage({
+        current: currentExamResult.data.current,
+        pages: currentExamResult.data.pages,
+        size: currentExamResult.data.size,
+        total: currentExamResult.data.total,
+      });
+
+      const processExamResult = await processExam();
+      processExamResult.data !== undefined ? setNowProcessExam(processExamResult.data) : setNowProcessExam(undefined);
     } catch (error) {
       console.log(error);
     }
@@ -29,6 +49,35 @@ export default function ExamList() {
   return (
     <>
       {examSelect && <ExamStartCheck exam={examSelect} show={checkShow} setShow={setCheckShow}></ExamStartCheck>}
+      {nowProcessExam && (
+        <div className="w-full xl:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto sm:px-6 lg:px-8">
+          <div className="flex w-full max-w-lg overflow-hidden bg-white rounded-lg shadow-md ">
+            <div className="flex items-center justify-center w-12 bg-yellow-400">
+              <svg className="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM21.6667 28.3333H18.3334V25H21.6667V28.3333ZM21.6667 21.6666H18.3334V11.6666H21.6667V21.6666Z" />
+              </svg>
+            </div>
+            <div
+              className="px-4 py-2 -mx-3 cursor-pointer"
+              onClick={() => {
+                history.push({
+                  pathname: '/exam/examPaper',
+                  query: {
+                    id: nowProcessExam.id,
+                  },
+                });
+                setCheckShow(true);
+              }}
+            >
+              <div className="mx-3">
+                <span className="text-base font-semibold text-yellow-400 dark:text-yellow-300">
+                  您的考试“{nowProcessExam.title}”还没有交卷，点击返回考试
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {examList && (
         <div className="w-full xl:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto">
           <div className="my-2 overflow-x-auto">
@@ -38,7 +87,7 @@ export default function ExamList() {
                   <thead className="bg-gray-50">
                     <tr>
                       <th scope="col" className="px-6 py-3 text-left base font-medium text-gray-500 uppercase tracking-wider">
-                        考试信息
+                        考试名称
                       </th>
                       <th scope="col" className="px-6 py-3 text-left base font-medium text-gray-500 uppercase tracking-wider">
                         分数信息
@@ -142,6 +191,7 @@ export default function ExamList() {
                     ))}
                   </tbody>
                 </table>
+                <Pagination page={page} setPage={queryCurrentExam}></Pagination>
               </div>
             </div>
           </div>

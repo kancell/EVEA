@@ -5,7 +5,44 @@ declare namespace API {
     msg: string;
     success: boolean;
   };
+  type WarpProcessExam = {
+    code: number;
+    data?: ProcessExam;
+    msg: string;
+    success: boolean;
+  };
+  type ProcessExam = {
+    createBy: string;
+    createTime: string;
+    dataFlag: number;
+    departId: string;
+    departId_dictText: string;
+    deptCode: string;
+    examId: string;
+    hasSaq: boolean;
+    id: string;
+    leaveActual: number;
+    limitTime: string;
+    objScore: number;
+    passed: boolean;
+    qualifyScore: number;
+    /*
+    resultType: number;
+      thanks: string;
+     */
+    state: number;
+    subjScore: number;
 
+    title: string;
+    totalScore: number;
+    totalTime: number;
+    updateBy: string;
+    updateTime: string;
+    userId: string;
+    userId_dictText: string;
+    userScore: number;
+    userTime: number;
+  };
   type Exam = {
     actionInterval: number;
     actionOn: boolean;

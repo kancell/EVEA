@@ -38,12 +38,12 @@ const exam = {
       hideInMenu: true,
       icon: 'smile',
     },
-    {
+    /*     {
       path: '/exam/practice',
       name: '题库训练',
       component: 'exam/practice',
       icon: 'smile',
-    },
+    }, */
   ],
 };
 const examManage = {
@@ -173,12 +173,12 @@ export default {
           icon: 'Crown',
           access: 'admin',
         },
-        {
+        /*         {
           path: '/map',
           name: '我的练习',
           component: 'map/Index',
           icon: 'Tablet',
-        },
+        }, */
       ],
     },
   ],

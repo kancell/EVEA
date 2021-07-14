@@ -31,7 +31,9 @@ export default function QuestionResolution(props: { content: API.Question; ancho
         </span>
       </div>
       <div className="shadow rounded-lg p-4">
-        {props.content.quType === '4' && <div className="text-sm font-semibold px-6 py-2">{props.content.answer}</div>}
+        {props.content.quType === '4' && (
+          <div className="text-sm font-semibold px-6 py-2">我的回答：{props.content.answer}</div>
+        )}
         {
           /* quType为4是简答题，有answer字段，无checked字段 */
           props.content.quType !== '4' &&
@@ -39,7 +41,7 @@ export default function QuestionResolution(props: { content: API.Question; ancho
               return (
                 <div
                   className={`text-sm font-semibold px-6 py-2 rounded-lg flex justify-between my-1 cursor-pointer border-2 border-solid border-opacity-0
-                ${answer.isRight ? 'border-blue-600 border-opacity-80' : ''}`}
+              ${answer.isRight ? 'border-blue-600 border-opacity-80' : ''}`}
                   key={answer.id}
                 >
                   <span>
@@ -52,12 +54,23 @@ export default function QuestionResolution(props: { content: API.Question; ancho
             })
         }
       </div>
-      <div className="shadow rounded-lg p-4">
+      <div className={`shadow rounded-lg p-4 mt-2 ${props.content.quType === '4' ? 'hidden' : ''}`}>
         <div>{props.content.isRight ? '回答正确' : '回答错误'}</div>
         <div>
           题目满分：{props.content.score}，学员得分{props.content.actualScore}
         </div>
         <div>{props.content.analysis === '' ? '该题目暂无解析' : props.content.analysis}</div>
+      </div>
+      <div className={`shadow rounded-lg p-4 mt-2 ${props.content.quType === '4' ? '' : 'hidden'}`}>
+        <div>{props.content.mark ? '已批阅' : '未批阅'}</div>
+        {props.content.mark && (
+          <>
+            <div>
+              题目满分：{props.content.score}，学员得分{props.content.actualScore}
+            </div>
+            <div>{props.content.analysis === '' ? '该题目暂无解析' : props.content.analysis}</div>
+          </>
+        )}
       </div>
     </div>
   );

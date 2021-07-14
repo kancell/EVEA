@@ -2,20 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { PaperRecord as queryExamRecord } from '@/services/exam';
 import moment from 'moment';
 import { history } from 'umi';
+import Pagination from '@/components/pagination/Pagination';
+import { useModel } from 'umi';
 
 export default function examRecordList() {
   const [PaperRecord, setExamRecord] = useState<API.PaperRecord>();
-  const requestExamRecord = async () => {
+  /* const { page, setPage } = useModel('useExamRecordListPagesModel'); */
+  const [page, setPage] = useState({
+    current: 1,
+    pages: 1,
+    size: 7,
+    total: 1,
+  });
+  const requestExamRecord = async (current = page.current, size = page.size) => {
     try {
       const currentRecord = await queryExamRecord({
         data: {
-          current: 1,
-          size: 10,
+          current: current,
+          size: size,
           params: {},
           t: moment().unix(),
         },
       });
       setExamRecord(currentRecord.data);
+      setPage({
+        current: currentRecord.data.current,
+        pages: currentRecord.data.pages,
+        size: currentRecord.data.size,
+        total: currentRecord.data.total,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +59,7 @@ export default function examRecordList() {
                   <thead className="bg-gray-50">
                     <tr>
                       <th scope="col" className="px-6 py-3 text-left base font-medium text-gray-500 uppercase tracking-wider">
-                        考试信息
+                        考试名称
                       </th>
                       <th scope="col" className="px-6 py-3 text-left base font-medium text-gray-500 uppercase tracking-wider">
                         分数信息
@@ -105,6 +120,7 @@ export default function examRecordList() {
                     ))}
                   </tbody>
                 </table>
+                <Pagination page={page} setPage={requestExamRecord}></Pagination>
               </div>
             </div>
           </div>

@@ -20,7 +20,7 @@ export default function QuestionSelectBar(props: {
     return false;
   };
   return (
-    <div className="max-h-screen overflow-y-auto max-w-full w-full sticky top-0">
+    <div className="max-h-screen min-h-48 overflow-y-auto max-w-full w-full sticky top-0">
       {props.data &&
         props.data.map((group: API.QuestionGroup, groupIndex) => {
           return (
@@ -43,7 +43,7 @@ export default function QuestionSelectBar(props: {
                       ${props.type === 'result' ? (question.isRight ? 'bg-green-500' : 'bg-red-300') : ''}
                       ${
                         props.type === 'exam' ? (question.answered ? 'bg-green-500' : 'bg-gray-300') : ''
-                      } flex cursor-pointer items-center justify-center m-2 py-2 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-400`}
+                      } flex cursor-pointer items-center justify-center m-2 py-1 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-400`}
                       onClick={() => {
                         setNowQuestionIndex({
                           groupIndex: groupIndex,

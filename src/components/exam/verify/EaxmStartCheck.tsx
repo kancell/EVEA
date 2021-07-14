@@ -46,6 +46,9 @@ export default function ExamStartCheck(props: { exam: API.Exam; show: Boolean; s
                   进入{props.exam.title}（{props.exam.examType_dictText}）
                 </h3>
                 <div className="mt-2">
+                  <p className="text-sm text-gray-500">每次考试都会创建新的试卷，本次考试不会影响您正在进行中的同名考试</p>
+                </div>
+                <div className="mt-2">
                   <p className="text-sm text-gray-500">{props.exam.content}</p>
                 </div>
               </div>

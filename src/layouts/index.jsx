@@ -24,7 +24,7 @@ const breadRoutes = {
 export default withRouter(({ history, location, match, children }) => {
   return (
     <>
-      <div id="layout" className="p-4 animate-spin-slow h-full w-full absolute" key={location.pathname}>
+      <div id="layout" className="p-4 animate-spin-slow h-full w-full" key={location.pathname}>
         {children}
       </div>
     </>
