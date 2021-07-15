@@ -6,7 +6,7 @@ export default defineConfig({
   routes: routes.defaultRouter,
   antd: {},
   theme: {
-    '@primary-color': '#1DA57A',
+    '@primary-color': 'rgba(129, 140, 248, 1)',
   },
   /* esbuild无法使用，应该与postcss及插件tailwind有关
   esbuild: {
