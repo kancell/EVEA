@@ -7,7 +7,7 @@ module.exports = {
         exactH: 'calc(100vh - 96px)',
       },
       animation: {
-        'spin-slow': 'appear 0.4s linear 1',
+        'spin-slow': 'appear 0.4s linear 1.2',
       },
       keyframes: {
         appear: {

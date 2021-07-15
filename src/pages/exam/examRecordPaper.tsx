@@ -4,6 +4,7 @@ import moment from 'moment';
 import { useLocation } from 'umi';
 import { history } from 'umi';
 import Pagination from '@/components/pagination/Pagination';
+import Loading from '@/components/loading/Loading';
 
 export default function examRecordPaper() {
   const location = useLocation();
@@ -57,6 +58,7 @@ export default function examRecordPaper() {
 
   return (
     <>
+      {!examList && <Loading />}
       {examList && (
         <div className="w-full container mx-auto">
           <div className="my-2 overflow-x-auto">

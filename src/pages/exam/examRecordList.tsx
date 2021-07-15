@@ -4,6 +4,7 @@ import moment from 'moment';
 import { history } from 'umi';
 import Pagination from '@/components/pagination/Pagination';
 import { useModel } from 'umi';
+import Loading from '@/components/loading/Loading';
 
 export default function examRecordList() {
   const [PaperRecord, setExamRecord] = useState<API.PaperRecord>();
@@ -50,6 +51,7 @@ export default function examRecordList() {
 
   return (
     <>
+      {!PaperRecord && <Loading />}
       {PaperRecord && (
         <div className="w-full container mx-auto">
           <div className="my-2 overflow-x-auto">

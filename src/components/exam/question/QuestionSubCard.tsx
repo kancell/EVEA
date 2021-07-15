@@ -9,6 +9,10 @@ export default function (props: { totalTime: number; createdTime: string; useCam
   const calcTime = () => {
     const createdTime = moment(props.createdTime);
     const nowTime = moment();
+    if (props.totalTime * 60 * 1000 - nowTime.diff(createdTime) <= 0) {
+      props.fill();
+      return '考试结束';
+    }
     return moment(props.totalTime * 60 * 1000 - nowTime.diff(createdTime)).format('mm:ss');
   };
 

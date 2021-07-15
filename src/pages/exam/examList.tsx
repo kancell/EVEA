@@ -4,6 +4,7 @@ import ExamStartCheck from '@/components/exam/verify/EaxmStartCheck';
 import Pagination from '@/components/pagination/Pagination';
 import moment from 'moment';
 import { history } from 'umi';
+import Loading from '@/components/loading/Loading';
 
 export default function ExamList() {
   const [examList, setExamList] = useState<API.ExamPaging>();
@@ -50,7 +51,7 @@ export default function ExamList() {
     <>
       {examSelect && <ExamStartCheck exam={examSelect} show={checkShow} setShow={setCheckShow}></ExamStartCheck>}
       {nowProcessExam && (
-        <div className="w-full xl:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto sm:px-6 lg:px-8">
+        <div className="w-full container mx-auto sm:px-6 lg:px-8">
           <div className="flex w-full max-w-lg overflow-hidden bg-white rounded-lg shadow-md ">
             <div className="flex items-center justify-center w-12 bg-yellow-400">
               <svg className="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
@@ -78,6 +79,7 @@ export default function ExamList() {
           </div>
         </div>
       )}
+      {!examList && <Loading />}
       {examList && (
         <div className="w-full container mx-auto">
           <div className="my-2 overflow-x-auto">

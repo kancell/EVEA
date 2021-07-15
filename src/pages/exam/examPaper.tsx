@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import QuestionSelectCard from '@/components/exam/question/QuestionSelectCard';
 import QuestionSubCard from '@/components/exam/question/QuestionSubCard';
 import Question from '@/components/exam/question/Question';
+import Loading from '@/components/loading/Loading';
 import { useModel } from 'umi';
 
 export default function ExamPaper() {
@@ -115,7 +116,7 @@ export default function ExamPaper() {
   };
   return (
     <>
-      {(!exam || !question) && <div>loading</div>}
+      {(!exam || !question) && <Loading />}
       {exam && question && (
         <div className="grid grid-flow-row grid-cols-4 xl:grid-cols-6 grid-rows-1 gap-4 min-h-full h-full overflow-auto">
           <QuestionSelectCard type={'exam'} data={[...exam.groupList]} selectQuestion={setNextQuestion}></QuestionSelectCard>

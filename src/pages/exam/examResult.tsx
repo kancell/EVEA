@@ -5,6 +5,7 @@ import QuestionResolution from '@/components/exam/question/QuestionResolution';
 import ThanksResult from '@/components/exam/result/ThanksResult';
 import ScoreResult from '@/components/exam/result/ScoreResult';
 import { useEffect, useState } from 'react';
+import Loading from '@/components/loading/Loading';
 
 export default function examResult() {
   const { setNowQuestionIndex } = useModel('useQuestionIndexModel');
@@ -43,6 +44,7 @@ export default function examResult() {
   };
   return (
     <>
+      {!examResult && <Loading />}
       {examResult && (
         <div className="w-full h-full max-h-full overflow-auto">
           {examResult.resultType === 1 && <ThanksResult msg={examResult.thanks} />}
