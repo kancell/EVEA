@@ -1,3 +1,4 @@
+import Loading from '@/components/loading/Loading';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useModel } from 'umi';
@@ -21,6 +22,7 @@ export default function QuestionSelectBar(props: {
   };
   return (
     <div className="max-h-screen min-h-48 overflow-y-auto max-w-full w-full sticky top-0">
+      {!props.data && <Loading />}
       {props.data &&
         props.data.map((group: API.QuestionGroup, groupIndex) => {
           return (

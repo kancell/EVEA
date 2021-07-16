@@ -53,7 +53,7 @@ export default function examResult() {
               msg={examResult.thanks}
               userName={examResult.userId_dictText}
               totalScore={examResult.totalScore}
-              objScore={examResult.objScore}
+              qualifyScore={examResult.qualifyScore}
               userScore={examResult.userScore}
             ></ScoreResult>
           )}

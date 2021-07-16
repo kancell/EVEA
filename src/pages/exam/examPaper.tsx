@@ -6,9 +6,20 @@ import QuestionSubCard from '@/components/exam/question/QuestionSubCard';
 import Question from '@/components/exam/question/Question';
 import Loading from '@/components/loading/Loading';
 import { useModel } from 'umi';
+import FullSrceen from '@/services/util';
 
 export default function ExamPaper() {
   const { nowQuestionIndex, setNowQuestionIndex, setExamLength } = useModel('useQuestionIndexModel');
+
+  const [isScreenFull, setIsScreenFull] = useState(false); //是否全屏
+  useEffect(() => {
+    FullSrceen.init(screenChange);
+    FullSrceen.enterFullScreen();
+  }, []);
+  const screenChange = (isFull: boolean) => {
+    console.log('是否全屏', isFull);
+    setIsScreenFull(isFull);
+  };
 
   const location = useLocation();
   const queryLocationData = location as unknown as queryLocation;
@@ -106,6 +117,7 @@ export default function ExamPaper() {
           id: exam?.id,
         },
       }).then((res: API.WarpProcess) => {
+        FullSrceen.exitFullScreen();
         const createResult = exam as { id: any };
         history.push({
           pathname: '/exam/examResult',

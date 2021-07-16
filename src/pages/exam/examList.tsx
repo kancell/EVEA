@@ -67,7 +67,6 @@ export default function ExamList() {
                     id: nowProcessExam.id,
                   },
                 });
-                setCheckShow(true);
               }}
             >
               <div className="mx-3">
@@ -147,7 +146,7 @@ export default function ExamList() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           {exam.state === 0 ? (
                             <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              进行中
+                              可开始
                             </span>
                           ) : (
                             ''

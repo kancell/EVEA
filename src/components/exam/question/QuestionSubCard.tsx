@@ -27,7 +27,7 @@ export default function (props: { totalTime: number; createdTime: string; useCam
     };
   }, []);
   return (
-    <div className="max-h-screen overflow-y-auto">
+    <div className="overflow-y-auto">
       <div className="max-w-xs mx-auto overflow-hidden bg-white rounded-lg shadow-lg">
         <div className="py-5 text-center">
           <a href="#" className="block text-xl font-bold text-gray-800 dark:text-white">

@@ -2,7 +2,7 @@ export default function ScoreResult(props: {
   msg: string;
   userName: string;
   totalScore: number;
-  objScore: number;
+  qualifyScore: number;
   userScore: number;
 }) {
   return (
@@ -24,10 +24,10 @@ export default function ScoreResult(props: {
               {props.userName}，你好，{props.msg}
             </h4>
             <h3 className="hidden md:block font-bold text-2xl text-gray-700">
-              {props.userScore > props.objScore ? '恭喜，考试通过' : '很遗憾，考试未通过'}
+              {props.userScore > props.qualifyScore ? '恭喜，考试通过' : '很遗憾，考试未通过'}
             </h3>
             <p className="text-gray-600 text-justify">
-              考试满分：{props.totalScore}，及格分：{props.objScore}
+              考试满分：{props.totalScore}，及格分：{props.qualifyScore}
             </p>
             <p className="flex items-baseline mt-3 text-blue-600 hover:text-blue-900 focus:text-blue-900" href="">
               <span>您的分数：{props.userScore}</span>
