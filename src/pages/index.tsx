@@ -1,8 +1,10 @@
 import { processExam } from '@/services/exam';
 import React, { ReactChild, useEffect, useState } from 'react';
-import { history } from 'umi';
+import { history, useModel } from 'umi';
 
 export default function IndexPage(): ReactChild {
+  const { initialState, loading, error, refresh, setInitialState } = useModel('@@initialState');
+  const userData = initialState as { user: API.userData };
   const [nowProcessExam, setNowProcessExam] = useState<API.ProcessExam>();
   const queryCurrentExam = async () => {
     try {
@@ -20,7 +22,9 @@ export default function IndexPage(): ReactChild {
       <div className="container px-5 py-8 md:py-24 mx-auto">
         <div className="flex flex-col text-left w-full mb-8 md:mb-20">
           <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900">欢迎来到EVEA考试系统</h1>
-          <h2 className="text-sm text-indigo-500 tracking-widest font-medium title-font mb-1">你好，学员</h2>
+          <h2 className="text-sm text-indigo-500 tracking-widest font-medium title-font mb-1">
+            你好，{userData.user.realName}
+          </h2>
         </div>
         <div className="flex flex-wrap -m-4">
           <div className="p-4 w-full md:w-1/3">
@@ -93,10 +97,9 @@ export default function IndexPage(): ReactChild {
               </div>
               <div
                 onClick={() => {
-                  nowProcessExam &&
-                    history.push({
-                      pathname: '/exam/examList',
-                    });
+                  history.push({
+                    pathname: '/exam/examList',
+                  });
                 }}
                 className="flex-grow cursor-pointer"
               >
@@ -139,10 +142,9 @@ export default function IndexPage(): ReactChild {
               </div>
               <div
                 onClick={() => {
-                  nowProcessExam &&
-                    history.push({
-                      pathname: '/exam/examRecordList',
-                    });
+                  history.push({
+                    pathname: '/exam/examRecordList',
+                  });
                 }}
                 className="flex-grow cursor-pointer"
               >

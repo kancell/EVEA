@@ -139,6 +139,12 @@ const statistics = {
     },
   ],
 };
+const userCenter = {
+  path: 'user/userCenter',
+  name: '个人中心',
+  component: 'user/userCenter',
+  hideInMenu: true,
+};
 export default {
   defaultRouter: [
     {
@@ -166,13 +172,7 @@ export default {
         examManage,
         statistics,
         setting,
-        {
-          path: '/chart',
-          name: '图表',
-          component: 'chart/Index',
-          icon: 'Crown',
-          access: 'admin',
-        },
+        userCenter,
         /*         {
           path: '/map',
           name: '我的练习',

@@ -1,16 +1,23 @@
 declare namespace API {
-  type WarpProcess = {
+  type httpRespone = {
     code: number;
+    msg: string;
+    success: boolean;
+  };
+  type paging = {
+    current: number;
+    hitCount: boolean;
+    optimizeCountSql: boolean;
+    orders: any[];
+    pages: number;
+    searchCount: boolean;
+    size: number;
+    total: number;
+  };
+  type WarpUnknownResult = httpRespone & {
     data?: unknown;
-    msg: string;
-    success: boolean;
   };
-  type WarpProcessExam = {
-    code: number;
-    data?: ProcessExam;
-    msg: string;
-    success: boolean;
-  };
+
   type ProcessExam = {
     createBy: string;
     createTime: string;
@@ -26,13 +33,8 @@ declare namespace API {
     objScore: number;
     passed: boolean;
     qualifyScore: number;
-    /*
-    resultType: number;
-      thanks: string;
-     */
     state: number;
     subjScore: number;
-
     title: string;
     totalScore: number;
     totalTime: number;
@@ -43,6 +45,10 @@ declare namespace API {
     userScore: number;
     userTime: number;
   };
+  type WarpProcessExam = httpRespone & {
+    data?: ProcessExam;
+  };
+
   type Exam = {
     actionInterval: number;
     actionOn: boolean;
@@ -82,21 +88,10 @@ declare namespace API {
     updateBy: string;
     updateTime: string;
   };
-  type ExamPaging = {
-    current: number;
-    hitCount: boolean;
-    optimizeCountSql: boolean;
-    orders: unknown[];
-    pages: number;
+  type ExamPaging = paging & {
     records: Exam[];
-    searchCount: boolean;
-    size: number;
-    total: number;
   };
-  type WarpExamPaging = {
-    code: number;
-    msg: string;
-    success: boolean;
+  type WarpExamPaging = httpRespone & {
     data: ExamPaging;
   };
 
@@ -134,10 +129,7 @@ declare namespace API {
     sort: number;
     video: string;
   };
-  type WarpQuestion = {
-    code: number;
-    msg: string;
-    success: boolean;
+  type WarpQuestion = httpRespone & {
     data: Question;
   };
 
@@ -197,10 +189,7 @@ declare namespace API {
     userTime: number;
     groupList: QuestionGroup[];
   };
-  type WarpPaperDetail = {
-    code: number;
-    msg: string;
-    success: boolean;
+  type WarpPaperDetail = httpRespone & {
     data: PaperDetail;
   };
 
@@ -234,10 +223,7 @@ declare namespace API {
     userTime: number;
     groupList: QuestionGroup[];
   };
-  type WarpPaperResult = {
-    code: number;
-    msg: string;
-    success: boolean;
+  type WarpPaperResult = httpRespone & {
     data: PaperResult;
   };
 
@@ -254,21 +240,10 @@ declare namespace API {
     updateTime: string;
     userId: string;
   };
-  type PaperRecord = {
-    current: number;
-    hitCount: boolean;
-    optimizeCountSql: boolean;
-    orders: unknown[];
-    pages: number;
-    searchCount: boolean;
-    size: number;
-    total: number;
+  type PaperRecord = paging & {
     records: Record[];
   };
-  type WarpPaperRecord = {
-    code: number;
-    msg: string;
-    success: boolean;
+  type WarpPaperRecord = httpRespone & {
     data: PaperRecord;
   };
 
@@ -301,22 +276,47 @@ declare namespace API {
     userScore: number;
     userTime: number;
   };
-  type ExamRecordPaging = {
-    current: number;
-    hitCount: boolean;
-    optimizeCountSql: boolean;
-    orders: any[];
-    pages: number;
+  type ExamRecordPaging = paging & {
     records: ExamRecord[];
-    searchCount: boolean;
-    size: number;
-    total: number;
   };
-  type WarpExamRecordPaging = {
-    code: number;
-    msg: string;
-    success: boolean;
+  type WarpExamRecordPaging = httpRespone & {
     data: ExamRecordPaging;
+  };
+
+  type PaperManage = {
+    catId: string;
+    catId_dictText: string;
+    createBy: string;
+    createBy_dictText: string;
+    createTime: string;
+    deptCode: string;
+    id: string;
+    joinType: number;
+    joinType_dictText: string;
+    objScore: number;
+    quCount: number;
+    subjScore: number;
+    timeType: number;
+    title: string;
+    totalScore: number;
+  };
+  type PaperManagePaging = paging & {
+    records: PaperManage[];
+  };
+  type WarpPaperManagePaging = httpRespone & {
+    data: PaperManagePaging;
+  };
+
+  type userData = {
+    userName?: string;
+    token: string;
+    state?: number;
+    roles?: string[];
+    roleType?: number;
+    realName?: string;
+    points?: number;
+    id?: string;
+    dataScope?: number;
   };
 
   type CurrentUser = {

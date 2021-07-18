@@ -20,12 +20,14 @@ const init = (screenChange: Function) => {
 
 //进入全屏
 const enterFullScreen = () => {
-  document.documentElement.requestFullscreen();
+  window.document.documentElement.requestFullscreen();
 };
 
 // 退出全屏
 const exitFullScreen = () => {
-  document.exitFullscreen();
+  if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement) {
+    document.exitFullscreen();
+  }
 };
 
 export default {

@@ -17,7 +17,7 @@ export async function currentExam(options?: { [key: string]: any }) {
 
 /* 传入考试examId创建试卷 */
 export async function createExam(options?: { [key: string]: any }) {
-  return request<API.WarpProcess>('/exam/api/paper/paper/create-paper', {
+  return request<API.WarpUnknownResult>('/exam/api/paper/paper/create-paper', {
     method: 'POST',
     ...(options || {}),
   });
@@ -38,14 +38,14 @@ export async function questionContent(options?: { [key: string]: any }) {
 }
 /* 传入问题详细信息，提交本问题答案 */
 export async function fillAnswer(options?: { [key: string]: any }) {
-  return request<API.WarpProcess>('/exam/api/paper/paper/fill-answer', {
+  return request<API.WarpUnknownResult>('/exam/api/paper/paper/fill-answer', {
     method: 'POST',
     ...(options || {}),
   });
 }
 /* 传入试卷id，提交试卷 */
 export async function fillExam(options?: { [key: string]: any }) {
-  return request<API.WarpProcess>('/exam/api/paper/paper/hand-exam', {
+  return request<API.WarpUnknownResult>('/exam/api/paper/paper/hand-exam', {
     method: 'POST',
     ...(options || {}),
   });

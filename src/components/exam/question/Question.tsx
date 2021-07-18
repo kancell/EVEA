@@ -20,7 +20,7 @@ export default function Question(props: { content: API.Question; setContent: Fun
 
   const uploadQuestionAnswer = async (question: API.Question) => {
     try {
-      const result: API.WarpProcess = await fillAnswer({
+      const result: API.WarpUnknownResult = await fillAnswer({
         data: question,
       });
     } catch (error) {

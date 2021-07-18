@@ -15,9 +15,11 @@ export default function ExamPaper() {
   useEffect(() => {
     FullSrceen.init(screenChange);
     FullSrceen.enterFullScreen();
+    return () => {
+      FullSrceen.exitFullScreen();
+    };
   }, []);
   const screenChange = (isFull: boolean) => {
-    console.log('是否全屏', isFull);
     setIsScreenFull(isFull);
   };
 
@@ -116,8 +118,7 @@ export default function ExamPaper() {
           handFlag: 0,
           id: exam?.id,
         },
-      }).then((res: API.WarpProcess) => {
-        FullSrceen.exitFullScreen();
+      }).then((res: API.WarpUnknownResult) => {
         const createResult = exam as { id: any };
         history.push({
           pathname: '/exam/examResult',

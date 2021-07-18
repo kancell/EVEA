@@ -9,22 +9,10 @@ import type { BasicLayoutProps } from '@ant-design/pro-layout';
 
 import './style.css';
 
-declare type userData = {
-  userName?: string;
-  token: string;
-  state?: number;
-  roles?: string[];
-  roleType?: number;
-  realName?: string;
-  points?: number;
-  id?: string;
-  dataScope?: number;
-};
-
 let runTimeToken: string = '';
 const loginPath = '/user/login';
 export async function getInitialState(): Promise<unknown> {
-  const validCheck = (data: userData): boolean => {
+  const validCheck = (data: API.userData): boolean => {
     if (data === null || data === undefined || typeof data !== 'object') return false;
     for (const item of Object.entries(data)) {
       if (item[0][1] === undefined) {
@@ -34,7 +22,7 @@ export async function getInitialState(): Promise<unknown> {
     return true;
   };
 
-  let initUserData: userData = {
+  let initUserData: API.userData = {
     userName: '',
     token: '',
     state: 0,
@@ -62,7 +50,7 @@ export async function getInitialState(): Promise<unknown> {
   }
 
   let result: {
-    user: userData;
+    user: API.userData;
     layout: BasicLayoutProps;
   } = {
     user: {
@@ -91,49 +79,50 @@ export async function getInitialState(): Promise<unknown> {
 /*
 初始化layout布局配置
 */
-export const layout: RunTimeLayoutConfig = ({ initialState }): BasicLayoutProps => {
-  const initialStateTrans = initialState as {
-    user: userData;
-    layout: BasicLayoutProps;
-  };
+export const layout = ({
+  initialState,
+}: {
+  initialState: { user: API.userData; layout: BasicLayoutProps };
+}): BasicLayoutProps => {
   return {
     navTheme: 'light',
     siderWidth: 208,
     onPageChange: () => {
       const token = runTimeToken;
-      const roles = initialStateTrans?.user?.roles;
+      const roles = initialState?.user?.roles;
       const { location } = history;
       // 如果没有登录，重定向到 login,后续可以在这里加token校验
-      // 跳转到登录和清理localstroge应同时进行
       if ((!token || token === '') && location.pathname !== loginPath) {
         history.push(loginPath);
       }
     },
-    /*
-    这四项配置为umi自己扩展，不在BasicLayoutProps中
-     */
-    /* ts ignore */
-    rightRender: (initialStateTrans: { user: userData; layout: BasicLayoutProps }) => {
-      const layoutType = initialStateTrans?.layout?.layout;
+    rightContentRender: () => {
+      const layoutType = initialState?.layout?.layout;
       return (
-        <div className={`${layoutType === 'top' ? 'text-gray-900' : 'text-gray-900'}`}>
-          <div className="px-2">{initialStateTrans.user.realName}</div>
+        <div className={`cursor-pointer group flex ${layoutType === 'top' ? 'text-gray-900' : 'text-gray-900'}`}>
+          <div className="px-2">{initialState.user.realName}</div>
+          <div className="absolute rounded bg-white border mx-auto right-2 top-12 hidden flex-col group-hover:flex text-center">
+            <span
+              onClick={() => {
+                history.push('/user/userCenter');
+              }}
+              className="border-b px-2"
+            >
+              个人中心
+            </span>
+            <span
+              onClick={() => {
+                localStorage.removeItem('evea_users_data');
+                history.push(loginPath);
+              }}
+              className="border-b px-2"
+            >
+              退出
+            </span>
+          </div>
         </div>
       );
     },
-    logout: () => {
-      localStorage.removeItem('evea_users_data');
-      history.push(loginPath);
-    },
-    onError: (error: Error, info: any) => {
-      console.log(error, info);
-    },
-    ErrorComponent: () => {
-      return <div>some wrongs...</div>;
-    },
-    /*
-     */
-
     menuHeaderRender: (logo, title) => (
       <div
         id="customize_menu_header"
@@ -145,7 +134,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }): BasicLayoutProps 
         {title}
       </div>
     ),
-    ...initialStateTrans.layout,
+    ...initialState.layout,
   };
 };
 
