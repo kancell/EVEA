@@ -1,5 +1,5 @@
 declare namespace API {
-  type httpRespone = {
+  export type httpRespone = {
     code: number;
     msg: string;
     success: boolean;
@@ -305,6 +305,98 @@ declare namespace API {
   };
   type WarpPaperManagePaging = httpRespone & {
     data: PaperManagePaging;
+  };
+
+  type RepoManage = {
+    catId: string;
+    catId_dictText: string;
+    chapters: unknown[];
+    code: string;
+    createBy: string;
+    createTime: string;
+    dataFlag: number;
+    id: string;
+    isExam: true;
+    isTrain: true;
+    quCount: number;
+    remark: string;
+    title: string;
+    typeList: {
+      count: string;
+      quType: string;
+      quType_dictText: string;
+    }[];
+    updateBy: string;
+    updateTime: string;
+  };
+  type RepoManagePaging = paging & {
+    records: RepoManage[];
+  };
+  type WarpRepoManagePaging = httpRespone & {
+    data: RepoManagePaging;
+  };
+
+  type Review = {
+    actionInterval: number;
+    actionOn: boolean;
+    answerDevice: number;
+    camInterval: number;
+    camOn: boolean;
+    chance: number;
+    content: string;
+    createBy: string;
+    createTime: string;
+    dataFlag: number;
+    deptCode: string;
+    endTime: string;
+    examType: string;
+    examType_dictText: string;
+    examUser: number;
+    handMin: number;
+    hasSaq: true;
+    id: string;
+    lateMax: number;
+    leaveCheck: number;
+    leaveCount: number;
+    leaveOn: boolean;
+    objScore: number;
+    openType: number;
+    password: string;
+    points: number;
+    qualifyScore: number;
+    resultType: number;
+    startTime: string;
+    state: number;
+    subjScore: number;
+    thanks: string;
+    timeLimit: boolean;
+    title: string;
+    tmplId: string;
+    totalScore: number;
+    totalTime: number;
+    unreadPaper: number;
+    updateBy: string;
+    updateTime: string;
+  };
+  type ReviewPaging = paging & {
+    records: Review[];
+  };
+  type WarpReviewPaging = httpRespone & {
+    data: ReviewPaging;
+  };
+
+  type UserStatis = {
+    activeUser: number;
+    allUser: number;
+    dateStr: string;
+    newUser: number;
+    statDate: string;
+  };
+  type UserStatisPaging = paging & {
+    records: Review[];
+  };
+  type WarpUserStatisPaging = httpRespone & {
+    data: UserStatisPaging;
   };
 
   type userData = {
