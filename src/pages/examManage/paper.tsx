@@ -60,7 +60,7 @@ export default function Paper() {
       key: 'title',
     },
     {
-      title: '全部分类',
+      title: '试卷分类',
       dataIndex: 'catId_dictText',
       key: 'catId_dictText',
     },
@@ -84,6 +84,49 @@ export default function Paper() {
       dataIndex: 'createTime',
       key: 'createTime',
     },
+    {
+      title: '操作',
+      key: 'update',
+      render: (text: unknown, record: API.PaperManage) => {
+        return (
+          <>
+            <Button
+              className="mx-1"
+              onClick={() => {
+                console.log(record.id);
+              }}
+            >
+              修改
+            </Button>
+            <Button
+              className="mx-1"
+              onClick={() => {
+                console.log(record.id);
+              }}
+            >
+              预览
+            </Button>
+            <Button
+              className="mx-1"
+              onClick={() => {
+                console.log(record.id);
+              }}
+            >
+              创建考试
+            </Button>
+            <Button
+              danger
+              className="mx-1"
+              onClick={() => {
+                console.log(record.id);
+              }}
+            >
+              删除
+            </Button>
+          </>
+        );
+      },
+    },
   ];
 
   return (
@@ -92,6 +135,7 @@ export default function Paper() {
         <Table
           columns={columns}
           dataSource={paperList.records}
+          rowKey={'id'}
           pagination={{ defaultCurrent: page.current, total: page.total }}
         />
       )}

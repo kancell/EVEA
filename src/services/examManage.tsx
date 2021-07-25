@@ -16,6 +16,14 @@ export async function PaperManage(options?: { [key: string]: any }) {
   });
 }
 
+/* 管理端删除试卷 http://localhost:8101/exam/api/exam/exam/delete ids: ["1419244434487214081"] */
+export async function PaperDelete(options?: { [key: string]: any }) {
+  return request<API.httpRespone>('/exam/api/exam/exam/delete', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
 /* 管理端获取所有题库 http://localhost:8101/exam/api/repo/paging*/
 export async function RepoManage(options?: { [key: string]: any }) {
   return request<API.WarpRepoManagePaging>('/exam/api/repo/paging', {

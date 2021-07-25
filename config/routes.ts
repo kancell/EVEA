@@ -60,10 +60,31 @@ const examManage = {
       icon: 'smile',
     },
     {
+      path: '/examManage/examUpdate',
+      name: '考试修改',
+      component: 'examManage/examUpdate',
+      icon: 'smile',
+      hideInMenu: true,
+    },
+    {
       path: '/examManage/paper',
       name: '试卷管理',
       component: 'examManage/paper',
       icon: 'smile',
+    },
+    {
+      path: '/examManage/paper',
+      name: '试卷预览',
+      component: 'examManage/paperPreview',
+      icon: 'smile',
+      hideInMenu: true,
+    },
+    {
+      path: '/examManage/paper',
+      name: '试卷修改',
+      component: 'examManage/paperUpdate',
+      icon: 'smile',
+      hideInMenu: true,
     },
     {
       path: '/examManage/repo',

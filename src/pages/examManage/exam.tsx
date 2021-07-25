@@ -2,6 +2,7 @@ import { Button, Table, Tag, Space } from 'antd';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { ExamManage } from '@/services/examManage';
+import { history } from 'umi';
 
 export default function Exam() {
   const [page, setPage] = useState({
@@ -54,7 +55,12 @@ export default function Exam() {
       dataIndex: 'openType',
       key: 'openType',
       render: (openType: number) => {
-        return <div>{openType === 1 ? '完全公开' : openType}</div>;
+        const _typeReplace = new Map([
+          [1, '完全公开'],
+          [2, '部门公开'],
+          [3, '需要密码'],
+        ]);
+        return <div>{_typeReplace.get(openType)}</div>;
       },
     },
     {
@@ -106,6 +112,39 @@ export default function Exam() {
         return <Tag color={stateReplace[1]}>{stateReplace[0]}</Tag>;
       },
     },
+    {
+      title: '操作',
+      key: 'update',
+      render: (text: unknown, record: API.Exam) => {
+        return (
+          <>
+            <Button
+              className="mx-1"
+              onClick={() => {
+                history.push({
+                  pathname: '/examManage/examUpdate',
+                  query: {
+                    type: 'update',
+                    id: record.id,
+                  },
+                });
+              }}
+            >
+              修改
+            </Button>
+            <Button
+              danger
+              className="mx-1"
+              onClick={() => {
+                console.log(record.id);
+              }}
+            >
+              删除
+            </Button>
+          </>
+        );
+      },
+    },
   ];
 
   return (
@@ -114,6 +153,7 @@ export default function Exam() {
         <Table
           columns={columns}
           dataSource={examList.records}
+          rowKey={'id'}
           pagination={{ defaultCurrent: page.current, total: page.total }}
         />
       )}

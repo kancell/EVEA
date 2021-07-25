@@ -7,6 +7,7 @@ declare type queryLocation = {
   pathname: string;
   query?: {
     id?: string;
+    type?: string;
   };
   search: string;
 };

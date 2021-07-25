@@ -72,6 +72,7 @@ export default function Exam() {
         <Table
           columns={columns}
           dataSource={examList.records}
+          rowKey={'id'}
           pagination={{ defaultCurrent: page.current, total: page.total }}
         />
       )}

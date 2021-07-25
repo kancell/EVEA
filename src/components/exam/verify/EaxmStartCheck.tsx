@@ -1,12 +1,24 @@
 import { createExam } from '@/services/exam';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { history } from 'umi';
 
 export default function ExamStartCheck(props: { exam: API.Exam; show: Boolean; setShow: Function }) {
-  const createNewExam = async (id: string) => {
+  const [createData, setCreateData] = useState({
+    examId: '',
+    password: '',
+  });
+  useEffect(() => {
+    setCreateData({ ...createData, examId: props.exam.id });
+  }, []);
+
+  const createNewExam = async (id: string, password?: string) => {
+    console.log(id, password);
     try {
       await createExam({
         data: {
           examId: id,
+          password: password,
         },
       }).then((res) => {
         const createResult = res.data as { id: any };
@@ -19,6 +31,11 @@ export default function ExamStartCheck(props: { exam: API.Exam; show: Boolean; s
       });
     } catch (error) {}
   };
+  const _openTypeReplace = new Map([
+    [1, '完全公开'],
+    [2, '部门公开'],
+    [3, '需要密码'],
+  ]);
   return (
     <div className={`${props.show ? 'fixed' : 'hidden'} w-full h-full bg-gray-300 bg-opacity-30 `}>
       <div className="flex h-full justify-center items-center relative -top-32">
@@ -51,6 +68,31 @@ export default function ExamStartCheck(props: { exam: API.Exam; show: Boolean; s
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">{props.exam.content}</p>
                 </div>
+                <div className="mt-2">
+                  <p className="text-sm text-gray-500">本场考试公开类型为：{_openTypeReplace.get(props.exam.openType)}</p>
+                </div>
+                <form className={`relative mt-4 ${props.exam.openType === 3 ? '' : 'hidden'}`}>
+                  <svg
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    />
+                  </svg>
+                  <input
+                    onChange={(e) => {
+                      setCreateData({ ...createData, password: e.target.value });
+                    }}
+                    className="focus:border-light-blue-500 focus:ring-1 focus:ring-light-blue-500 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 pl-10"
+                    type="text"
+                    placeholder="输入考试密码"
+                  />
+                </form>
               </div>
             </div>
           </div>
@@ -58,7 +100,7 @@ export default function ExamStartCheck(props: { exam: API.Exam; show: Boolean; s
             <button
               type="button"
               onClick={() => {
-                createNewExam(props.exam.id);
+                createNewExam(createData.examId, createData.password);
               }}
               className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
             >
