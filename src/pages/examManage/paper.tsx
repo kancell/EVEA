@@ -132,6 +132,11 @@ export default function Paper() {
 
   return (
     <div>
+      <div className="bg-white p-2 mb-2">
+        <Button type="primary" shape="round">
+          添加新的考试
+        </Button>
+      </div>
       {paperList && (
         <Table
           columns={columns}
