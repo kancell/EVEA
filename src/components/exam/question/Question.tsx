@@ -2,6 +2,7 @@
 import Loading from '@/components/loading/Loading';
 import { fillAnswer } from '@/services/exam';
 import { useEffect, useState } from 'react';
+import { Tag } from 'antd';
 
 export default function Question(props: { content: API.Question; setContent: Function }) {
   const [nowChecked, setNowChecked] = useState<string[]>([]);
@@ -28,11 +29,7 @@ export default function Question(props: { content: API.Question; setContent: Fun
     }
   };
 
-  const AnswerModify = (answerValue: string) => {
-    /* 需要防抖优化 */
-    props.setContent({ ...props.content, answer: answerValue });
-  };
-  const AnswerListModify = (answerId: string) => {
+  const AnswerSelectUpdate = (answerId: string) => {
     /* 需处理多选、单选、选择.1、3为单选、判断。2为多选 */
     const answerList = props.content.answerList;
     answerList.forEach((item) => {
@@ -55,7 +52,16 @@ export default function Question(props: { content: API.Question; setContent: Fun
     });
     props.setContent({ ...props.content, answerList });
   };
-
+  const AnswerTextAreaUpdate = (answerValue: string) => {
+    /* 需要防抖优化 */
+    props.setContent({ ...props.content, answer: answerValue });
+  };
+  const AnswerInputUpdate = (answerValue: string, sort: number) => {
+    /* 需要防抖优化 */
+    const answerList = props.content.answerList;
+    answerList[sort].answer = answerValue;
+    props.setContent({ ...props.content, answerList });
+  };
   return (
     <>
       {!props.content && <Loading />}
@@ -66,7 +72,9 @@ export default function Question(props: { content: API.Question; setContent: Fun
             <span className={`bg-gray-200 px-2 py-1 rounded ${nowChecked.length === 0 ? 'hidden' : ''}`}>
               我的答案：
               {nowChecked.map((item) => (
-                <span key={item}>{item}</span>
+                <Tag key={item} color="blue">
+                  {item}
+                </Tag>
               ))}
             </span>
           </div>
@@ -75,24 +83,20 @@ export default function Question(props: { content: API.Question; setContent: Fun
               {props.content.sort}. {props.content.content}
             </span>
           </div>
+          <div className={`w-96 ${props.content.image === '' ? 'hidden' : ''}`}>
+            <img src={`http://localhost:8101${props.content.image}`} />
+          </div>
           <div className="shadow rounded-lg p-4">
-            {props.content.quType === '4' && (
-              <textarea
-                onChange={(e) => AnswerModify(e.target.value)}
-                value={props.content.answer}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-              />
-            )}
             {
               /* quType为4是简答题，有answer字段，无checked字段 */
-              props.content.quType !== '4' &&
+              ['1', '2', '3'].includes(props.content.quType) &&
                 props.content.answerList.map((answer: API.Answer) => {
                   return (
                     <div
                       className={`text-sm font-semibold px-6 py-2 rounded-lg flex justify-between my-1 cursor-pointer border-2 border-solid border-opacity-0
-                  ${answer.checked ? 'border-yellow-600 border-opacity-80' : ''}`}
+                    ${answer.checked ? 'border-yellow-600 border-opacity-80' : ''}`}
                       key={answer.id}
-                      onClick={() => AnswerListModify(answer.answerId)}
+                      onClick={() => AnswerSelectUpdate(answer.answerId)}
                     >
                       <span>
                         <span className="mr-4">{answer.abc}.</span>
@@ -103,6 +107,28 @@ export default function Question(props: { content: API.Question; setContent: Fun
                   );
                 })
             }
+            {props.content.quType === '4' && (
+              <textarea
+                onChange={(e) => AnswerTextAreaUpdate(e.target.value)}
+                value={props.content.answer}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
+            )}
+            {props.content.quType === '5' &&
+              props.content.answerList.map((answer: API.Answer) => {
+                return (
+                  <input
+                    onChange={(e) => {
+                      AnswerInputUpdate(e.target.value, answer.sort);
+                    }}
+                    value={props.content.answerList[answer.sort].answer}
+                    type="text"
+                    key={answer.sort}
+                    placeholder={`填写答案`}
+                    className="my-1 mx-4 border-yellow-400 border-b-4 focus:border-light-blue-500 focus:ring-1 focus:ring-light-blue-500 focus:outline-none min-w-48 text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 pl-10"
+                  />
+                );
+              })}
           </div>
         </div>
       }

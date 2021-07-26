@@ -89,7 +89,7 @@ export default function ExamPaper() {
   };
   const questionChecked = (question: API.Question): boolean => {
     for (const answer of question.answerList) {
-      if (answer.checked) {
+      if (answer.checked || answer.answer) {
         return true;
       }
     }
@@ -106,6 +106,9 @@ export default function ExamPaper() {
       }
       if (nowQuestion.quType === '4' && nowQuestion.quId === question.quId) {
         question.answer !== '' ? (nowQuestion.answered = true) : (nowQuestion.answered = false);
+      }
+      if (nowQuestion.quType === '5' && nowQuestion.quId === question.quId) {
+        questionChecked(question) ? (nowQuestion.answered = true) : (nowQuestion.answered = false);
       }
       setExam(pendingExam as API.PaperDetail);
     }

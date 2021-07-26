@@ -149,14 +149,21 @@ export default function Exam() {
 
   return (
     <div>
-      {examList && (
-        <Table
-          columns={columns}
-          dataSource={examList.records}
-          rowKey={'id'}
-          pagination={{ defaultCurrent: page.current, total: page.total }}
-        />
-      )}
+      <div className="bg-white p-2 mb-2">
+        <Button type="primary" shape="round">
+          添加新的考试
+        </Button>
+      </div>
+      <div className="px-2 bg-white">
+        {examList && (
+          <Table
+            columns={columns}
+            dataSource={examList.records}
+            rowKey={'id'}
+            pagination={{ defaultCurrent: page.current, total: page.total }}
+          />
+        )}
+      </div>
     </div>
   );
 }

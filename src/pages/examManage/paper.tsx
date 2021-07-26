@@ -2,6 +2,7 @@ import { Button, Table } from 'antd';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { PaperManage } from '@/services/examManage';
+import { history, useLocation } from 'umi';
 
 export default function Paper() {
   const [page, setPage] = useState({
@@ -109,18 +110,18 @@ export default function Paper() {
             <Button
               className="mx-1"
               onClick={() => {
-                console.log(record.id);
+                history.push({
+                  pathname: '/examManage/examUpdate',
+                  query: {
+                    type: 'add',
+                    id: record.id,
+                  },
+                });
               }}
             >
               创建考试
             </Button>
-            <Button
-              danger
-              className="mx-1"
-              onClick={() => {
-                console.log(record.id);
-              }}
-            >
+            <Button danger className="mx-1">
               删除
             </Button>
           </>

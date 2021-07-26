@@ -4,6 +4,18 @@ declare namespace API {
     msg: string;
     success: boolean;
   };
+
+  type SelectOption = {
+    children: unknown[];
+    dicCode: string;
+    id: string;
+    parentId: string;
+    title: string;
+    value: string;
+  };
+  type WarpSelectOption = httpRespone & {
+    data: SelectOption;
+  };
   type paging = {
     current: number;
     hitCount: boolean;
@@ -300,6 +312,9 @@ declare namespace API {
     title: string;
     totalScore: number;
   };
+  type WarpPaperManageSingle = httpRespone & {
+    data: PaperManage;
+  };
   type PaperManagePaging = paging & {
     records: PaperManage[];
   };
@@ -383,6 +398,14 @@ declare namespace API {
   };
   type WarpReviewPaging = httpRespone & {
     data: ReviewPaging;
+  };
+
+  type ExamDetail = Exam & {
+    deptCode: string;
+    deptCodes: unknown[];
+  };
+  type WarpExamDetail = httpRespone & {
+    data: ExamDetail;
   };
 
   type UserStatis = {

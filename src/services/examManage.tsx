@@ -7,6 +7,28 @@ export async function ExamManage(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+/* 管理端获取考试详情 http://localhost:8101/exam/api/exam/exam/detail*/
+export async function ExamDetail(options?: { [key: string]: any }) {
+  return request<API.WarpExamDetail>('/exam/api/exam/exam/detail', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+/* 管理端更新考试设置 http://localhost:8101/exam/api/exam/exam/save */
+export async function UpdateExam(options?: { [key: string]: any }) {
+  return request<API.WarpExamDetail>('/exam/api/exam/exam/save', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
+/* 管理端获取试卷大致信息 http://localhost:8101/exam/api/tmpl/tmpl/simple-info*/
+export async function ExamSimpleInfo(options?: { [key: string]: any }) {
+  return request<API.WarpPaperManageSingle>('/exam/api/tmpl/tmpl/simple-info', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
 
 /* 管理端获取当前所有试卷http://localhost:8101/exam/api/tmpl/tmpl/paging */
 export async function PaperManage(options?: { [key: string]: any }) {

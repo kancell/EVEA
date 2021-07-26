@@ -4,7 +4,7 @@
 登录成功后，执行setInitialState，填入localstroge与初始化数据，根据权限生成路由，调整layout
 */
 import { history } from 'umi';
-import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
+import type { RequestConfig } from 'umi';
 import type { BasicLayoutProps } from '@ant-design/pro-layout';
 
 import './style.css';
