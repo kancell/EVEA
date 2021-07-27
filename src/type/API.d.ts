@@ -123,7 +123,7 @@ declare namespace API {
   };
   type Question = {
     actualScore: number;
-    analysis: string;
+    analysis: string | undefined;
     answer: string;
     answerList: Answer[];
     answered: boolean;

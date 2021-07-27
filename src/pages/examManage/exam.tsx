@@ -120,7 +120,7 @@ export default function Exam() {
       key: 'state',
       render: (state: number) => {
         const _stateReplace = new Map([
-          [0, ['可开始', 'green']],
+          [0, ['进行中', 'green']],
           [1, ['已禁用', 'red']],
           [2, ['未开始', 'geekblue']],
           [3, ['已结束', 'gray']],

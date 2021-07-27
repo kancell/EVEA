@@ -67,30 +67,35 @@ export default function QuestionResolution(props: { content: API.Question; ancho
               </div>
             )}
             {
-              /* quType为4是简答题，有answer字段，无checked字段 */
-              props.content.quType === '5' &&
-                props.content.answerList.map((answer: API.Answer) => {
-                  return (
-                    <div
-                      className={`min-w-48 text-sm font-semibold px-6 py-2 rounded-lg flex justify-between my-1 cursor-pointer border-opacity-0
-                    ${answer.isRight ? 'border-blue-600 border-opacity-80' : ''}`}
-                      key={answer.id}
-                    >
-                      <span>
-                        <span>正确答案：{answer.content}</span>
-                      </span>
-                      <span>我的答案：{answer.answer === '' ? <Tag color="red">未作答</Tag> : answer.answer}</span>
-                    </div>
-                  );
-                })
+              /* quType为5是填空题 */
+              props.content.quType === '5' && (
+                <div className="min-w-48 text-sm font-semibold px-6 py-2 rounded-lg flex flex-col justify-between my-1 cursor-pointer border-opacity-0">
+                  <div className="py-2">
+                    正确答案：
+                    {props.content.answerList.map((answer: API.Answer) => {
+                      return <span className="px-1 mx-1 border-b">{answer.content}</span>;
+                    })}
+                  </div>
+                  <div className="py-2">
+                    我的答案：
+                    {props.content.answerList.map((answer: API.Answer) => {
+                      return (
+                        <span className="px-1 mx-1 border-b">
+                          {answer.answer === '' ? <Tag color="red">未作答</Tag> : answer.answer}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              )
             }
           </div>
           <div className={`p-4 mt-2 ${props.content.quType === '4' ? 'hidden' : ''}`}>
             <div className="text-base font-bold my-1">{props.content.isRight ? '回答正确' : '回答错误'}</div>
             <div className="font-bold my-1">
-              题目满分：{props.content.score}，学员得分{props.content.actualScore}
+              题目满分：{props.content.score}，学员得分：{props.content.actualScore}
             </div>
-            <div className="my-2">{props.content.analysis === '' ? '该题目暂无解析' : props.content.analysis}</div>
+            <div className="my-2">{props.content.analysis === undefined ? '该题目暂无解析' : props.content.analysis}</div>
           </div>
           <div className={`text-base font-bold rounded-lg p-4 mt-2 ${props.content.quType === '4' ? '' : 'hidden'}`}>
             <div>{props.content.mark ? '已批阅' : '未批阅'}</div>
