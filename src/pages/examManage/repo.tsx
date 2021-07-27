@@ -1,7 +1,8 @@
-import { Button, Table } from 'antd';
+import { Button, Table, Collapse, Input, TreeSelect, Checkbox } from 'antd';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { RepoManage } from '@/services/examManage';
+const { Panel } = Collapse;
 
 export default function Repo() {
   const [page, setPage] = useState({
@@ -79,14 +80,6 @@ export default function Repo() {
               修改
             </Button>
             <Button
-              className="mx-1"
-              onClick={() => {
-                console.log(record.id);
-              }}
-            >
-              预览
-            </Button>
-            <Button
               danger
               className="mx-1"
               onClick={() => {
@@ -103,10 +96,39 @@ export default function Repo() {
 
   return (
     <div>
-      <div className="bg-white p-2 mb-2">
-        <Button type="primary" shape="round">
-          添加新的考试
-        </Button>
+      <div className="mb-2">
+        <Collapse className="w-96">
+          <Panel header="添加新的题库" key="1">
+            <div className="flex flex-wrap">
+              <div className={`w-96 p-2`}>
+                <Input onChange={(e) => {}} addonBefore="新题库名称" placeholder="输入名称" />
+              </div>
+              <div className={`w-96 p-2`}>
+                <TreeSelect
+                  disabled
+                  className="w-full"
+                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                  placeholder="题库分类"
+                  treeDefaultExpandAll
+                />
+              </div>
+              <div className={`w-96 p-2`}>
+                <Input onChange={(e) => {}} addonBefore="备注" placeholder="输入备注" />
+              </div>
+              <div className="p-2">
+                <Checkbox>用于考试</Checkbox>
+              </div>
+              <div className="p-2">
+                <Checkbox>用于训练</Checkbox>
+              </div>
+            </div>
+            <div className="p-2">
+              <Button className="w-full" type="primary">
+                新增题库
+              </Button>
+            </div>
+          </Panel>
+        </Collapse>
       </div>
       {RepoList && (
         <Table

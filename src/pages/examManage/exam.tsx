@@ -1,7 +1,7 @@
-import { Button, Table, Tag, Space } from 'antd';
+import { Button, Table, Tag, Space, message } from 'antd';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
-import { ExamManage } from '@/services/examManage';
+import { ExamManage, DeleteExam } from '@/services/examManage';
 import { history } from 'umi';
 
 export default function Exam() {
@@ -38,6 +38,23 @@ export default function Exam() {
   useEffect(() => {
     queryXExamList();
   }, []);
+
+  const deleteExam = async (ids: string) => {
+    let data = {
+      ids: [ids],
+    };
+    try {
+      const result = await DeleteExam({
+        data: data,
+      });
+      if (result.success) {
+        message.success(result.msg);
+        queryXExamList();
+      } else {
+        message.warning(result.msg);
+      }
+    } catch (error) {}
+  };
 
   const columns = [
     {
@@ -136,7 +153,7 @@ export default function Exam() {
               danger
               className="mx-1"
               onClick={() => {
-                console.log(record.id);
+                deleteExam(record.id);
               }}
             >
               删除
@@ -161,6 +178,9 @@ export default function Exam() {
             dataSource={examList.records}
             rowKey={'id'}
             pagination={{ defaultCurrent: page.current, total: page.total }}
+            onChange={(pagination) => {
+              queryXExamList(pagination.current, pagination.pageSize);
+            }}
           />
         )}
       </div>

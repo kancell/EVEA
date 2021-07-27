@@ -21,6 +21,13 @@ export async function UpdateExam(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+/* 删除考试条目http://localhost:8101/exam/api/exam/exam/delete */
+export async function DeleteExam(options?: { [key: string]: any }) {
+  return request<API.httpRespone>('/exam/api/exam/exam/delete', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
 
 /* 管理端获取试卷大致信息 http://localhost:8101/exam/api/tmpl/tmpl/simple-info*/
 export async function ExamSimpleInfo(options?: { [key: string]: any }) {
@@ -37,10 +44,17 @@ export async function PaperManage(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+/* 试卷预览http://localhost:8101/exam/api/tmpl/tmpl/preview */
+export async function PaperPreview(options?: { [key: string]: any }) {
+  return request<API.WarpPaperDetail>('/exam/api/tmpl/tmpl/preview', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
 
-/* 管理端删除试卷 http://localhost:8101/exam/api/exam/exam/delete ids: ["1419244434487214081"] */
+/* 管理端删除试卷 http://localhost:8101/exam/api/tmpl/tmpl/delete ids: ["1419244434487214081"] */
 export async function PaperDelete(options?: { [key: string]: any }) {
-  return request<API.httpRespone>('/exam/api/exam/exam/delete', {
+  return request<API.httpRespone>('/exam/api/tmpl/tmpl/delete', {
     method: 'POST',
     ...(options || {}),
   });

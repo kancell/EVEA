@@ -322,18 +322,20 @@ declare namespace API {
     data: PaperManagePaging;
   };
 
+  type Repo = {};
+
   type RepoManage = {
-    catId: string;
-    catId_dictText: string;
-    chapters: unknown[];
+    catId: string; //题库id
+    catId_dictText: string; // 题库类别 职业资格类
+    chapters: unknown[]; // 章节
     code: string;
     createBy: string;
     createTime: string;
-    dataFlag: number;
+    dataFlag: number; //位置
     id: string;
-    isExam: true;
-    isTrain: true;
-    quCount: number;
+    isExam: true; //题库用于考试
+    isTrain: true; //题库用于训练
+    quCount: number; //题目数量
     remark: string;
     title: string;
     typeList: {

@@ -45,14 +45,50 @@ export default function Exam() {
       key: 'title',
     },
     {
-      title: '全部分类',
+      title: '考试类型',
+      dataIndex: 'examType_dictText',
+      key: 'examType_dictText',
+    },
+    {
+      title: '开放类型',
       dataIndex: 'openType',
       key: 'openType',
+      render: (openType: number) => {
+        const _typeReplace = new Map([
+          [1, '完全公开'],
+          [2, '部门公开'],
+          [3, '需要密码'],
+        ]);
+        return <div>{_typeReplace.get(openType)}</div>;
+      },
+    },
+    {
+      title: '限时',
+      dataIndex: 'timeLimit',
+      key: 'timeLimit',
+      render: (timeLimit: boolean, record: API.Exam) => {
+        return (
+          <>
+            {timeLimit ? (
+              <div>
+                {record.startTime} - {record.endTime}
+              </div>
+            ) : (
+              '不限时'
+            )}
+          </>
+        );
+      },
     },
     {
       title: '总分',
       dataIndex: 'totalScore',
       key: 'totalScore',
+    },
+    {
+      title: '及格分',
+      dataIndex: 'qualifyScore',
+      key: 'qualifyScore',
     },
     {
       title: '考试人数',
@@ -63,6 +99,24 @@ export default function Exam() {
       title: '待阅试卷',
       dataIndex: 'unreadPaper',
       key: 'unreadPaper',
+    },
+    {
+      title: '操作',
+      key: 'update',
+      render: (text: unknown, record: API.Exam) => {
+        return (
+          <>
+            <Button
+              className="mx-1"
+              onClick={() => {
+                console.log(record.id);
+              }}
+            >
+              批阅试卷
+            </Button>
+          </>
+        );
+      },
     },
   ];
 

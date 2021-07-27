@@ -102,7 +102,12 @@ export default function Paper() {
             <Button
               className="mx-1"
               onClick={() => {
-                console.log(record.id);
+                history.push({
+                  pathname: '/examManage/paperPreview',
+                  query: {
+                    id: record.id,
+                  },
+                });
               }}
             >
               预览
@@ -134,7 +139,7 @@ export default function Paper() {
     <div>
       <div className="bg-white p-2 mb-2">
         <Button type="primary" shape="round">
-          添加新的考试
+          添加新的试卷
         </Button>
       </div>
       {paperList && (

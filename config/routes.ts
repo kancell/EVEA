@@ -73,14 +73,14 @@ const examManage = {
       icon: 'smile',
     },
     {
-      path: '/examManage/paper',
+      path: '/examManage/paperPreview',
       name: '试卷预览',
       component: 'examManage/paperPreview',
       icon: 'smile',
       hideInMenu: true,
     },
     {
-      path: '/examManage/paper',
+      path: '/examManage/paperUpdate',
       name: '试卷修改',
       component: 'examManage/paperUpdate',
       icon: 'smile',

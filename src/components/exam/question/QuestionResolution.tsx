@@ -2,7 +2,7 @@ import Loading from '@/components/loading/Loading';
 import { useEffect, useState } from 'react';
 import { Tag } from 'antd';
 
-export default function QuestionResolution(props: { content: API.Question; anchor: string }) {
+export default function QuestionResolution(props: { content: API.Question; anchor: string; type?: string }) {
   const [checked, setChecked] = useState<string[]>([]);
   useEffect(() => {
     const checkArr: string[] = [];

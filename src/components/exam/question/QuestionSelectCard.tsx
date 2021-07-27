@@ -31,10 +31,10 @@ export default function QuestionSelectBar(props: {
                 <a className="px-8 xl:px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-200 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500">
                   {group.title}
                 </a>
-                <span className="text-sm font-light text-gray-600 dark:text-gray-400 py-1">
-                  共{group.quCount}题，总分：{group.totalScore}
-                </span>
               </div>
+              <span className="text-base font-light text-gray-600 dark:text-gray-400 py-1 px-2">
+                共{group.quCount}题，总分：{group.totalScore}
+              </span>
               <div className="grid grid-flow-row grid-cols-3 my-2">
                 {group.quList.map((question: API.Question, questionIndex) => {
                   return (

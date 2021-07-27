@@ -1,5 +1,4 @@
-import { Button, Card, Input, Select, Space, TreeSelect, DatePicker, Radio, Modal, message } from 'antd';
-import React from 'react';
+import { Button, Card, Input, Select, TreeSelect, DatePicker, Radio, Modal, message } from 'antd';
 import { useState } from 'react';
 import { history, useLocation } from 'umi';
 import { ExamSimpleInfo, ExamDetail, UpdateExam } from '@/services/examManage';
@@ -13,17 +12,17 @@ const { Option } = Select;
 export default function examPublish() {
   const location = useLocation();
   const queryData = location as unknown as queryLocation;
-  const [verifyVisible, setVerifyVisible] = useState(false);
+  const queryId = queryData.query?.id || 'error';
+  const queryType = queryData.query?.type || 'error';
 
+  const [verifyVisible, setVerifyVisible] = useState(false);
   const verifyShow = () => {
     setVerifyVisible(true);
   };
-
   const handleOk = () => {
     submitExamSettingUpdate();
     setVerifyVisible(false);
   };
-
   const handleCancel = () => {
     setVerifyVisible(false);
   };
@@ -35,14 +34,14 @@ export default function examPublish() {
     camInterval: 5,
     camOn: false,
     chance: 1,
-    content: '',
+    content: '考试信息',
     createBy: '',
     createTime: '',
     dataFlag: 0,
     deptCode: 'A14',
     deptCodes: [],
     endTime: '',
-    examType: '',
+    examType: '1',
     examType_dictText: '',
     handMin: 0,
     hasSaq: false,
@@ -60,7 +59,7 @@ export default function examPublish() {
     startTime: '',
     state: 0,
     subjScore: 0,
-    thanks: '',
+    thanks: '考试完毕',
     timeLimit: false,
     title: '',
     tmplId: '',
@@ -69,8 +68,15 @@ export default function examPublish() {
     updateBy: '',
     updateTime: '',
   };
-
   const [examSettingData, setExamSettingData] = useState<API.ExamDetail>(preflightData);
+  let addData = {
+    tmplId: '',
+    departIds: [],
+    capture: 0,
+    isCapture: true,
+  };
+  const [addSettingData, setAddSettingData] = useState(addData);
+
   const [examInfo, setExamInfo] = useState<API.PaperManage>();
   const getExamInfo = async (tmplId: string) => {
     try {
@@ -80,16 +86,14 @@ export default function examPublish() {
         },
       });
       setExamInfo(result.data);
+      setAddSettingData({ ...addData, tmplId: tmplId });
     } catch (error) {}
   };
-  const getExamSettingDetail = async () => {
+  const getExamSettingDetail = async (id: string) => {
     try {
-      if (queryData.query === undefined || queryData.query.id === undefined || queryData.query.type === 'add') {
-        return;
-      }
       const result = await ExamDetail({
         data: {
-          id: queryData.query.id,
+          id: id,
         },
       });
       setExamSettingData(result.data);
@@ -97,11 +101,23 @@ export default function examPublish() {
     } catch (error) {}
   };
   const submitExamSettingUpdate = async () => {
+    /* 提交信息，如果为add，则将addDAta联合updateData提交，如果为update，则单独提交update */
+    let submitData = {};
+    switch (queryType) {
+      case 'update':
+        submitData = { ...examSettingData };
+        break;
+      case 'add':
+        submitData = { ...examSettingData, ...addSettingData };
+        break;
+      default:
+        break;
+    }
+
     try {
       const result = await UpdateExam({
-        data: examSettingData,
+        data: submitData,
       });
-
       if (result.success) {
         message.success(result.msg);
         history.push({
@@ -113,7 +129,10 @@ export default function examPublish() {
     } catch (error) {}
   };
   useEffect(() => {
-    getExamSettingDetail();
+    console.log(queryType);
+    /* 如果为add，则使用preflight作为预设选择，单独请求getExamInfo */
+    /* 如果为update，则使用preflight作为预设选择，然后getExamSettingDetail进行更新。更新后请求getExamInfo */
+    queryType === 'update' ? getExamSettingDetail(queryId) : getExamInfo(queryId);
   }, []);
 
   return (
@@ -140,7 +159,8 @@ export default function examPublish() {
                 onChange={(value) => {
                   examSettingData && setExamSettingData({ ...examSettingData, examType: value.toString() });
                 }}
-                defaultValue="1"
+                value={examSettingData.examType}
+                defaultValue={'1'}
                 className="w-full"
               >
                 <Option value="1">正式考试</Option>
@@ -156,7 +176,9 @@ export default function examPublish() {
                 defaultValue={1}
               >
                 <Radio.Button value={1}>完全公开</Radio.Button>
-                <Radio.Button value={2}>部门公开</Radio.Button>
+                <Radio.Button disabled value={2}>
+                  部门公开
+                </Radio.Button>
                 <Radio.Button value={3}>需要密码</Radio.Button>
               </Radio.Group>
             </div>
@@ -185,6 +207,7 @@ export default function examPublish() {
                 }}
                 value={examSettingData.qualifyScore}
                 addonBefore="及格分"
+                addonAfter="分"
                 placeholder="输入考试及格分"
                 type="number"
               />
