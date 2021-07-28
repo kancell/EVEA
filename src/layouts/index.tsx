@@ -26,11 +26,9 @@ export default withRouter(({ history, location, match, children }) => {
   const props = useSpring({ to: { opacity: 1 }, from: { opacity: 0 }, delay: 1000 });
   return (
     <>
-      <animated.div style={props}>
-        <div id="layout" className="p-4 h-full w-full" key={location.pathname}>
-          {children}
-        </div>
-      </animated.div>
+      <div id="layout" className="animate-spin-slow p-4 h-full w-full" key={location.pathname}>
+        {children}
+      </div>
     </>
   );
 });
