@@ -5,11 +5,11 @@ import { useLocation } from 'umi';
 import { useRouteMatch } from 'umi';
 import { withRouter } from 'umi';
 import { Link } from 'umi';
-import { useSpring, animated } from 'react-spring';
+
 //ant-page-header
 import defaultRouter from '../../config/routes';
 const breadRoutes = {
-  itemRender: (route, params, routes, paths) => {
+  itemRender: (route: any, params: any, routes: any, paths: any) => {
     console.log(route, params, routes, paths);
     const secondRoute = routes.indexOf(route) === 1;
     return secondRoute ? (
@@ -23,7 +23,6 @@ const breadRoutes = {
 };
 
 export default withRouter(({ history, location, match, children }) => {
-  const props = useSpring({ to: { opacity: 1 }, from: { opacity: 0 }, delay: 1000 });
   return (
     <>
       <div id="layout" className="animate-spin-slow p-4 h-full w-full" key={location.pathname}>
