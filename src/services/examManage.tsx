@@ -68,6 +68,28 @@ export async function RepoManage(options?: { [key: string]: any }) {
   });
 }
 
+/* 管理端获取所有题库 http://localhost:8101/exam/api/repo/save*/
+export async function RepoUpdate(options?: { [key: string]: any }) {
+  return request<API.WarpRepoManagePaging>('/exam/api/repo/save', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+/* 获取题库详情 http://localhost:8101/exam/api/repo/detail */
+export async function RepoDetail(options?: { [key: string]: any }) {
+  return request<API.WarpRepoManage>('/exam/api/repo/detail', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+/* 获取试题列表 http://localhost:8101/exam/api/qu/qu/paging */
+export async function RepoQuestion(options?: { [key: string]: any }) {
+  return request<API.WarpRepoQuestionPaging>('/exam/api/qu/qu/paging', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
 /* 管理端获取需阅卷试卷 http://localhost:8101/exam/api/exam/exam/review-paging */
 export async function paperReview(options?: { [key: string]: any }) {
   return request<API.WarpReviewPaging>('/exam/api/exam/exam/review-paging', {
@@ -75,9 +97,6 @@ export async function paperReview(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
-
-/*
- */
 
 /* 管理端获取用户统计 http://localhost:8101/exam/api/stat/total/user/paging */
 export async function userStatis(options?: { [key: string]: any }) {

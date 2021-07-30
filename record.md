@@ -3,6 +3,8 @@
 - login中登录成功会调用setInitialState修改InitialState的值，由于传入值变动，access.ts中函数重新执行，将登录返回信息写入evea_users_data，并重新设定权限
 ## 关于通过考试的判定
 
+## 添加新试卷，题库添加试题
+
 ## 关于填空题正确答案的判断
 
 ## 本地访问图片的baseurl拦截

@@ -322,32 +322,36 @@ declare namespace API {
     data: PaperManagePaging;
   };
 
-  type Repo = {};
+  type Repo = {
+    catId?: string; //题库id
+    chapters?: unknown[]; // 章节
+    isExam?: boolean; //题库用于考试
+    isTrain?: boolean; //题库用于训练
+    remark?: string;
+    title?: string;
+  };
 
-  type RepoManage = {
-    catId: string; //题库id
-    catId_dictText: string; // 题库类别 职业资格类
-    chapters: unknown[]; // 章节
-    code: string;
-    createBy: string;
-    createTime: string;
-    dataFlag: number; //位置
-    id: string;
-    isExam: true; //题库用于考试
-    isTrain: true; //题库用于训练
-    quCount: number; //题目数量
-    remark: string;
-    title: string;
-    typeList: {
+  type RepoManage = Repo & {
+    catId_dictText?: string; // 题库类别 职业资格类
+    code?: string;
+    createBy?: string;
+    createTime?: string;
+    dataFlag?: number; //位置
+    id?: string;
+    quCount?: number; //题目数量
+    typeList?: {
       count: string;
       quType: string;
       quType_dictText: string;
     }[];
-    updateBy: string;
-    updateTime: string;
+    updateBy?: string;
+    updateTime?: string;
   };
   type RepoManagePaging = paging & {
     records: RepoManage[];
+  };
+  type WarpRepoManage = httpRespone & {
+    data: RepoManage;
   };
   type WarpRepoManagePaging = httpRespone & {
     data: RepoManagePaging;
@@ -422,6 +426,29 @@ declare namespace API {
   };
   type WarpUserStatisPaging = httpRespone & {
     data: UserStatisPaging;
+  };
+  type RepoQuestion = {
+    analysis: string;
+    chapterId_dictText: string;
+    content: string;
+    createTime: string;
+    deptCode: string;
+    id: string;
+    image: string;
+    level: string;
+    level_dictText: string;
+    quType: string;
+    quType_dictText: string;
+    remark: string;
+    repoId: string;
+    updateTime: string;
+    video: string;
+  };
+  type RepoQuestionPaging = paging & {
+    records: RepoQuestion[];
+  };
+  type WarpRepoQuestionPaging = httpRespone & {
+    data: RepoQuestionPaging;
   };
 
   type userData = {

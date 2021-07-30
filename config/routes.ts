@@ -93,6 +93,13 @@ const examManage = {
       icon: 'smile',
     },
     {
+      path: '/examManage/questionList',
+      name: '试题管理',
+      component: 'examManage/questionList',
+      icon: 'smile',
+      hideInMenu: true,
+    },
+    {
       path: '/examManage/review',
       name: '阅卷管理',
       component: 'examManage/review',

@@ -1,7 +1,8 @@
 import { Button, Table, Collapse, Input, TreeSelect, Checkbox } from 'antd';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
-import { RepoManage } from '@/services/examManage';
+import { RepoManage, RepoUpdate } from '@/services/examManage';
+import { history } from 'umi';
 const { Panel } = Collapse;
 
 export default function Repo() {
@@ -11,7 +12,8 @@ export default function Repo() {
     size: 10,
     total: 1,
   });
-  const [RepoList, setRepoList] = useState<API.RepoManagePaging>();
+  const [repoManage, setRepoManage] = useState<API.RepoManage>();
+  const [repoList, setRepoList] = useState<API.RepoManagePaging>();
   const queryRepoList = async (current = page.current, size = page.size) => {
     try {
       const currentRepoList = await RepoManage({
@@ -35,6 +37,34 @@ export default function Repo() {
       console.log(error);
     }
   };
+
+  const [repo, setRepo] = useState<API.Repo>({
+    catId: '',
+    chapters: [],
+  });
+  const update = async (type: string = 'add') => {
+    let data;
+    switch (type) {
+      case 'add':
+        data = repo;
+        break;
+      case 'update':
+        if (!repoManage) return;
+        data = repoManage;
+        break;
+      default:
+        break;
+    }
+    try {
+      const updateResult = await RepoUpdate({
+        data: data,
+      });
+      if (updateResult.success) queryRepoList();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     queryRepoList();
   }, []);
@@ -74,10 +104,24 @@ export default function Repo() {
             <Button
               className="mx-1"
               onClick={() => {
-                console.log(record.id);
+                setRepoManage(record);
+                console.log(record);
               }}
             >
               修改
+            </Button>
+            <Button
+              className="mx-1"
+              onClick={() => {
+                history.push({
+                  pathname: '/examManage/questionList',
+                  query: {
+                    id: record.id || 'error',
+                  },
+                });
+              }}
+            >
+              编辑试题
             </Button>
             <Button
               danger
@@ -96,44 +140,139 @@ export default function Repo() {
 
   return (
     <div>
-      <div className="mb-2">
-        <Collapse className="w-96">
-          <Panel header="添加新的题库" key="1">
-            <div className="flex flex-wrap">
-              <div className={`w-96 p-2`}>
-                <Input onChange={(e) => {}} addonBefore="新题库名称" placeholder="输入名称" />
-              </div>
-              <div className={`w-96 p-2`}>
-                <TreeSelect
-                  disabled
-                  className="w-full"
-                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                  placeholder="题库分类"
-                  treeDefaultExpandAll
-                />
-              </div>
-              <div className={`w-96 p-2`}>
-                <Input onChange={(e) => {}} addonBefore="备注" placeholder="输入备注" />
+      <div className="mb-2 flex">
+        <div className="m-2">
+          <Collapse className="w-96">
+            <Panel header="添加新的题库" key="1">
+              <div className="flex flex-wrap">
+                <div className={`w-96 p-2`}>
+                  <Input
+                    onChange={(e) => {
+                      setRepo({ ...repo, title: e.target.value });
+                    }}
+                    addonBefore="新题库名称"
+                    placeholder="输入名称"
+                  />
+                </div>
+                <div className={`w-96 p-2`}>
+                  <TreeSelect
+                    disabled
+                    value={repoManage?.catId_dictText}
+                    className="w-full"
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    placeholder="题库分类"
+                    treeDefaultExpandAll
+                    onChange={(e) => {
+                      setRepo({ ...repo, chapters: [] });
+                    }}
+                  />
+                </div>
+                <div className={`w-96 p-2`}>
+                  <Input
+                    onChange={(e) => {
+                      setRepo({ ...repo, remark: e.target.value });
+                    }}
+                    addonBefore="备注"
+                    placeholder="输入备注"
+                  />
+                </div>
+                <div className="p-2">
+                  <Checkbox
+                    onChange={(e) => {
+                      setRepo({ ...repo, isExam: e.target.checked });
+                    }}
+                  >
+                    用于考试
+                  </Checkbox>
+                </div>
+                <div className="p-2">
+                  <Checkbox
+                    onChange={(e) => {
+                      setRepo({ ...repo, isTrain: e.target.checked });
+                    }}
+                  >
+                    用于训练
+                  </Checkbox>
+                </div>
               </div>
               <div className="p-2">
-                <Checkbox>用于考试</Checkbox>
+                <Button onClick={() => update('add')} className="w-full" type="primary">
+                  新增题库
+                </Button>
+              </div>
+            </Panel>
+          </Collapse>
+        </div>
+        <div className="m-2">
+          <Collapse className="w-96">
+            <Panel header="修改题库" key="1">
+              <div className="flex flex-wrap">
+                <div className={`w-96 p-2`}>
+                  <Input
+                    value={repoManage?.title}
+                    onChange={(e) => {
+                      setRepoManage({ ...repoManage, title: e.target.value });
+                    }}
+                    addonBefore="新题库名称"
+                    placeholder="输入名称"
+                  />
+                </div>
+                <div className={`w-96 p-2`}>
+                  <TreeSelect
+                    disabled
+                    className="w-full"
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    placeholder="题库分类"
+                    treeDefaultExpandAll
+                    onChange={(e) => {
+                      setRepoManage({ ...repoManage, chapters: [] });
+                    }}
+                  />
+                </div>
+                <div className={`w-96 p-2`}>
+                  <Input
+                    value={repoManage?.remark}
+                    onChange={(e) => {
+                      setRepoManage({ ...repoManage, remark: e.target.value });
+                    }}
+                    addonBefore="备注"
+                    placeholder="输入备注"
+                  />
+                </div>
+                <div className="p-2">
+                  <Checkbox
+                    checked={repoManage?.isExam}
+                    onChange={(e) => {
+                      setRepoManage({ ...repoManage, isExam: e.target.checked });
+                    }}
+                  >
+                    用于考试
+                  </Checkbox>
+                </div>
+                <div className="p-2">
+                  <Checkbox
+                    checked={repoManage?.isTrain}
+                    onChange={(e) => {
+                      setRepoManage({ ...repoManage, isTrain: e.target.checked });
+                    }}
+                  >
+                    用于训练
+                  </Checkbox>
+                </div>
               </div>
               <div className="p-2">
-                <Checkbox>用于训练</Checkbox>
+                <Button onClick={() => update('update')} className="w-full" type="primary">
+                  确认修改
+                </Button>
               </div>
-            </div>
-            <div className="p-2">
-              <Button className="w-full" type="primary">
-                新增题库
-              </Button>
-            </div>
-          </Panel>
-        </Collapse>
+            </Panel>
+          </Collapse>
+        </div>
       </div>
-      {RepoList && (
+      {repoList && (
         <Table
           columns={columns}
-          dataSource={RepoList.records}
+          dataSource={repoList.records}
           rowKey={'id'}
           pagination={{ defaultCurrent: page.current, total: page.total }}
         />
