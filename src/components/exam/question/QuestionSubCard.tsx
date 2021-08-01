@@ -3,7 +3,12 @@ import moment from 'moment';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-export default function (props: { totalTime: number; createdTime: string; useCamera?: boolean; fill: Function }) {
+export default function QuestionSubCard(props: {
+  totalTime: number;
+  createdTime: string;
+  useCamera?: boolean;
+  fill: Function;
+}) {
   const { selectNextQuestion } = useModel('useQuestionIndexModel');
 
   const calcTime = () => {

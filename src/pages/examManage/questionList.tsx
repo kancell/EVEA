@@ -1,13 +1,17 @@
-import { Button, Table, Tag, Space, message } from 'antd';
+import { Button, Table, Tag, Space, Collapse } from 'antd';
 import { useState, useEffect } from 'react';
 import { RepoQuestion } from '@/services/examManage';
+import QuestionAdd from '@/components/exam/question/QuestionAdd';
 import QuestionUpdate from '@/components/exam/question/QuestionUpdate';
 import { history, useLocation } from 'umi';
 import moment from 'moment';
 
+const { Panel } = Collapse;
+
 export default function question() {
   const location = useLocation();
   const queryLocationData = location as unknown as queryLocation;
+  const [questionAddShow, setQuestionAddShow] = useState(0);
   const [page, setPage] = useState({
     current: 1,
     pages: 1,
@@ -71,7 +75,7 @@ export default function question() {
       dataIndex: 'content',
       key: 'content',
       render: (text: unknown, record: API.RepoQuestion) => {
-        return <a className="truncate w-96 text-blue-500">{record.content}</a>;
+        return <div className="truncate w-96 cursor-pointer text-blue-500">{record.content}</div>;
       },
     },
     {
@@ -92,6 +96,14 @@ export default function question() {
   ];
   return (
     <>
+      <div className="my-2">
+        <Collapse activeKey={questionAddShow} onChange={() => setQuestionAddShow(questionAddShow === 0 ? 1 : 0)}>
+          <Panel header="添加新的试题" key={1}>
+            <QuestionAdd></QuestionAdd>
+          </Panel>
+        </Collapse>
+      </div>
+
       <Table
         columns={columns}
         dataSource={questionList?.records}

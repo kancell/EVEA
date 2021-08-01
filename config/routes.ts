@@ -87,10 +87,24 @@ const examManage = {
       hideInMenu: true,
     },
     {
+      path: '/examManage/paperAdd',
+      name: '新增试卷',
+      component: 'examManage/paperAdd',
+      icon: 'smile',
+      hideInMenu: true,
+    },
+    {
       path: '/examManage/repo',
       name: '题库管理',
       component: 'examManage/repo',
       icon: 'smile',
+    },
+    {
+      path: '/examManage/repoAddQuestion',
+      name: '新增试题',
+      component: 'examManage/repoAddQuestion',
+      icon: 'smile',
+      hideInMenu: true,
     },
     {
       path: '/examManage/questionList',

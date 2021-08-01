@@ -428,21 +428,22 @@ declare namespace API {
     data: UserStatisPaging;
   };
   type RepoQuestion = {
-    analysis: string;
-    chapterId_dictText: string;
-    content: string;
-    createTime: string;
-    deptCode: string;
-    id: string;
-    image: string;
-    level: string;
-    level_dictText: string;
-    quType: string;
-    quType_dictText: string;
-    remark: string;
-    repoId: string;
-    updateTime: string;
-    video: string;
+    analysis?: string;
+    chapterId?: string;
+    chapterId_dictText?: string;
+    content?: string;
+    createTime?: string;
+    deptCode?: string;
+    id?: string;
+    image?: string;
+    level?: string;
+    level_dictText?: string;
+    quType?: string;
+    quType_dictText?: string;
+    remark?: string;
+    repoId?: string;
+    updateTime?: string;
+    video?: string;
   };
   type RepoQuestionPaging = paging & {
     records: RepoQuestion[];

@@ -2,6 +2,7 @@ import { useLocation, useModel } from 'umi';
 import { PaperPreview } from '@/services/examManage';
 import QuestionSelectCard from '@/components/exam/question/QuestionSelectCard';
 import QuestionResolution from '@/components/exam/question/QuestionResolution';
+import QuestionConclision from '@/components/exam/question/QuestionConclusion';
 import { useEffect, useState } from 'react';
 import Loading from '@/components/loading/Loading';
 
@@ -50,11 +51,13 @@ export default function paperPreview() {
               {paperDetail.groupList.map((group, groupIndex) => {
                 return group.quList.map((question, questionIndex) => {
                   return (
-                    <QuestionResolution
-                      key={question.id}
-                      content={question}
-                      anchor={`#${groupIndex}${questionIndex}`}
-                    ></QuestionResolution>
+                    <>
+                      <QuestionResolution
+                        key={question.id}
+                        content={question}
+                        anchor={`#${groupIndex}${questionIndex}`}
+                      ></QuestionResolution>
+                    </>
                   );
                 });
               })}

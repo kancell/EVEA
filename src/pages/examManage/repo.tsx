@@ -42,13 +42,17 @@ export default function Repo() {
     catId: '',
     chapters: [],
   });
+  const [repoUpdateShow, setRepoUpdateShow] = useState(0);
+  const [repoAddShow, setRepoADDShow] = useState(0);
   const update = async (type: string = 'add') => {
     let data;
     switch (type) {
       case 'add':
+        setRepoADDShow(0);
         data = repo;
         break;
       case 'update':
+        setRepoUpdateShow(0);
         if (!repoManage) return;
         data = repoManage;
         break;
@@ -104,8 +108,8 @@ export default function Repo() {
             <Button
               className="mx-1"
               onClick={() => {
+                setRepoUpdateShow(1);
                 setRepoManage(record);
-                console.log(record);
               }}
             >
               修改
@@ -142,8 +146,8 @@ export default function Repo() {
     <div>
       <div className="mb-2 flex">
         <div className="m-2">
-          <Collapse className="w-96">
-            <Panel header="添加新的题库" key="1">
+          <Collapse className="w-96" activeKey={repoAddShow} onChange={() => setRepoADDShow(repoAddShow === 0 ? 1 : 0)}>
+            <Panel header="添加新的题库" key={1}>
               <div className="flex flex-wrap">
                 <div className={`w-96 p-2`}>
                   <Input
@@ -204,8 +208,12 @@ export default function Repo() {
           </Collapse>
         </div>
         <div className="m-2">
-          <Collapse className="w-96">
-            <Panel header="修改题库" key="1">
+          <Collapse
+            className="w-96"
+            activeKey={repoUpdateShow}
+            onChange={() => setRepoUpdateShow(repoUpdateShow === 0 ? 1 : 0)}
+          >
+            <Panel header="修改题库" key={1}>
               <div className="flex flex-wrap">
                 <div className={`w-96 p-2`}>
                   <Input

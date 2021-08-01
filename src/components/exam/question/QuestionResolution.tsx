@@ -18,19 +18,13 @@ export default function QuestionResolution(props: { content: API.Question; ancho
     <>
       {!props.content && <Loading />}
       {
-        <div className="max-w-full w-full px-8 py-4 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 mb-2 ">
+        <div className="max-w-full w-full px-8 py-4 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 mb-1 ">
           <div className="w-full flex text-sm font-medium text-gray-500 mb-2">
             <a id={props.anchor}></a>
             {/* 锚点，点击selectcard通过父组件触发scrollIntoView跳转 */}
-            <span className="bg-gray-200 px-2 py-1 rounded mr-2">{props.content.quType_dictText}</span>
-            <span className={`bg-gray-200 px-2 py-1 rounded ${checked.length === 0 ? 'hidden' : ''}`}>
-              我的答案：
-              {checked.map((item) => (
-                <Tag key={item} color="blue">
-                  {item}
-                </Tag>
-              ))}
-            </span>
+            <Tag color="blue" className="bg-gray-200 px-2 py-1 rounded mr-2">
+              {props.content.quType_dictText}
+            </Tag>
           </div>
           <div className="bg-blue-200 text-base font-semibold px-6 py-2 mb-4 rounded">
             <span>
@@ -48,7 +42,7 @@ export default function QuestionResolution(props: { content: API.Question; ancho
                   return (
                     <div
                       className={`text-sm font-semibold px-6 py-2 rounded-lg flex justify-between my-1 cursor-pointer border-2 border-solid border-opacity-0
-                    ${answer.isRight ? 'border-blue-600 border-opacity-80' : ''}`}
+                      ${answer.isRight ? 'border-blue-600 border-opacity-80' : ''}`}
                       key={answer.id}
                     >
                       <span>
@@ -61,11 +55,6 @@ export default function QuestionResolution(props: { content: API.Question; ancho
                   );
                 })
             }
-            {props.content.quType === '4' && (
-              <div className="text-sm font-semibold px-6 py-2">
-                我的回答：{props.content.answer === '' ? <Tag color="red">未作答</Tag> : props.content.answer}
-              </div>
-            )}
             {
               /* quType为5是填空题 */
               props.content.quType === '5' && (
@@ -76,11 +65,44 @@ export default function QuestionResolution(props: { content: API.Question; ancho
                       return <span className="px-1 mx-1 border-b">{answer.content}</span>;
                     })}
                   </div>
+                </div>
+              )
+            }
+          </div>
+          <>
+            {['1', '2', '3'].includes(props.content.quType) && (
+              <div className={`text-sm font-semibold px-6 py-2 my-1 rounded`}>
+                我的答案：
+                {checked.length === 0 ? (
+                  <Tag color="red">未作答</Tag>
+                ) : (
+                  <>
+                    {checked.map((item) => (
+                      <Tag key={item} color="blue">
+                        {item}
+                      </Tag>
+                    ))}
+                  </>
+                )}
+              </div>
+            )}
+            {
+              /* quType为4是简答题 */
+              props.content.quType === '4' && (
+                <div className="text-sm font-semibold px-6 py-2">
+                  我的回答：{props.content.answer === '' ? <Tag color="red">未作答</Tag> : props.content.answer}
+                </div>
+              )
+            }
+            {
+              /* quType为5是填空题 */
+              props.content.quType === '5' && (
+                <div className="min-w-48 text-sm font-semibold px-6 py-2 rounded-lg flex flex-col justify-between my-1 cursor-pointer border-opacity-0">
                   <div className="py-2">
                     我的答案：
                     {props.content.answerList.map((answer: API.Answer) => {
                       return (
-                        <span className="px-1 mx-1 border-b">
+                        <span className="px-1 mx-1 border-b" key={answer.answerId}>
                           {answer.answer === '' ? <Tag color="red">未作答</Tag> : answer.answer}
                         </span>
                       );
@@ -89,25 +111,7 @@ export default function QuestionResolution(props: { content: API.Question; ancho
                 </div>
               )
             }
-          </div>
-          <div className={`p-4 mt-2 ${props.content.quType === '4' ? 'hidden' : ''}`}>
-            <div className="text-base font-bold my-1">{props.content.isRight ? '回答正确' : '回答错误'}</div>
-            <div className="font-bold my-1">
-              题目满分：{props.content.score}，学员得分：{props.content.actualScore}
-            </div>
-            <div className="my-2">{props.content.analysis === undefined ? '该题目暂无解析' : props.content.analysis}</div>
-          </div>
-          <div className={`text-base font-bold rounded-lg p-4 mt-2 ${props.content.quType === '4' ? '' : 'hidden'}`}>
-            <div>{props.content.mark ? '已批阅' : '未批阅'}</div>
-            {props.content.mark && (
-              <>
-                <div>
-                  题目满分：{props.content.score}，学员得分{props.content.actualScore}
-                </div>
-                <div>{props.content.analysis === '' ? '该题目暂无解析' : props.content.analysis}</div>
-              </>
-            )}
-          </div>
+          </>
         </div>
       }
     </>

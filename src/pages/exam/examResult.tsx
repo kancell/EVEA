@@ -2,6 +2,7 @@ import { useLocation, useModel } from 'umi';
 import { examResult as examFinalResult } from '@/services/exam';
 import QuestionSelectCard from '@/components/exam/question/QuestionSelectCard';
 import QuestionResolution from '@/components/exam/question/QuestionResolution';
+import QuestionConclision from '@/components/exam/question/QuestionConclusion';
 import ThanksResult from '@/components/exam/result/ThanksResult';
 import ScoreResult from '@/components/exam/result/ScoreResult';
 import { useEffect, useState } from 'react';
@@ -68,11 +69,14 @@ export default function examResult() {
                 {examResult.groupList.map((group, groupIndex) => {
                   return group.quList.map((question, questionIndex) => {
                     return (
-                      <QuestionResolution
-                        key={question.id}
-                        content={question}
-                        anchor={`#${groupIndex}${questionIndex}`}
-                      ></QuestionResolution>
+                      <>
+                        <QuestionResolution
+                          key={question.id}
+                          content={question}
+                          anchor={`#${groupIndex}${questionIndex}`}
+                        ></QuestionResolution>
+                        <QuestionConclision key={question.id + 1} content={question}></QuestionConclision>
+                      </>
                     );
                   });
                 })}

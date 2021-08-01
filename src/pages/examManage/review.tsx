@@ -3,7 +3,7 @@ import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { paperReview } from '@/services/examManage';
 
-export default function Exam() {
+export default function Review() {
   const [page, setPage] = useState({
     current: 1,
     pages: 1,
