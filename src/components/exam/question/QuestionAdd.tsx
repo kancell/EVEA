@@ -1,18 +1,12 @@
-import { Button, Card, Input, Select, TreeSelect, Checkbox, Radio, Modal, Upload } from 'antd';
+import { Button, Card, Input, Select, TreeSelect, Checkbox, Radio, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { RepoQuestionAdd, RepoQuestionDetail } from '@/services/examManage';
 const { Option } = Select;
 
-export default function QuestionAdd() {
-  const [data, setDate] = useState<API.RepoQuestion>();
-
-  type answer = {
-    analysis: string;
-    content: string;
-    isRight: boolean;
-  }[];
-  const [answerList, setAnswerList] = useState<answer>([
+export default function QuestionAdd(props: { type?: string; id?: string; repoId?: string; refresh: Function }) {
+  const [answerList, setAnswerList] = useState<API.RepoAnswer[]>([
     {
       analysis: '',
       content: '',
@@ -24,6 +18,26 @@ export default function QuestionAdd() {
       isRight: false,
     },
   ]);
+  const [question, setQuestion] = useState<API.RepoQuestion>();
+  const InitQuestionData = async () => {
+    setQuestion({ ...question, tagList: [] });
+    props.repoId === undefined ? '' : setQuestion({ ...question, repoId: props.repoId });
+    console.log(props);
+    if (props.type === undefined || props.type === 'add') return;
+    try {
+      const result = await RepoQuestionDetail({
+        data: {
+          id: props.id,
+        },
+      });
+      setQuestion({ ...question, ...result.data });
+      setAnswerList(result.data.answerList !== undefined ? result.data.answerList : []);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    InitQuestionData();
+  }, []);
+
   const addAnswer = () => {
     setAnswerList([
       ...answerList,
@@ -34,6 +48,7 @@ export default function QuestionAdd() {
       },
     ]);
   };
+
   const updateAnswer = (index: number, key: string, value: string | boolean) => {
     let cache = [...answerList];
     key === 'content' && typeof value === 'string' ? (cache[index][key] = value) : '';
@@ -41,33 +56,57 @@ export default function QuestionAdd() {
     key === 'isRight' && typeof value === 'boolean' ? (cache[index][key] = value) : '';
     setAnswerList(cache);
   };
+
   const deleteAnswer = (index: number) => {
     let cache = [...answerList];
     cache.splice(index, 1);
     setAnswerList(cache);
   };
-  const sumbitAnswer = () => {
-    console.log(answerList);
+
+  const sumbitAnswer = async () => {
+    let cache = { ...question, answerList: answerList };
+    try {
+      const result = await RepoQuestionAdd({
+        data: cache,
+      });
+      props.refresh();
+      message.success(result.msg);
+    } catch (error) {}
   };
   return (
-    <div className="flex">
-      <div className="p-2 w-2/5">
+    <div className="flex flex-wrap">
+      <div className="p-2 w-2/3 justify-between flex-1">
         <Card size="small">
           <div className="flex justify-between flex-wrap">
             <div className="w-full p-4">
-              <Input value={data?.content} onChange={(e) => {}} addonBefore="试题内容" placeholder="输入试题内容" />
+              <Input
+                value={question?.content}
+                onChange={(e) => {
+                  setQuestion({ ...question, content: e.target.value });
+                }}
+                addonBefore="试题内容"
+                placeholder="输入试题内容"
+              />
             </div>
             <div className="w-full p-4">
-              <Input value={data?.analysis} onChange={(e) => {}} addonBefore="试题解析" placeholder="输入试题解析" />
+              <Input
+                value={question?.analysis}
+                onChange={(e) => {
+                  setQuestion({ ...question, analysis: e.target.value });
+                }}
+                addonBefore="试题解析"
+                placeholder="输入试题解析"
+              />
             </div>
             <div className="w-96 p-4">
               {/* 更改为服务器接收选项 */}
               <span className="mx-2">试题类型</span>
               <Select
+                disabled={props.type === 'update'}
                 onChange={(value) => {
-                  setDate({ ...data, quType: value });
+                  setQuestion({ ...question, quType: value });
                 }}
-                value={data?.quType}
+                value={question?.quType}
                 className="w-3/4"
               >
                 <Option value="1">单选</Option>
@@ -80,7 +119,13 @@ export default function QuestionAdd() {
             <div className="w-96 p-4">
               {/* 更改为服务器接收选项 */}
               <span className="mx-2">试题难度</span>
-              <Select onChange={(value) => {}} value={data?.level} className="w-3/4">
+              <Select
+                onChange={(value) => {
+                  setQuestion({ ...question, level: value });
+                }}
+                value={question?.level}
+                className="w-3/4"
+              >
                 <Option value="1">简单</Option>
                 <Option value="2">一般</Option>
                 <Option value="3">较难</Option>
@@ -90,28 +135,58 @@ export default function QuestionAdd() {
             <div className="w-96 p-4">
               {/* 更改为服务器接收选项 */}
               <span className="mx-2">所属章节</span>
-              <Select disabled onChange={(value) => {}} value={data?.chapterId} className="w-3/4">
-                <Option value={`${data?.chapterId}`}>{data?.chapterId_dictText}</Option>
+              <Select
+                disabled
+                onChange={(value) => {
+                  setQuestion({ ...question, chapterId: value });
+                }}
+                value={question?.chapterId}
+                className="w-3/4"
+              >
+                <Option value={`${question?.chapterId}`}>{question?.chapterId_dictText}</Option>
               </Select>
             </div>
             <div className="w-96 p-4">
-              <Upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76" listType="picture" defaultFileList={[]}>
-                <Button icon={<UploadOutlined />}>上传图片</Button>
+              <Upload
+                action="http://localhost:8101/common/api/file/upload"
+                withCredentials={true}
+                listType="picture"
+                defaultFileList={[]}
+              >
+                <Button className="w-64" type="primary" icon={<UploadOutlined />}>
+                  上传图片
+                </Button>
               </Upload>
             </div>
           </div>
         </Card>
       </div>
+      <div className={`p-2 w-96 ${props.type === 'update' ? 'hidden' : ''}`}>
+        <Card>
+          <Button className="w-full m-2" onClick={() => sumbitAnswer()}>
+            下载试题导入模板
+          </Button>
+          <Button className="w-full m-2" onClick={() => sumbitAnswer()}>
+            试题导入
+          </Button>
+          <Button className="w-full m-2" onClick={() => sumbitAnswer()}>
+            试题导出
+          </Button>
+          <Button className="w-full m-2" type="primary" onClick={() => sumbitAnswer()}>
+            提交
+          </Button>
+        </Card>
+      </div>
       {
         /* 5为填空题，无法设置分析，不合理 */
-        data?.quType && ['1', '2'].includes(data.quType) && (
-          <div className="p-2 w-2/5">
+        question?.quType && ['1', '2'].includes(question.quType) && (
+          <div className="p-2 w-full">
             <Card>
               <Button onClick={() => addAnswer()} type="primary" className="my-2">
                 增加选项
               </Button>
               {answerList.map((item, index) => (
-                <div className="flex my-3" key={index}>
+                <div className="flex my-4" key={index}>
                   <Button className="flex w-1/5">
                     <span className="mr-1">是否为答案</span>
                     <Checkbox onChange={(e) => updateAnswer(index, 'isRight', e.target.checked)} checked={item.isRight} />
@@ -139,11 +214,11 @@ export default function QuestionAdd() {
           </div>
         )
       }
-      {data?.quType && data.quType === '3' && (
-        <div className="p-2 w-2/5">
+      {question?.quType && question.quType === '3' && (
+        <div className="p-2 w-full">
           <Card>
             {answerList.map((item, index) => (
-              <div className="flex my-3" key={index}>
+              <div className="flex my-4" key={index}>
                 <Button className="flex w-1/5">
                   <span className="mr-1">是否为答案</span>
                   <Checkbox onChange={(e) => updateAnswer(index, 'isRight', e.target.checked)} checked={item.isRight} />
@@ -167,16 +242,16 @@ export default function QuestionAdd() {
           </Card>
         </div>
       )}
-      {data?.quType && data.quType === '5' && (
-        <div className="p-2 w-2/5">
+      {question?.quType && question.quType === '5' && (
+        <div className="p-2 w-full">
           <Card>
             {answerList.map((item, index) => (
-              <div className="flex my-3" key={index}>
+              <div className="flex my-4" key={index}>
                 <Button className="flex w-1/5">
                   <span className="mr-1">是否为答案</span>
                   <Checkbox onChange={(e) => updateAnswer(index, 'isRight', e.target.checked)} checked={item.isRight} />
                 </Button>
-                <div className="w-2/5 mx-2">
+                <div className="w-4/5 mx-2">
                   <Input
                     addonBefore="选项内容"
                     value={item.content}
@@ -191,22 +266,6 @@ export default function QuestionAdd() {
           </Card>
         </div>
       )}
-      <div className="p-2 w-1/5">
-        <Card>
-          <Button className="w-full m-2" onClick={() => sumbitAnswer()}>
-            下载试题导入模板
-          </Button>
-          <Button className="w-full m-2" onClick={() => sumbitAnswer()}>
-            试题导入
-          </Button>
-          <Button className="w-full m-2" onClick={() => sumbitAnswer()}>
-            试题导出
-          </Button>
-          <Button className="w-full m-2" type="primary" onClick={() => sumbitAnswer()}>
-            提交
-          </Button>
-        </Card>
-      </div>
     </div>
   );
 }

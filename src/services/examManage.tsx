@@ -89,6 +89,20 @@ export async function RepoQuestion(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+/* 更新或新增试题 http://localhost:8101/exam/api/qu/qu/save */
+export async function RepoQuestionAdd(options?: { [key: string]: any }) {
+  return request<API.httpRespone>('/exam/api/qu/qu/save', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+/* 试题详情 http://localhost:8101/exam/api/qu/qu/detail */
+export async function RepoQuestionDetail(options?: { [key: string]: any }) {
+  return request<API.WarpRepoQuestion>('/exam/api/qu/qu/detail', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
 
 /* 管理端获取需阅卷试卷 http://localhost:8101/exam/api/exam/exam/review-paging */
 export async function paperReview(options?: { [key: string]: any }) {

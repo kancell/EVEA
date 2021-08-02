@@ -427,8 +427,19 @@ declare namespace API {
   type WarpUserStatisPaging = httpRespone & {
     data: UserStatisPaging;
   };
+
+  type RepoAnswer = {
+    analysis?: string;
+    content?: string;
+    id?: string;
+    image?: string;
+    isRight?: boolean;
+    quId?: string;
+    tag?: string;
+  };
   type RepoQuestion = {
     analysis?: string;
+    answerList?: RepoAnswer[];
     chapterId?: string;
     chapterId_dictText?: string;
     content?: string;
@@ -444,6 +455,10 @@ declare namespace API {
     repoId?: string;
     updateTime?: string;
     video?: string;
+    tagList?: unknown;
+  };
+  type WarpRepoQuestion = httpRespone & {
+    data: RepoQuestion;
   };
   type RepoQuestionPaging = paging & {
     records: RepoQuestion[];

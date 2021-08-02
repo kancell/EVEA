@@ -99,7 +99,7 @@ export default function question() {
       <div className="my-2">
         <Collapse activeKey={questionAddShow} onChange={() => setQuestionAddShow(questionAddShow === 0 ? 1 : 0)}>
           <Panel header="添加新的试题" key={1}>
-            <QuestionAdd></QuestionAdd>
+            <QuestionAdd type="add" repoId={queryLocationData?.query?.id} refresh={getQuestionList}></QuestionAdd>
           </Panel>
         </Collapse>
       </div>
@@ -109,7 +109,9 @@ export default function question() {
         dataSource={questionList?.records}
         expandable={{
           expandRowByClick: true,
-          expandedRowRender: (record) => <QuestionUpdate data={record}></QuestionUpdate>,
+          expandedRowRender: (record) => (
+            <QuestionAdd type="update" id={record.id} repoId={record.repoId} refresh={getQuestionList}></QuestionAdd>
+          ),
           rowExpandable: (record) => true,
         }}
         rowKey={'id'}
