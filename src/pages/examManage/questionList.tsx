@@ -2,10 +2,9 @@ import { Button, Table, Tag, Space, Collapse } from 'antd';
 import { useState, useEffect } from 'react';
 import { RepoQuestion } from '@/services/examManage';
 import QuestionAdd from '@/components/exam/question/QuestionAdd';
-import QuestionUpdate from '@/components/exam/question/QuestionUpdate';
 import { history, useLocation } from 'umi';
 import moment from 'moment';
-
+import '@/style/questionadd.css';
 const { Panel } = Collapse;
 
 export default function question() {
@@ -40,7 +39,9 @@ export default function question() {
         total: questionList.data.total,
       });
       setQuestionList(questionList.data);
-      console.log(questionList.data);
+
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
     } catch (error) {
       console.log(error);
     }
@@ -113,6 +114,9 @@ export default function question() {
             <QuestionAdd type="update" id={record.id} repoId={record.repoId} refresh={getQuestionList}></QuestionAdd>
           ),
           rowExpandable: (record) => true,
+          expandedRowClassName: (record, index, indent): string => {
+            return 'bg-gray-200';
+          },
         }}
         rowKey={'id'}
         pagination={{ defaultCurrent: page.current, total: page.total }}

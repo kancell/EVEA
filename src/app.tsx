@@ -7,7 +7,7 @@ import { history } from 'umi';
 import type { RequestConfig } from 'umi';
 import type { BasicLayoutProps } from '@ant-design/pro-layout';
 
-import './style.css';
+import './style/style.css';
 
 let runTimeToken: string = '';
 const loginPath = '/user/login';

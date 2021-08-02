@@ -1,0 +1,6 @@
+.ant-table-cell {
+  background: none;
+}
+tr.ant-table-expanded-row > td, tr.ant-table-expanded-row:hover > td {
+  background: none;
+}

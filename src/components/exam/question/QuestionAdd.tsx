@@ -22,7 +22,6 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
   const InitQuestionData = async () => {
     setQuestion({ ...question, tagList: [] });
     props.repoId === undefined ? '' : setQuestion({ ...question, repoId: props.repoId });
-    console.log(props);
     if (props.type === undefined || props.type === 'add') return;
     try {
       const result = await RepoQuestionDetail({
@@ -75,7 +74,7 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
   };
   return (
     <div className="flex flex-wrap">
-      <div className="p-2 w-2/3 justify-between flex-1">
+      <div className={`p-2 justify-between ${props.type === 'update' ? 'w-full' : 'w-2/3'}`}>
         <Card size="small">
           <div className="flex justify-between flex-wrap">
             <div className="w-full p-4">
@@ -153,7 +152,7 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
                 listType="picture"
                 defaultFileList={[]}
               >
-                <Button className="w-64" type="primary" icon={<UploadOutlined />}>
+                <Button className="w-48" icon={<UploadOutlined />}>
                   上传图片
                 </Button>
               </Upload>
@@ -161,8 +160,8 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
           </div>
         </Card>
       </div>
-      <div className={`p-2 w-96 ${props.type === 'update' ? 'hidden' : ''}`}>
-        <Card>
+      <div className="p-2 w-96">
+        <Card className={`${props.type === 'update' ? 'hidden' : ''}`}>
           <Button className="w-full m-2" onClick={() => sumbitAnswer()}>
             下载试题导入模板
           </Button>
@@ -171,9 +170,6 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
           </Button>
           <Button className="w-full m-2" onClick={() => sumbitAnswer()}>
             试题导出
-          </Button>
-          <Button className="w-full m-2" type="primary" onClick={() => sumbitAnswer()}>
-            提交
           </Button>
         </Card>
       </div>
@@ -266,6 +262,11 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
           </Card>
         </div>
       )}
+      <div className="w-full">
+        <Button className="w-96 m-2" size="large" type="primary" onClick={() => sumbitAnswer()}>
+          提交
+        </Button>
+      </div>
     </div>
   );
 }
