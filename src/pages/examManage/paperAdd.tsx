@@ -23,11 +23,12 @@ export default function PaperAdd() {
   };
   const [paper, setPaper] = useState<Upload>();
   const [nowSelectQuestionType, setNowSelectQuestionType] = useState('1');
+  const [nowPaperSelectType, setNowPaperSelectType] = useState('1');
 
   return (
     <>
       <Drawer title="添加试题组" placement="right" closable={false} width={'61.8%'} onClose={onClose} visible={visible}>
-        <PaperSelect questionType={nowSelectQuestionType}></PaperSelect>
+        <PaperSelect questionType={nowSelectQuestionType} paperSelectType={nowPaperSelectType}></PaperSelect>
       </Drawer>
       <Card title="新增试卷">
         <Form>
@@ -73,6 +74,22 @@ export default function PaperAdd() {
                     保存试卷
                   </Button>
                 </Form.Item>
+              </div>
+              <div className="w-full my-3 flex justify-between">
+                <div className="w-full">
+                  <Select
+                    onChange={(value) => {
+                      setNowPaperSelectType(value);
+                    }}
+                    disabled
+                    className="w-full"
+                    defaultValue={nowPaperSelectType}
+                  >
+                    <Option value="1">抽题组卷</Option>
+                    <Option value="2">选题组卷</Option>
+                    <Option value="3">随机组卷</Option>
+                  </Select>
+                </div>
               </div>
               <div className="w-full my-3 flex justify-between">
                 <div className="w-1/2">

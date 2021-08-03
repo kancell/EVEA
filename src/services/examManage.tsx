@@ -82,6 +82,15 @@ export async function RepoDetail(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+
+/* 题库内各类型试题数量 http://localhost:8101/exam/api/repo/chapter-group */
+export async function RepoChapterGroup(options?: { [key: string]: any }) {
+  return request<API.WarpChapterGroup>('/exam/api/repo/chapter-group', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
 /* 获取试题列表 http://localhost:8101/exam/api/qu/qu/paging */
 export async function RepoQuestion(options?: { [key: string]: any }) {
   return request<API.WarpRepoQuestionPaging>('/exam/api/qu/qu/paging', {

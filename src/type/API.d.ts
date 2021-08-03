@@ -144,11 +144,20 @@ declare namespace API {
   type WarpQuestion = httpRespone & {
     data: Question;
   };
+
   type ChapterGroup = {
-    excludes: string[];
-    groups: unknown[];
+    chapterId: string;
+    levels: {
+      level: string;
+      quCount: number;
+      title: string;
+    }[];
     quType: string;
     repoId: string;
+    title: string;
+  };
+  type WarpChapterGroup = httpRespone & {
+    data: ChapterGroup[];
   };
   type QuestionGroup = {
     id: string;
