@@ -1,3 +1,4 @@
+/* 答题卡，显示考试题目列表与状态 */
 import Loading from '@/components/loading/Loading';
 import { useEffect } from 'react';
 import { useState } from 'react';

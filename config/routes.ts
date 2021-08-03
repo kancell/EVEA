@@ -73,6 +73,12 @@ const examManage = {
       icon: 'smile',
     },
     {
+      path: '/examManage/paper/add',
+      name: '试卷添加',
+      component: 'examManage/paperAdd',
+      hideInMenu: true,
+    },
+    {
       path: '/examManage/paperPreview',
       name: '试卷预览',
       component: 'examManage/paperPreview',
@@ -83,13 +89,6 @@ const examManage = {
       path: '/examManage/paperUpdate',
       name: '试卷修改',
       component: 'examManage/paperUpdate',
-      icon: 'smile',
-      hideInMenu: true,
-    },
-    {
-      path: '/examManage/paperAdd',
-      name: '新增试卷',
-      component: 'examManage/paperAdd',
       icon: 'smile',
       hideInMenu: true,
     },

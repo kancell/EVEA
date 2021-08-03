@@ -48,19 +48,21 @@ export default function paperPreview() {
         <div className="w-full h-full max-h-full overflow-auto">
           <div className="grid grid-flow-row grid-cols-4 xl:grid-cols-6 grid-rows-1 gap-4 ">
             <div className="col-span-5">
-              {paperDetail.groupList.map((group, groupIndex) => {
-                return group.quList.map((question, questionIndex) => {
-                  return (
-                    <>
-                      <QuestionResolution
-                        key={question.id}
-                        content={question}
-                        anchor={`#${groupIndex}${questionIndex}`}
-                      ></QuestionResolution>
-                    </>
-                  );
-                });
-              })}
+              {paperDetail.groupList.map((group, groupIndex) => (
+                <div key={groupIndex}>
+                  {group.quList.map((question, questionIndex) => {
+                    return (
+                      <>
+                        <QuestionResolution
+                          key={question.id}
+                          content={question}
+                          anchor={`#${groupIndex}${questionIndex}`}
+                        ></QuestionResolution>
+                      </>
+                    );
+                  })}
+                </div>
+              ))}
             </div>
             <QuestionSelectCard
               type={'result'}

@@ -144,7 +144,12 @@ declare namespace API {
   type WarpQuestion = httpRespone & {
     data: Question;
   };
-
+  type ChapterGroup = {
+    excludes: string[];
+    groups: unknown[];
+    quType: string;
+    repoId: string;
+  };
   type QuestionGroup = {
     id: string;
     itemRand: boolean;
@@ -159,6 +164,7 @@ declare namespace API {
     title: string;
     totalScore: number;
     quList: Question[];
+    anchor?: string;
   };
   type PaperDetail = {
     actionInterval: number;

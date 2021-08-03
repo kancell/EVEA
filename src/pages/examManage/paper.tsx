@@ -1,4 +1,5 @@
 import { Button, Table } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { PaperManage } from '@/services/examManage';
@@ -113,6 +114,7 @@ export default function Paper() {
               预览
             </Button>
             <Button
+              type="primary"
               className="mx-1"
               onClick={() => {
                 history.push({
@@ -138,7 +140,14 @@ export default function Paper() {
   return (
     <div>
       <div className="bg-white p-2 mb-2">
-        <Button type="primary" shape="round">
+        <Button
+          onClick={() => {
+            history.push('/examManage/paper/add');
+          }}
+          icon={<PlusOutlined />}
+          type="primary"
+          shape="round"
+        >
           添加新的试卷
         </Button>
       </div>

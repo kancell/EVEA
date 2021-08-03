@@ -1,6 +1,7 @@
+/* 以列表形式显示的问题解析与得分部分 */
 export default function QuestionConclision(props: { content: API.Question }) {
   return (
-    <div className="bg-white mb-4">
+    <div className="bg-white mb-6 -mt-1">
       <div className={`p-4 mt-2 ${props.content.quType === '4' ? 'hidden' : ''}`}>
         <div className="text-base font-bold my-1">{props.content.isRight ? '回答正确' : '回答错误'}</div>
         <div className="font-bold my-1">

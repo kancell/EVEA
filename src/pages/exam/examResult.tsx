@@ -75,7 +75,7 @@ export default function examResult() {
                           content={question}
                           anchor={`#${groupIndex}${questionIndex}`}
                         ></QuestionResolution>
-                        <QuestionConclision key={question.id + 1} content={question}></QuestionConclision>
+                        <QuestionConclision key={question.id} content={question}></QuestionConclision>
                       </>
                     );
                   });

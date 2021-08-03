@@ -1,3 +1,4 @@
+/* 以列表形式显示的问题内容与选项部分 */
 import Loading from '@/components/loading/Loading';
 import { useEffect, useState } from 'react';
 import { Tag } from 'antd';
@@ -18,7 +19,7 @@ export default function QuestionResolution(props: { content: API.Question; ancho
     <>
       {!props.content && <Loading />}
       {
-        <div className="max-w-full w-full px-8 py-4 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 mb-1 ">
+        <div className="max-w-full w-full px-8 py-4 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 mb-2 ">
           <div className="w-full flex text-sm font-medium text-gray-500 mb-2">
             <a id={props.anchor}></a>
             {/* 锚点，点击selectcard通过父组件触发scrollIntoView跳转 */}

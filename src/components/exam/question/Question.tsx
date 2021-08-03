@@ -1,4 +1,4 @@
-/* 试题显示主界面 */
+/* 试题显示主界面，以全屏形式显示的问题内容与选项 */
 import Loading from '@/components/loading/Loading';
 import { fillAnswer } from '@/services/exam';
 import { useEffect, useState } from 'react';

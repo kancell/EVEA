@@ -39,12 +39,14 @@ export default function question() {
         total: questionList.data.total,
       });
       setQuestionList(questionList.data);
-
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
     } catch (error) {
       console.log(error);
     }
+  };
+  const refreshQuestionList = () => {
+    getQuestionList();
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   };
   useEffect(() => {
     getQuestionList();
@@ -100,7 +102,7 @@ export default function question() {
       <div className="my-2">
         <Collapse activeKey={questionAddShow} onChange={() => setQuestionAddShow(questionAddShow === 0 ? 1 : 0)}>
           <Panel header="添加新的试题" key={1}>
-            <QuestionAdd type="add" repoId={queryLocationData?.query?.id} refresh={getQuestionList}></QuestionAdd>
+            <QuestionAdd type="add" repoId={queryLocationData?.query?.id} refresh={refreshQuestionList}></QuestionAdd>
           </Panel>
         </Collapse>
       </div>
@@ -111,7 +113,7 @@ export default function question() {
         expandable={{
           expandRowByClick: true,
           expandedRowRender: (record) => (
-            <QuestionAdd type="update" id={record.id} repoId={record.repoId} refresh={getQuestionList}></QuestionAdd>
+            <QuestionAdd type="update" id={record.id} repoId={record.repoId} refresh={refreshQuestionList}></QuestionAdd>
           ),
           rowExpandable: (record) => true,
           expandedRowClassName: (record, index, indent): string => {
