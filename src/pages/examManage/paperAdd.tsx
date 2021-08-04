@@ -1,6 +1,8 @@
 import { Button, Card, Input, Select, Form, Drawer, Radio, Modal, message } from 'antd';
 import { useState, useEffect } from 'react';
 import PaperSelect from '@/components/exam/paper/PaperSelect';
+import { useModel } from 'umi';
+
 const { Option } = Select;
 
 type Upload = {
@@ -14,6 +16,7 @@ type Upload = {
 };
 
 export default function PaperAdd() {
+  const { questionList, setQuestionList } = useModel('usePaperGenerate');
   const [visible, setVisible] = useState(false);
   const showDrawer = () => {
     setVisible(true);
@@ -91,7 +94,7 @@ export default function PaperAdd() {
                   </Select>
                 </div>
               </div>
-              <div className="w-full my-3 flex justify-between">
+              <div className="w-full my-3 flex flex-wrap justify-between">
                 <div className="w-1/2">
                   <Select
                     onChange={(value) => {
@@ -107,7 +110,7 @@ export default function PaperAdd() {
                     <Option value="5">填空题</Option>
                   </Select>
                 </div>
-                <Button type="primary" className="w-1/3" onClick={() => showDrawer()}>
+                <Button type="primary" className="w-24" onClick={() => showDrawer()}>
                   添加试题组
                 </Button>
               </div>

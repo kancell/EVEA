@@ -1,24 +1,17 @@
 /* 选题抽屉 */
-import { RepoManage, RepoChapterGroup } from '@/services/examManage';
+import { RepoManage } from '@/services/examManage';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
-import InputNumber from '@/components/common/InputNumber';
+import SelectRow from '@/components/exam/paper/SelectRow';
 import { Button, Card, Input, Select, Form, DatePicker, Radio, Modal, Table } from 'antd';
 
 const { Option } = Select;
-
-type ChapterGroupParams = {
-  excludes?: string[];
-  groups?: unknown[];
-  quType?: string;
-  repoId?: string;
-};
 
 export default function PaperSelect(props: { questionType?: string; paperSelectType?: string }) {
   const [page, setPage] = useState({
     current: 1,
     pages: 1,
-    size: 10,
+    size: 4,
     total: 1,
   });
   const [repoManage, setRepoManage] = useState<API.RepoManage>();
@@ -48,19 +41,9 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
     }
   };
 
-  const [chapterGroup, setChapterGroup] = useState<API.ChapterGroup[]>();
-  const queryQuestionSum = async (data: ChapterGroupParams) => {
-    try {
-      const result = await RepoChapterGroup({
-        data: data,
-      });
-      setChapterGroup(result.data);
-    } catch (error) {}
-  };
-
   useEffect(() => {
     queryRepoList();
-  }, []);
+  }, [props.paperSelectType, props.questionType]);
 
   const columns = [
     {
@@ -69,24 +52,17 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
       key: 'title',
     },
     {
+      title: '试题数量',
+      dataIndex: 'quCount',
+      key: 'quCount',
+    },
+    {
       title: '操作',
       key: 'update',
       render: (text: unknown, record: API.RepoManage) => {
         return (
           <>
-            <Button
-              type="primary"
-              className="mx-1"
-              onClick={() => {
-                let params: ChapterGroupParams = {
-                  excludes: [],
-                  groups: [],
-                  quType: props.questionType,
-                  repoId: record.id,
-                };
-                queryQuestionSum(params);
-              }}
-            >
+            <Button type="primary" className="mx-1">
               选定
             </Button>
           </>
@@ -94,53 +70,48 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
       },
     },
   ];
-  const [qq, setqq] = useState(0);
+
   return (
     <div className="flex flex-col">
-      <div className="flex">
-        <div className="w-48 mx-4">
-          <div className="mb-2">
-            <Select disabled className="w-full" defaultValue={props.questionType}>
-              <Option value="1">单选题</Option>
-              <Option value="2">多选题</Option>
-              <Option value="3">判断题</Option>
-              <Option value="4">简答题</Option>
-              <Option value="5">填空题</Option>
-            </Select>
-          </div>
-          <div className="mb-2">
-            <Select disabled className="w-full" defaultValue={props.paperSelectType}>
-              <Option value="1">抽题组卷</Option>
-              <Option value="2">选题组卷</Option>
-              <Option value="3">随机组卷</Option>
-            </Select>
-          </div>
+      <div className="w-full mx-4 flex">
+        <div className="w-64">
+          <Select disabled className="w-64 w-64" value={props.questionType}>
+            <Option value="1">单选题</Option>
+            <Option value="2">多选题</Option>
+            <Option value="3">判断题</Option>
+            <Option value="4">简答题</Option>
+            <Option value="5">填空题</Option>
+          </Select>
         </div>
-        <div className="flex-grow">
-          {repoList && (
-            <Table
-              size="small"
-              bordered
-              columns={columns}
-              dataSource={repoList.records}
-              rowKey={'id'}
-              pagination={{ defaultCurrent: page.current, total: page.total }}
-            />
-          )}
+        <div className="ml-2 w-64">
+          <Select disabled className="w-64" value={props.paperSelectType}>
+            <Option value="1">抽题组卷</Option>
+            <Option value="2">选题组卷</Option>
+            <Option value="3">随机组卷</Option>
+          </Select>
         </div>
       </div>
-      <InputNumber value={qq} onChange={(value: number) => setqq(value)}></InputNumber>
-      <div>
-        <Button
-          onClick={() => {
-            console.log(1);
-            console.log(qq);
-          }}
-          type="primary"
-        >
-          提交
-        </Button>
-      </div>
+      <Card>
+        <div className="flex">
+          <div className="flex-grow">
+            {repoList && (
+              <Table
+                size="small"
+                bordered
+                columns={columns}
+                dataSource={repoList.records}
+                rowKey={'id'}
+                expandable={{
+                  expandRowByClick: true,
+                  expandedRowRender: (record) => <SelectRow questionType={props.questionType} repoId={record.id}></SelectRow>,
+                  rowExpandable: (record) => true,
+                }}
+                pagination={{ defaultCurrent: page.current, total: page.total }}
+              />
+            )}
+          </div>
+        </div>
+      </Card>
     </div>
   );
 }

@@ -1,11 +1,18 @@
 import { Input } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 export default function InputNumber(props: { value: number; onChange?: Function }) {
   const [value, setValue] = useState(props.value | 0);
+  useEffect(() => {
+    if (props.onChange) {
+      props.onChange(value);
+    }
+  }, [value]);
   return (
     <Input
+      type="number"
       addonBefore={
         <MinusOutlined
           onClick={() => {
@@ -22,9 +29,7 @@ export default function InputNumber(props: { value: number; onChange?: Function 
       }
       value={value}
       onChange={(e) => {
-        console.log(value);
-        if (!props.onChange) return;
-        props.onChange(e.target.value);
+        setValue(e.target.value as unknown as number);
       }}
     />
   );

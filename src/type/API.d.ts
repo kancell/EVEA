@@ -151,6 +151,7 @@ declare namespace API {
       level: string;
       quCount: number;
       title: string;
+      num?: number;
     }[];
     quType: string;
     repoId: string;

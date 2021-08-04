@@ -145,7 +145,7 @@ export default function Repo() {
   return (
     <div>
       <div className="mb-2 flex">
-        <div className="m-2">
+        <div className="my-2">
           <Collapse className="w-96" activeKey={repoAddShow} onChange={() => setRepoADDShow(repoAddShow === 0 ? 1 : 0)}>
             <Panel header="添加新的题库" key={1}>
               <div className="flex flex-wrap">
@@ -207,7 +207,7 @@ export default function Repo() {
             </Panel>
           </Collapse>
         </div>
-        <div className="m-2">
+        <div className="my-2 ml-2">
           <Collapse
             className="w-96"
             activeKey={repoUpdateShow}
