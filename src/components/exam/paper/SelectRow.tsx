@@ -1,7 +1,8 @@
 import InputNumber from '@/components/common/InputNumber';
 import { RepoChapterGroup, RepoChapterGroupAdd } from '@/services/examManage';
-import { Button, Card, Input, Select, Form, DatePicker, Radio, Modal, Table } from 'antd';
+import { Button, Card } from 'antd';
 import { useState, useEffect } from 'react';
+import { useModel } from 'umi';
 
 type ChapterGroupParams = {
   excludes?: string[];
@@ -11,6 +12,8 @@ type ChapterGroupParams = {
 };
 
 export default function SelectRow(props: { questionType?: string; repoId?: string }) {
+  const { questionList, setQuestionList } = useModel('usePaperGenerate');
+
   const [chapterGroup, setChapterGroup] = useState<API.ChapterGroup[]>();
   const [selectParams, setSelectParams] = useState<API.ChapterGroup[]>();
   const queryQuestionSum = async (data: ChapterGroupParams) => {
@@ -39,7 +42,7 @@ export default function SelectRow(props: { questionType?: string; repoId?: strin
     cache.num = value;
     setSelectParams(cacheSelectParams);
   };
-  const submitSelectParams = () => {
+  const submitSelectParams = async () => {
     selectParams?.forEach((chapter) => {
       chapter.levels.forEach((level) => {
         level.num === undefined ? (level.num = 0) : '';
@@ -49,10 +52,30 @@ export default function SelectRow(props: { questionType?: string; repoId?: strin
       items: selectParams,
     };
     try {
-      const result = RepoChapterGroupAdd({
+      const result = await RepoChapterGroupAdd({
         data: data,
       });
-      console.log(result);
+
+      let replace: API.RepoQuestionGroupList = {
+        anchor: 0,
+        title: result.data[0].quType_dictText,
+        quType: '1',
+        quCount: 1,
+        totalScore: 1,
+        perScore: 1,
+        quRand: false,
+        itemRand: false,
+        strictSort: 0,
+        pathScore: false,
+        quList: [...result.data],
+      };
+      let groupList = questionList?.groupList;
+      if (groupList === undefined) {
+        groupList = [replace];
+      } else {
+        groupList.push(replace);
+      }
+      setQuestionList({ ...questionList, groupList: groupList });
     } catch (error) {}
   };
 

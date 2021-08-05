@@ -3,7 +3,7 @@ import Loading from '@/components/loading/Loading';
 import { useEffect, useState } from 'react';
 import { Tag } from 'antd';
 
-export default function QuestionResolution(props: { content: API.Question; anchor: string; type?: string }) {
+export default function QuestionResolution(props: { content: API.Question; anchor?: string; type?: string }) {
   const [checked, setChecked] = useState<string[]>([]);
   useEffect(() => {
     const checkArr: string[] = [];
@@ -55,6 +55,19 @@ export default function QuestionResolution(props: { content: API.Question; ancho
                     </div>
                   );
                 })
+            }
+            {
+              /* quType为5是填空题 */
+              props.content.quType === '5' && (
+                <div className="min-w-48 text-sm font-semibold px-6 py-2 rounded-lg flex flex-col justify-between my-1 cursor-pointer border-opacity-0">
+                  <div className="py-2">
+                    正确答案：
+                    {props.content.answerList.map((answer: API.Answer) => {
+                      return <span className="px-1 mx-1 border-b">{answer.content}</span>;
+                    })}
+                  </div>
+                </div>
+              )
             }
             {
               /* quType为5是填空题 */

@@ -121,6 +121,7 @@ declare namespace API {
     quId: string;
     sort: number;
   };
+
   type Question = {
     actualScore: number;
     analysis: string | undefined;
@@ -161,7 +162,7 @@ declare namespace API {
     data: ChapterGroup[];
   };
   type QuestionGroup = {
-    id: string;
+    id?: string;
     itemRand: boolean;
     paperId: string;
     pathScore: boolean;
@@ -170,11 +171,20 @@ declare namespace API {
     quRand: boolean;
     quType: string;
     quType_dictText: string;
-    strictSort: boolean;
+    strictSort: boolean | number;
     title: string;
     totalScore: number;
     quList: Question[];
     anchor?: string;
+  };
+  type PaperEditParams = {
+    quCount?: number;
+    totalScore?: number;
+    title?: string;
+    joinType?: number;
+    catId?: string;
+    timeType?: number;
+    groupList?: RepoQuestionGroupList[];
   };
   type PaperDetail = {
     actionInterval: number;
@@ -366,6 +376,7 @@ declare namespace API {
   type RepoManagePaging = paging & {
     records: RepoManage[];
   };
+
   type WarpRepoManage = httpRespone & {
     data: RepoManage;
   };
@@ -473,8 +484,24 @@ declare namespace API {
     video?: string;
     tagList?: unknown;
   };
+  type RepoQuestionGroupList = {
+    anchor?: number;
+    title?: string;
+    quType?: string;
+    quCount?: number;
+    totalScore?: number;
+    perScore?: number;
+    quRand?: boolean;
+    itemRand?: boolean;
+    strictSort?: number;
+    quList?: RepoQuestion[];
+    pathScore?: boolean;
+  };
   type WarpRepoQuestion = httpRespone & {
     data: RepoQuestion;
+  };
+  type WarpRepoQuestionList = httpRespone & {
+    data: RepoQuestion[];
   };
   type RepoQuestionPaging = paging & {
     records: RepoQuestion[];

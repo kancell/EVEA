@@ -92,7 +92,7 @@ export async function RepoChapterGroup(options?: { [key: string]: any }) {
 }
 /* 新建试卷，添加大题，http://localhost:8101/exam/api/qu/qu/list-with-chapter-group */
 export async function RepoChapterGroupAdd(options?: { [key: string]: any }) {
-  return request<API.WarpRepoQuestion>('/exam/api/qu/qu/list-with-chapter-group', {
+  return request<API.WarpRepoQuestionList>('/exam/api/qu/qu/list-with-chapter-group', {
     method: 'POST',
     ...(options || {}),
   });

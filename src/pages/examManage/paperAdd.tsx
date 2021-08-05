@@ -2,7 +2,7 @@ import { Button, Card, Input, Select, Form, Drawer, Radio, Modal, message } from
 import { useState, useEffect } from 'react';
 import PaperSelect from '@/components/exam/paper/PaperSelect';
 import { useModel } from 'umi';
-
+import QuestionEdit from '@/components/exam/question/QuestionEdit';
 const { Option } = Select;
 
 type Upload = {
@@ -118,6 +118,16 @@ export default function PaperAdd() {
           </div>
         </Form>
       </Card>
+      <div className="p-2">
+        {questionList?.groupList?.map((group, index) => (
+          <div key={index}>
+            <Input value={group.title}></Input>
+            {group?.quList?.map((question) => (
+              <QuestionEdit key={question.id} content={question}></QuestionEdit>
+            ))}
+          </div>
+        ))}
+      </div>
     </>
   );
 }
