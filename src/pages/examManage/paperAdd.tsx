@@ -1,6 +1,7 @@
-import { Button, Card, Input, Select, Form, Drawer, Radio, Modal, message } from 'antd';
+import { Button, Card, Input, Select, Form, Drawer, Checkbox, Radio, message } from 'antd';
 import { useState, useEffect } from 'react';
 import PaperSelect from '@/components/exam/paper/PaperSelect';
+import { selectOption } from '@/services/selectOption';
 import { useModel } from 'umi';
 import QuestionEdit from '@/components/exam/question/QuestionEdit';
 const { Option } = Select;
@@ -16,7 +17,7 @@ type Upload = {
 };
 
 export default function PaperAdd() {
-  const { questionList, setQuestionList } = useModel('usePaperGenerate');
+  const { paperEditData, setPaperEditData } = useModel('usePaperGenerate');
   const [visible, setVisible] = useState(false);
   const showDrawer = () => {
     setVisible(true);
@@ -26,12 +27,39 @@ export default function PaperAdd() {
   };
   const [paper, setPaper] = useState<Upload>();
   const [nowSelectQuestionType, setNowSelectQuestionType] = useState('1');
-  const [nowPaperSelectType, setNowPaperSelectType] = useState('1');
+
+  const [joinType, setJoinType] = useState<API.SelectOption[]>();
+  const [tmplType, setTmplType] = useState<API.SelectOption[]>();
+  const getSelectOption = async () => {
+    try {
+      const JoinResult = await selectOption({
+        data: {
+          dicCode: 'join_type',
+        },
+      });
+      setJoinType(JoinResult.data);
+      const catLogResult = await selectOption({
+        data: {
+          dicCode: 'tmpl_catalog',
+        },
+      });
+      setTmplType(catLogResult.data);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getSelectOption();
+  }, []);
+
+  const questionGroupAdd = () => {};
 
   return (
     <>
       <Drawer title="添加试题组" placement="right" closable={false} width={'61.8%'} onClose={onClose} visible={visible}>
-        <PaperSelect questionType={nowSelectQuestionType} paperSelectType={nowPaperSelectType}></PaperSelect>
+        <PaperSelect
+          close={onClose}
+          questionType={nowSelectQuestionType}
+          paperSelectType={paperEditData?.joinType}
+        ></PaperSelect>
       </Drawer>
       <Card title="新增试卷">
         <Form>
@@ -40,7 +68,7 @@ export default function PaperAdd() {
               <div className="flex justify-between flex-wrap">
                 <div className="w-full m-2">
                   <Form.Item rules={[{ required: true, message: 'Please input your username!' }]}>
-                    <Input addonBefore="试卷名称" />
+                    <Input addonBefore="试卷名称" value={paperEditData?.title} />
                   </Form.Item>
                 </div>
                 <div className="w-96 m-2">
@@ -50,8 +78,11 @@ export default function PaperAdd() {
                     rules={[{ required: true, message: 'Please input your username!' }]}
                   >
                     <Select className="w-full">
-                      <Option value="1">正式考试</Option>
-                      <Option value="2">模拟考试</Option>
+                      {tmplType?.map((item) => (
+                        <Option key={item.id} value={item.id}>
+                          {item.title}
+                        </Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </div>
@@ -60,11 +91,19 @@ export default function PaperAdd() {
                     label="组卷方式"
                     name="组卷方式"
                     rules={[{ required: true, message: 'Please input your username!' }]}
+                    initialValue={'1'}
                   >
-                    <Select className="w-full">
-                      <Option value="1">正式考试</Option>
-                      <Option value="2">模拟考试</Option>
-                    </Select>
+                    <Radio.Group
+                      value={paperEditData?.joinType}
+                      disabled={!(paperEditData?.groupList === undefined || paperEditData?.groupList.length === 0)}
+                      onChange={(e) => setPaperEditData({ ...paperEditData, joinType: e.target.value })}
+                    >
+                      {joinType?.map((item) => (
+                        <Radio.Button key={item.id} value={item.value}>
+                          {item.title}
+                        </Radio.Button>
+                      ))}
+                    </Radio.Group>
                   </Form.Item>
                 </div>
                 <div className="w-96 mx-2"></div>
@@ -78,22 +117,6 @@ export default function PaperAdd() {
                   </Button>
                 </Form.Item>
               </div>
-              <div className="w-full my-3 flex justify-between">
-                <div className="w-full">
-                  <Select
-                    onChange={(value) => {
-                      setNowPaperSelectType(value);
-                    }}
-                    disabled
-                    className="w-full"
-                    defaultValue={nowPaperSelectType}
-                  >
-                    <Option value="1">抽题组卷</Option>
-                    <Option value="2">选题组卷</Option>
-                    <Option value="3">随机组卷</Option>
-                  </Select>
-                </div>
-              </div>
               <div className="w-full my-3 flex flex-wrap justify-between">
                 <div className="w-1/2">
                   <Select
@@ -101,7 +124,7 @@ export default function PaperAdd() {
                       setNowSelectQuestionType(value);
                     }}
                     className="w-full"
-                    defaultValue={nowSelectQuestionType}
+                    value={nowSelectQuestionType}
                   >
                     <Option value="1">单选题</Option>
                     <Option value="2">多选题</Option>
@@ -119,9 +142,26 @@ export default function PaperAdd() {
         </Form>
       </Card>
       <div className="p-2">
-        {questionList?.groupList?.map((group, index) => (
+        {paperEditData?.groupList?.map((group, index) => (
           <div key={index}>
-            <Input value={group.title}></Input>
+            <div className="my-2 flex flex-wrap bg-white p-2 rounded border">
+              <div className="w-64">
+                <Input addonBefore="试题组标题" value={group.title}></Input>
+              </div>
+
+              <div className="flex items-center">
+                <span className="w-36 mx-2">
+                  <Input addonBefore="每题得分" type="number" />
+                </span>
+                <Checkbox className="">选项乱序</Checkbox>
+                <Checkbox>试题乱序</Checkbox>
+                <Checkbox>错误选项也得分</Checkbox>
+              </div>
+              <Button type="primary" className="mx-3">
+                添加试题
+              </Button>
+            </div>
+
             {group?.quList?.map((question) => (
               <QuestionEdit key={question.id} content={question}></QuestionEdit>
             ))}

@@ -1,19 +1,21 @@
 /* 选题抽屉 */
-import { RepoManage } from '@/services/examManage';
+import { RepoManage, RepoChapterGroupAdd } from '@/services/examManage';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import SelectRow from '@/components/exam/paper/SelectRow';
 import { Button, Card, Input, Select, Form, DatePicker, Radio, Modal, Table } from 'antd';
+import { useModel } from 'umi';
 
 const { Option } = Select;
 
-export default function PaperSelect(props: { questionType?: string; paperSelectType?: string }) {
+export default function PaperSelect(props: { questionType?: string; paperSelectType?: number; close?: Function }) {
   const [page, setPage] = useState({
     current: 1,
     pages: 1,
     size: 4,
     total: 1,
   });
+  const { paperEditData, setPaperEditData } = useModel('usePaperGenerate');
   const [repoManage, setRepoManage] = useState<API.RepoManage>();
   const [repoList, setRepoList] = useState<API.RepoManagePaging>();
 
@@ -39,6 +41,50 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const [selectParams, setSelectParams] = useState<API.ChapterGroup[]>();
+
+  const chapterParamUpdate = (chapter: number, index: number, value: number) => {
+    if (!selectParams) return;
+    const cacheSelectParams = [...selectParams];
+    let cache = cacheSelectParams[chapter].levels[index];
+    cache.num = value;
+    setSelectParams(cacheSelectParams);
+  };
+  const questionGroupAdd = async () => {
+    selectParams?.forEach((chapter) => {
+      chapter.levels.forEach((level) => {
+        level.num === undefined ? (level.num = 0) : '';
+      });
+    });
+    const data = {
+      items: selectParams,
+    };
+    try {
+      const result = await RepoChapterGroupAdd({
+        data: data,
+      });
+
+      let replace: API.RepoQuestionGroupList = {
+        anchor: 0,
+        title: result.data[0].quType_dictText,
+        quType: '1',
+        quCount: 1,
+        totalScore: 1,
+        perScore: 1,
+        quRand: false,
+        itemRand: false,
+        strictSort: 0,
+        pathScore: false,
+        quList: [...result.data],
+      };
+      let groupList = paperEditData?.groupList;
+      groupList === undefined ? (groupList = [replace]) : groupList.push(replace);
+
+      setPaperEditData({ ...paperEditData, groupList: groupList });
+      props.close && props.close();
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -85,9 +131,9 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
         </div>
         <div className="ml-2 w-64">
           <Select disabled className="w-64" value={props.paperSelectType}>
-            <Option value="1">抽题组卷</Option>
-            <Option value="2">选题组卷</Option>
-            <Option value="3">随机组卷</Option>
+            <Option value={1}>抽题组卷</Option>
+            <Option value={2}>选题组卷</Option>
+            <Option value={3}>随机组卷</Option>
           </Select>
         </div>
       </div>
@@ -103,7 +149,16 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
                 rowKey={'id'}
                 expandable={{
                   expandRowByClick: true,
-                  expandedRowRender: (record) => <SelectRow questionType={props.questionType} repoId={record.id}></SelectRow>,
+                  expandedRowRender: (record) => (
+                    <SelectRow
+                      init={setSelectParams}
+                      update={chapterParamUpdate}
+                      add={questionGroupAdd}
+                      close={props.close}
+                      questionType={props.questionType}
+                      repoId={record.id}
+                    ></SelectRow>
+                  ),
                   rowExpandable: (record) => true,
                 }}
                 pagination={{ defaultCurrent: page.current, total: page.total }}

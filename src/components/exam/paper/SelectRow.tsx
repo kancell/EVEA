@@ -11,18 +11,22 @@ type ChapterGroupParams = {
   repoId?: string;
 };
 
-export default function SelectRow(props: { questionType?: string; repoId?: string }) {
-  const { questionList, setQuestionList } = useModel('usePaperGenerate');
-
+export default function SelectRow(props: {
+  questionType?: string;
+  repoId?: string;
+  close?: Function;
+  update?: Function;
+  add?: Function;
+  init?: Function;
+}) {
   const [chapterGroup, setChapterGroup] = useState<API.ChapterGroup[]>();
-  const [selectParams, setSelectParams] = useState<API.ChapterGroup[]>();
   const queryQuestionSum = async (data: ChapterGroupParams) => {
     try {
       const result = await RepoChapterGroup({
         data: data,
       });
       setChapterGroup(result.data);
-      setSelectParams(result.data);
+      props.init && props.init(result.data);
     } catch (error) {}
   };
   useEffect(() => {
@@ -34,50 +38,7 @@ export default function SelectRow(props: { questionType?: string; repoId?: strin
     };
     queryQuestionSum(params);
   }, [props.questionType]);
-
-  const updateSelectParams = (chapter: number, index: number, value: number) => {
-    if (!selectParams) return;
-    const cacheSelectParams = [...selectParams];
-    let cache = cacheSelectParams[chapter].levels[index];
-    cache.num = value;
-    setSelectParams(cacheSelectParams);
-  };
-  const submitSelectParams = async () => {
-    selectParams?.forEach((chapter) => {
-      chapter.levels.forEach((level) => {
-        level.num === undefined ? (level.num = 0) : '';
-      });
-    });
-    const data = {
-      items: selectParams,
-    };
-    try {
-      const result = await RepoChapterGroupAdd({
-        data: data,
-      });
-
-      let replace: API.RepoQuestionGroupList = {
-        anchor: 0,
-        title: result.data[0].quType_dictText,
-        quType: '1',
-        quCount: 1,
-        totalScore: 1,
-        perScore: 1,
-        quRand: false,
-        itemRand: false,
-        strictSort: 0,
-        pathScore: false,
-        quList: [...result.data],
-      };
-      let groupList = questionList?.groupList;
-      if (groupList === undefined) {
-        groupList = [replace];
-      } else {
-        groupList.push(replace);
-      }
-      setQuestionList({ ...questionList, groupList: groupList });
-    } catch (error) {}
-  };
+  /* 每次进入时刷新该组件 */
 
   return (
     <Card type="inner">
@@ -91,7 +52,7 @@ export default function SelectRow(props: { questionType?: string; repoId?: strin
                 <InputNumber
                   value={0}
                   onChange={(value: number) => {
-                    updateSelectParams(chapterIndex, index, value);
+                    props.update && props.update(chapterIndex, index, value);
                   }}
                 ></InputNumber>
                 <p className="leading-8 w-24 text-base mx-2">共{item.quCount}题</p>
@@ -104,7 +65,7 @@ export default function SelectRow(props: { questionType?: string; repoId?: strin
         <Button
           className="w-64 mx-auto"
           onClick={() => {
-            submitSelectParams();
+            props.add && props.add();
           }}
           type="primary"
         >

@@ -1,7 +1,7 @@
 import { request } from 'umi';
 /* 组卷方式 http://localhost:8101/exam/api/sys/dic/value/tree dicCode: "tmpl_catalog" */
-export async function ExamType(options?: { [key: string]: any }) {
-  return request<API.WarpExamDetail>('/exam/api/exam/exam/detail', {
+export async function selectOption(options?: { [key: string]: any }) {
+  return request<API.WarpSelectOption>('/exam/api/sys/dic/value/tree', {
     method: 'POST',
     ...(options || {}),
   });

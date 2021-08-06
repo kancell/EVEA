@@ -14,7 +14,7 @@ declare namespace API {
     value: string;
   };
   type WarpSelectOption = httpRespone & {
-    data: SelectOption;
+    data: SelectOption[];
   };
   type paging = {
     current: number;
