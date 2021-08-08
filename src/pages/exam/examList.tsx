@@ -198,6 +198,92 @@ export default function ExamList() {
           </div>
         </div>
       )}
+      <div className="container px-5 py-8 md:py-24 mx-auto">
+        <div className="flex flex-wrap -m-4">
+          {examList && (
+            <>
+              {examList.records.map((exam, index) => (
+                <div className="p-4 w-full md:w-1/3" key={exam.id}>
+                  <div className="flex rounded-lg h-full bg-gray-50 p-8 flex-col">
+                    <div className="flex items-center mb-3">
+                      <div className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+                        <svg
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          className="w-5 h-5"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                      </div>
+                      <h2 className="text-gray-900 text-lg title-font font-medium">{exam.title}</h2>
+                    </div>
+                    <div className="py-2 whitespace-nowrap">
+                      {exam.state === 0 ? (
+                        <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          可开始
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                      {exam.state === 1 ? (
+                        <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                          已禁用
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                      {exam.state === 2 ? (
+                        <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                          未开始
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                      {exam.state === 3 ? (
+                        <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                          已结束
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                      <span className="text-sm text-gray-900 mx-2">满分：{exam.totalScore}</span>
+                    </div>
+                    <div className="flex-grow cursor-pointer">
+                      <p className="leading-relaxed text-base">{exam.content}</p>
+                      <a className="mt-2 text-indigo-500 inline-flex items-center">
+                        <svg
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          className="w-4 h-4 ml-2"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M5 12h14M12 5l7 7-7 7"></path>
+                        </svg>
+                        <span
+                          onClick={() => {
+                            setExamSelect(exam);
+                            setCheckShow(true);
+                          }}
+                          className="mx-2"
+                        >
+                          点击前往考试
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+      </div>
     </>
   );
 }

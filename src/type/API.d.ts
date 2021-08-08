@@ -465,6 +465,7 @@ declare namespace API {
     tag?: string;
   };
   type RepoQuestion = {
+    quId?: string;
     analysis?: string;
     answerList?: RepoAnswer[];
     chapterId?: string;
@@ -483,6 +484,7 @@ declare namespace API {
     updateTime?: string;
     video?: string;
     tagList?: unknown;
+    score?: number;
   };
   type RepoQuestionGroupList = {
     anchor?: number;

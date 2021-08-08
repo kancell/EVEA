@@ -60,6 +60,14 @@ export async function PaperDelete(options?: { [key: string]: any }) {
   });
 }
 
+/* 保存试卷 http://localhost:8101/exam/api/tmpl/tmpl/save */
+export async function PaperSave(options?: { [key: string]: any }) {
+  return request<API.WarpRepoQuestionList>('/exam/api/tmpl/tmpl/save', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
 /* 管理端获取所有题库 http://localhost:8101/exam/api/repo/paging*/
 export async function RepoManage(options?: { [key: string]: any }) {
   return request<API.WarpRepoManagePaging>('/exam/api/repo/paging', {
@@ -97,6 +105,7 @@ export async function RepoChapterGroupAdd(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+
 /* 获取试题列表 http://localhost:8101/exam/api/qu/qu/paging */
 export async function RepoQuestion(options?: { [key: string]: any }) {
   return request<API.WarpRepoQuestionPaging>('/exam/api/qu/qu/paging', {

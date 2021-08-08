@@ -4,6 +4,8 @@ import PaperSelect from '@/components/exam/paper/PaperSelect';
 import { selectOption } from '@/services/selectOption';
 import { useModel } from 'umi';
 import QuestionEdit from '@/components/exam/question/QuestionEdit';
+import { PaperSave } from '@/services/examManage';
+import question from './questionList';
 const { Option } = Select;
 
 type Upload = {
@@ -50,7 +52,29 @@ export default function PaperAdd() {
     getSelectOption();
   }, []);
 
-  const questionGroupAdd = () => {};
+  useEffect(() => {
+    console.log(1);
+    paperSaveParams();
+  }, [paperEditData?.groupList?.length]);
+
+  const paperSaveParams = () => {
+    let quCount: number = 0;
+    let totalScore: number = 0;
+    paperEditData?.groupList?.forEach((item) => {
+      item.quCount === undefined ? '' : (quCount += item.quCount);
+      item.totalScore === undefined ? '' : (totalScore += item.totalScore);
+    });
+    console.log(21312);
+    setPaperEditData({ ...paperEditData, quCount: quCount, totalScore: totalScore, timeType: 1 });
+  };
+  const paperSave = async () => {
+    try {
+      const result = await PaperSave({
+        data: paperEditData,
+      });
+      console.log(result);
+    } catch (error) {}
+  };
 
   return (
     <>
@@ -67,17 +91,23 @@ export default function PaperAdd() {
             <div className="flex w-3/4 mr-8">
               <div className="flex justify-between flex-wrap">
                 <div className="w-full m-2">
-                  <Form.Item rules={[{ required: true, message: 'Please input your username!' }]}>
-                    <Input addonBefore="试卷名称" value={paperEditData?.title} />
+                  <Form.Item name="试卷名称" rules={[{ required: true, message: '请输入试卷名称' }]}>
+                    <Input
+                      onChange={(e) => setPaperEditData({ ...paperEditData, title: e.target.value })}
+                      addonBefore="试卷名称"
+                      value={paperEditData?.title}
+                    />
                   </Form.Item>
                 </div>
                 <div className="w-96 m-2">
-                  <Form.Item
-                    label="试卷分类"
-                    name="试卷分类"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
-                  >
-                    <Select className="w-full">
+                  <Form.Item label="试卷分类" name="试卷分类" rules={[{ required: true, message: '请确认试卷分类' }]}>
+                    <Select
+                      onChange={(value) => {
+                        if (!value) return;
+                        setPaperEditData({ ...paperEditData, catId: value.toString() });
+                      }}
+                      className="w-full"
+                    >
                       {tmplType?.map((item) => (
                         <Option key={item.id} value={item.id}>
                           {item.title}
@@ -87,16 +117,11 @@ export default function PaperAdd() {
                   </Form.Item>
                 </div>
                 <div className="w-96 m-2">
-                  <Form.Item
-                    label="组卷方式"
-                    name="组卷方式"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
-                    initialValue={'1'}
-                  >
+                  <Form.Item label="组卷方式" name="组卷方式" rules={[{ required: true, message: '请确认组卷方式' }]}>
                     <Radio.Group
                       value={paperEditData?.joinType}
                       disabled={!(paperEditData?.groupList === undefined || paperEditData?.groupList.length === 0)}
-                      onChange={(e) => setPaperEditData({ ...paperEditData, joinType: e.target.value })}
+                      onChange={(e) => setPaperEditData({ ...paperEditData, joinType: Number(e.target.value) })}
                     >
                       {joinType?.map((item) => (
                         <Radio.Button key={item.id} value={item.value}>
@@ -112,13 +137,13 @@ export default function PaperAdd() {
             <div className="w-1/4 p-4 border rounded">
               <div className="w-full my-2">
                 <Form.Item>
-                  <Button className="w-full" type="primary" htmlType="submit">
+                  <Button onClick={() => paperSave()} className="w-full" type="primary" htmlType="submit">
                     保存试卷
                   </Button>
                 </Form.Item>
               </div>
               <div className="w-full my-3 flex flex-wrap justify-between">
-                <div className="w-1/2">
+                <div className="w-1/2 m-1">
                   <Select
                     onChange={(value) => {
                       setNowSelectQuestionType(value);
@@ -133,7 +158,12 @@ export default function PaperAdd() {
                     <Option value="5">填空题</Option>
                   </Select>
                 </div>
-                <Button type="primary" className="w-24" onClick={() => showDrawer()}>
+                <Button
+                  disabled={paperEditData?.joinType === undefined}
+                  type="primary"
+                  className="w-24 m-1"
+                  onClick={() => showDrawer()}
+                >
                   添加试题组
                 </Button>
               </div>
@@ -142,22 +172,90 @@ export default function PaperAdd() {
         </Form>
       </Card>
       <div className="p-2">
-        {paperEditData?.groupList?.map((group, index) => (
+        {paperEditData?.groupList?.map((group: API.RepoQuestionGroupList, index) => (
           <div key={index}>
             <div className="my-2 flex flex-wrap bg-white p-2 rounded border">
-              <div className="w-64">
-                <Input addonBefore="试题组标题" value={group.title}></Input>
+              <div className="w-64 m-1">
+                <Input
+                  addonBefore="试题组标题"
+                  value={group.title}
+                  onChange={(e) => {
+                    const groupList = paperEditData?.groupList;
+                    if (groupList !== undefined) {
+                      groupList[index].title = e.target.value;
+                    }
+                    setPaperEditData({ ...paperEditData, groupList: groupList });
+                  }}
+                ></Input>
               </div>
-
-              <div className="flex items-center">
-                <span className="w-36 mx-2">
-                  <Input addonBefore="每题得分" type="number" />
+              <div className="flex items-center flex-wrap">
+                <span className="m-1">
+                  <Input
+                    onChange={(e) => {
+                      const groupList = paperEditData?.groupList;
+                      if (groupList !== undefined && group.quList) {
+                        groupList[index].perScore = Number(e.target.value);
+                        groupList[index].totalScore = Number(e.target.value) * group.quList.length;
+                      }
+                      groupList?.forEach((group) => {
+                        group.quList?.forEach((question) => {
+                          question.score = Number(e.target.value);
+                        });
+                      });
+                      setPaperEditData({ ...paperEditData, groupList: groupList });
+                      paperSaveParams();
+                    }}
+                    value={group.perScore}
+                    addonBefore="每题得分"
+                    addonAfter={`共（${group.quCount}）题，总分（${
+                      group.quList && group.perScore && group.quList.length * group.perScore
+                    }）分`}
+                    type="number"
+                  />
                 </span>
-                <Checkbox className="">选项乱序</Checkbox>
-                <Checkbox>试题乱序</Checkbox>
-                <Checkbox>错误选项也得分</Checkbox>
+                <span className="my-1 mx-4">
+                  <Checkbox
+                    onChange={(e) => {
+                      const groupList = paperEditData?.groupList;
+                      if (groupList !== undefined) {
+                        groupList[index].itemRand = e.target.checked;
+                      }
+                      setPaperEditData({ ...paperEditData, groupList: groupList });
+                    }}
+                  >
+                    选项乱序
+                  </Checkbox>
+                </span>
+                <span className="my-1">
+                  <Checkbox
+                    onChange={(e) => {
+                      const groupList = paperEditData?.groupList;
+                      if (groupList !== undefined) {
+                        groupList[index].quRand = e.target.checked;
+                      }
+                      setPaperEditData({ ...paperEditData, groupList: groupList });
+                    }}
+                    className="m-1"
+                  >
+                    试题乱序
+                  </Checkbox>
+                </span>
+                <span className="my-1">
+                  <Checkbox
+                    onChange={(e) => {
+                      const groupList = paperEditData?.groupList;
+                      if (groupList !== undefined) {
+                        groupList[index].pathScore = e.target.checked;
+                      }
+                      setPaperEditData({ ...paperEditData, groupList: groupList });
+                    }}
+                    className="m-1"
+                  >
+                    错误选项也得分
+                  </Checkbox>
+                </span>
               </div>
-              <Button type="primary" className="mx-3">
+              <Button type="primary" className="m-1 ">
                 添加试题
               </Button>
             </div>
