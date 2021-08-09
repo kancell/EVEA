@@ -80,7 +80,7 @@ export default function ExamList() {
       )}
       {!examList && <Loading />}
       {examList && (
-        <div className="w-full container mx-auto">
+        <div className="w-full container mx-auto hidden lg:block">
           <div className="my-2 overflow-x-auto">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -198,7 +198,7 @@ export default function ExamList() {
           </div>
         </div>
       )}
-      <div className="container px-5 py-8 md:py-24 mx-auto">
+      <div className="container px-5 py-8 md:py-24 mx-auto block lg:hidden">
         <div className="flex flex-wrap -m-4">
           {examList && (
             <>

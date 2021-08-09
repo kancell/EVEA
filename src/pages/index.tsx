@@ -1,6 +1,7 @@
 import { processExam } from '@/services/exam';
 import React, { ReactChild, useEffect, useState } from 'react';
 import { history, useModel } from 'umi';
+import { message } from 'antd';
 
 export default function IndexPage(): ReactChild {
   const { initialState, loading, error, refresh, setInitialState } = useModel('@@initialState');
@@ -47,6 +48,7 @@ export default function IndexPage(): ReactChild {
               </div>
               <div
                 onClick={() => {
+                  !nowProcessExam && message.info('当前没有未交卷的考试');
                   nowProcessExam &&
                     history.push({
                       pathname: '/exam/examPaper',

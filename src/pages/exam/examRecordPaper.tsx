@@ -60,7 +60,7 @@ export default function examRecordPaper() {
     <>
       {!examList && <Loading />}
       {examList && (
-        <div className="w-full container mx-auto">
+        <div className="w-full container mx-auto hidden lg:block">
           <div className="my-2 overflow-x-auto">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -102,7 +102,7 @@ export default function examRecordPaper() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div>
-                              <div className="font-bold text-base text-blue-400 ">{exam.title}</div>
+                              <div className="font-bold text-base text-blue-400 ">{exam.createTime}</div>
                               <div className="text-sm text-gray-500">{exam.hasSaq ? '人工阅卷' : '自动阅卷'}</div>
                             </div>
                           </div>
@@ -180,7 +180,7 @@ export default function examRecordPaper() {
           </div>
         </div>
       )}
-      <div className="container px-5 py-8 md:py-24 mx-auto">
+      <div className="container px-5 py-8 md:py-24 mx-auto block lg:hidden">
         <div className="flex flex-wrap -m-4">
           {examList && (
             <>
@@ -201,7 +201,7 @@ export default function examRecordPaper() {
                           <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                         </svg>
                       </div>
-                      <h2 className="text-gray-900 text-lg title-font font-medium">{exam.title}</h2>
+                      <h2 className="text-gray-900 text-lg title-font font-medium">{exam.createTime}</h2>
                     </div>
                     <div className="py-2 whitespace-nowrap">
                       {exam.state === 0 ? (

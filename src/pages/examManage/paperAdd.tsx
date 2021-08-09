@@ -2,7 +2,7 @@ import { Button, Card, Input, Select, Form, Drawer, Checkbox, Radio, message } f
 import { useState, useEffect } from 'react';
 import PaperSelect from '@/components/exam/paper/PaperSelect';
 import { selectOption } from '@/services/selectOption';
-import { useModel } from 'umi';
+import { useModel, history } from 'umi';
 import QuestionEdit from '@/components/exam/question/QuestionEdit';
 import { PaperSave } from '@/services/examManage';
 import question from './questionList';
@@ -53,18 +53,19 @@ export default function PaperAdd() {
   }, []);
 
   useEffect(() => {
-    console.log(1);
     paperSaveParams();
+    return () => {
+      setPaperEditData(undefined);
+    };
   }, [paperEditData?.groupList?.length]);
 
   const paperSaveParams = () => {
     let quCount: number = 0;
     let totalScore: number = 0;
-    paperEditData?.groupList?.forEach((item) => {
+    paperEditData?.groupList?.forEach((item: API.RepoQuestionGroupList) => {
       item.quCount === undefined ? '' : (quCount += item.quCount);
       item.totalScore === undefined ? '' : (totalScore += item.totalScore);
     });
-    console.log(21312);
     setPaperEditData({ ...paperEditData, quCount: quCount, totalScore: totalScore, timeType: 1 });
   };
   const paperSave = async () => {
@@ -72,7 +73,8 @@ export default function PaperAdd() {
       const result = await PaperSave({
         data: paperEditData,
       });
-      console.log(result);
+      message.info(result.msg);
+      history.push('/examManage/paper');
     } catch (error) {}
   };
 
@@ -86,7 +88,7 @@ export default function PaperAdd() {
         ></PaperSelect>
       </Drawer>
       <Card title="新增试卷">
-        <Form>
+        <Form onFinish={paperSave}>
           <div className="flex">
             <div className="flex w-3/4 mr-8">
               <div className="flex justify-between flex-wrap">
@@ -98,6 +100,27 @@ export default function PaperAdd() {
                       value={paperEditData?.title}
                     />
                   </Form.Item>
+                </div>
+                <div className="w-96 m-2">
+                  <Form.Item label="组卷方式" name="组卷方式" rules={[{ required: true, message: '请确认组卷方式' }]}>
+                    <Radio.Group
+                      value={paperEditData?.joinType}
+                      disabled={!(paperEditData?.groupList === undefined || paperEditData?.groupList.length === 0)}
+                      onChange={(e) => setPaperEditData({ ...paperEditData, joinType: Number(e.target.value) })}
+                    >
+                      {joinType?.map((item) => (
+                        <Radio.Button key={item.id} value={item.value}>
+                          {item.title}
+                        </Radio.Button>
+                      ))}
+                    </Radio.Group>
+                  </Form.Item>
+                </div>
+                <div className="w-48 m-2">
+                  <Input disabled addonBefore="试卷总分" value={paperEditData?.totalScore} />
+                </div>
+                <div className="w-48 m-2">
+                  <Input disabled addonBefore="试题数量" value={paperEditData?.quCount} />
                 </div>
                 <div className="w-96 m-2">
                   <Form.Item label="试卷分类" name="试卷分类" rules={[{ required: true, message: '请确认试卷分类' }]}>
@@ -116,28 +139,12 @@ export default function PaperAdd() {
                     </Select>
                   </Form.Item>
                 </div>
-                <div className="w-96 m-2">
-                  <Form.Item label="组卷方式" name="组卷方式" rules={[{ required: true, message: '请确认组卷方式' }]}>
-                    <Radio.Group
-                      value={paperEditData?.joinType}
-                      disabled={!(paperEditData?.groupList === undefined || paperEditData?.groupList.length === 0)}
-                      onChange={(e) => setPaperEditData({ ...paperEditData, joinType: Number(e.target.value) })}
-                    >
-                      {joinType?.map((item) => (
-                        <Radio.Button key={item.id} value={item.value}>
-                          {item.title}
-                        </Radio.Button>
-                      ))}
-                    </Radio.Group>
-                  </Form.Item>
-                </div>
-                <div className="w-96 mx-2"></div>
               </div>
             </div>
             <div className="w-1/4 p-4 border rounded">
               <div className="w-full my-2">
                 <Form.Item>
-                  <Button onClick={() => paperSave()} className="w-full" type="primary" htmlType="submit">
+                  <Button className="w-full" type="primary" htmlType="submit">
                     保存试卷
                   </Button>
                 </Form.Item>
@@ -172,7 +179,7 @@ export default function PaperAdd() {
         </Form>
       </Card>
       <div className="p-2">
-        {paperEditData?.groupList?.map((group: API.RepoQuestionGroupList, index) => (
+        {paperEditData?.groupList?.map((group: API.RepoQuestionGroupList, index: number) => (
           <div key={index}>
             <div className="my-2 flex flex-wrap bg-white p-2 rounded border">
               <div className="w-64 m-1">
@@ -197,7 +204,7 @@ export default function PaperAdd() {
                         groupList[index].perScore = Number(e.target.value);
                         groupList[index].totalScore = Number(e.target.value) * group.quList.length;
                       }
-                      groupList?.forEach((group) => {
+                      groupList?.forEach((group: API.RepoQuestionGroupList) => {
                         group.quList?.forEach((question) => {
                           question.score = Number(e.target.value);
                         });
@@ -260,8 +267,8 @@ export default function PaperAdd() {
               </Button>
             </div>
 
-            {group?.quList?.map((question) => (
-              <QuestionEdit key={question.id} content={question}></QuestionEdit>
+            {group?.quList?.map((question, index) => (
+              <QuestionEdit key={question.quId} content={question}></QuestionEdit>
             ))}
           </div>
         ))}

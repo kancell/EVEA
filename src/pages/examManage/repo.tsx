@@ -106,7 +106,7 @@ export default function Repo() {
         return (
           <>
             <Button
-              className="mx-1"
+              className="m-1"
               onClick={() => {
                 setRepoUpdateShow(1);
                 setRepoManage(record);
@@ -115,7 +115,7 @@ export default function Repo() {
               修改
             </Button>
             <Button
-              className="mx-1"
+              className="m-1"
               onClick={() => {
                 history.push({
                   pathname: '/examManage/questionList',
@@ -129,7 +129,7 @@ export default function Repo() {
             </Button>
             <Button
               danger
-              className="mx-1"
+              className="m-1"
               onClick={() => {
                 console.log(record.id);
               }}

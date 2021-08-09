@@ -16,7 +16,6 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
     total: 1,
   });
   const { paperEditData, setPaperEditData } = useModel('usePaperGenerate');
-  const [repoManage, setRepoManage] = useState<API.RepoManage>();
   const [repoList, setRepoList] = useState<API.RepoManagePaging>();
 
   const queryRepoList = async (current = page.current, size = page.size) => {
@@ -47,13 +46,19 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
 
   const chapterParamUpdate = (chapter: number, index: number, value: number) => {
     if (!selectParams) return;
+
     const cacheSelectParams = [...selectParams];
-    let cache = cacheSelectParams[chapter].levels[index];
-    cache.num = value;
-    setSelectParams(cacheSelectParams);
+    let cache = cacheSelectParams[chapter]?.levels?.[index];
+    if (cache !== undefined) {
+      cache.num = value;
+      setSelectParams(cacheSelectParams);
+    }
   };
 
   const questionResultProcess = (data: API.RepoQuestion[]) => {
+    /* 修改上传的参数paperEditData，但有些组件需要显示的数据不包含在paperEditData中，导致显示异常，
+      是否需要把上传参数和显示参数分开？
+    */
     const processResult = [];
     for (let item of data) {
       const answerList: {
@@ -82,16 +87,18 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
         analysis: item.analysis,
         answerList: answerList,
         content: item.content,
-        quId: item.quId,
+        quId: item.id,
         quType: item.quType,
       };
+
       processResult.push(cache);
     }
     return processResult;
   };
 
   const questionGroupAdd = async () => {
-    /* 初始化选择试题数量 */
+    /* 需要初始化选择试题数量 */
+    /* 此部分逻辑需要修整 */
     selectParams?.forEach((chapter) => {
       chapter.levels.forEach((level) => {
         level.num === undefined ? (level.num = 0) : '';
@@ -107,7 +114,7 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
       let cache = questionResultProcess(result.data);
 
       let replace: API.RepoQuestionGroupList = {
-        anchor: 0,
+        anchor: new Date().getTime(),
         title: result.data[0].quType_dictText,
         quType: props.questionType,
         quCount: result.data.length,
@@ -191,12 +198,14 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
                   expandRowByClick: true,
                   expandedRowRender: (record) => (
                     <SelectRow
-                      init={setSelectParams}
-                      update={chapterParamUpdate}
-                      add={questionGroupAdd}
-                      close={props.close}
+                      key={record.id}
                       questionType={props.questionType}
                       repoId={record.id}
+                      close={props.close}
+                      update={chapterParamUpdate}
+                      add={questionGroupAdd}
+                      init={setSelectParams}
+                      initValue={selectParams}
                     ></SelectRow>
                   ),
                   rowExpandable: (record) => true,

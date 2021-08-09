@@ -10,7 +10,6 @@ import { Link } from 'umi';
 import defaultRouter from '../../config/routes';
 const breadRoutes = {
   itemRender: (route: any, params: any, routes: any, paths: any) => {
-    console.log(route, params, routes, paths);
     const secondRoute = routes.indexOf(route) === 1;
     return secondRoute ? (
       <Link to={route.path} style={{ color: 'rgba(0,0,0,0.65)' }}>

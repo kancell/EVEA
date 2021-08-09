@@ -12,6 +12,7 @@ const init = (screenChange: Function) => {
       exitFullScreen();
     }
   });
+
   window.onresize = function () {
     isFull = window.screen.height - window.document.documentElement.clientHeight <= 17;
     screenChange(isFull);
@@ -20,13 +21,24 @@ const init = (screenChange: Function) => {
 
 //进入全屏
 const enterFullScreen = () => {
-  window.document.documentElement.requestFullscreen();
+  window.document.documentElement
+    .requestFullscreen()
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 // 退出全屏
 const exitFullScreen = () => {
-  if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement) {
-    document.exitFullscreen();
+  try {
+    if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement) {
+      document.exitFullscreen();
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 

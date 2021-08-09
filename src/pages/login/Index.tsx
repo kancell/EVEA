@@ -21,7 +21,7 @@ const LoginForm = (): ReactChild => {
 
   useEffect(() => {
     const verifyRandomKeyUrl = () => {
-      const objectURL = `http://localhost:8101/common/api/captcha/gen?key=${verifyRandomKey}`;
+      const objectURL = `http://10.44.36.217:8101/common/api/captcha/gen?key=${verifyRandomKey}`;
       setVerifyCodePic(objectURL);
       setLoginData({ ...loginData, captchaKey: verifyRandomKey });
     };
@@ -44,7 +44,6 @@ const LoginForm = (): ReactChild => {
         }, 0);
       })
       .catch((res: { [key: string]: string | string[] | number }) => {
-        console.log(res);
         verifyRandomKeyGenerate();
       });
   };

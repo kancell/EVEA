@@ -4,6 +4,14 @@ import { useEffect, useState } from 'react';
 import { Tag } from 'antd';
 
 export default function QuestionEdit(props: { content: API.RepoQuestion }) {
+  const questionType = {
+    '1': '单选题',
+    '2': '多选题',
+    '3': '判断题',
+    '4': '简答题',
+    '5': '填空题',
+  }[props.content.quType !== undefined ? props.content.quType : '1'];
+
   return (
     <>
       {!props.content && <Loading />}
@@ -12,13 +20,13 @@ export default function QuestionEdit(props: { content: API.RepoQuestion }) {
           <div className="w-full flex text-sm font-medium text-gray-500 mb-2">
             {/* 锚点，点击selectcard通过父组件触发scrollIntoView跳转 */}
             <Tag color="blue" className="bg-gray-200 px-2 py-1 rounded mr-2">
-              {props.content.quType_dictText}
+              {questionType}
             </Tag>
           </div>
           <div className="bg-blue-200 text-base font-semibold px-6 py-2 mb-4 rounded">
             <span>{props.content.content}</span>
           </div>
-          <div className={`w-96 ${props.content.image === '' ? 'hidden' : ''}`}>
+          <div className={`w-96 ${props.content.image === '' || props.content.image === undefined ? 'hidden' : ''}`}>
             <img src={`http://localhost:8101${props.content.image}`} />
           </div>
           <div className="shadow rounded-lg p-4">
@@ -32,7 +40,7 @@ export default function QuestionEdit(props: { content: API.RepoQuestion }) {
                     <div
                       className={`text-sm font-semibold px-6 py-2 rounded-lg flex justify-between my-1 cursor-pointer border-2 border-solid border-opacity-0
                     ${answer.isRight ? 'border-blue-600 border-opacity-80' : ''}`}
-                      key={answer.id}
+                      key={answer.answerId}
                     >
                       <span>
                         <span>{answer.content}</span>
@@ -49,7 +57,11 @@ export default function QuestionEdit(props: { content: API.RepoQuestion }) {
                   <div className="py-2">
                     正确答案：
                     {props.content.answerList.map((answer: API.RepoAnswer) => {
-                      return <span className="px-1 mx-1 border-b">{answer.content}</span>;
+                      return (
+                        <span className="px-1 mx-1 border-b" key={answer.answerId}>
+                          {answer.content}
+                        </span>
+                      );
                     })}
                   </div>
                 </div>

@@ -22,7 +22,7 @@ export default function QuestionSelectBar(props: {
     return false;
   };
   return (
-    <div className="max-h-screen min-h-48 overflow-y-auto max-w-full w-full sticky top-0">
+    <div className="max-h-screen min-h-48 overflow-y-auto max-w-full w-full sticky top-0 col-span-1 hidden lg:block">
       {!props.data && <Loading />}
       {props.data &&
         props.data.map((group: API.QuestionGroup, groupIndex) => {

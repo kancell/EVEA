@@ -93,7 +93,7 @@ export default function Paper() {
         return (
           <>
             <Button
-              className="mx-1"
+              className="m-1"
               onClick={() => {
                 console.log(record.id);
               }}
@@ -101,7 +101,7 @@ export default function Paper() {
               修改
             </Button>
             <Button
-              className="mx-1"
+              className="m-1"
               onClick={() => {
                 history.push({
                   pathname: '/examManage/paperPreview',
@@ -115,7 +115,7 @@ export default function Paper() {
             </Button>
             <Button
               type="primary"
-              className="mx-1"
+              className="m-1"
               onClick={() => {
                 history.push({
                   pathname: '/examManage/examUpdate',

@@ -89,13 +89,6 @@ export default function question() {
         return <div className="truncate w-36">{record.analysis === '' ? '暂无' : record.analysis}</div>;
       },
     },
-    {
-      title: '修改',
-      key: 'action',
-      render: (text: unknown, record: API.RepoQuestion) => {
-        return <Button type="primary">修改</Button>;
-      },
-    },
   ];
   return (
     <>

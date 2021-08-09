@@ -136,7 +136,7 @@ export default function Exam() {
         return (
           <>
             <Button
-              className="mx-1"
+              className="m-1"
               onClick={() => {
                 history.push({
                   pathname: '/examManage/examUpdate',
@@ -151,7 +151,7 @@ export default function Exam() {
             </Button>
             <Button
               danger
-              className="mx-1"
+              className="m-1"
               onClick={() => {
                 deleteExam(record.id);
               }}

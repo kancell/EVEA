@@ -1,27 +1,22 @@
 ## 关于用户信息存储
 - 初始化于app.tsx中的getInitialState，先检查localStorage中的evea_users_data，如果为null，则返回空对象
 - login中登录成功会调用setInitialState修改InitialState的值，由于传入值变动，access.ts中函数重新执行，将登录返回信息写入evea_users_data，并重新设定权限
+# 问题
+## 输入的边界限定
 ## 关于通过考试的判定
-
 ## 展开table更新列表后，列表顺序问题
-
 ## 列表更新后，列表顺序问题
-
-## 添加新试卷，题库添加试题
-
-
+## 添加新试卷的随机组卷与选择组卷
+## 新建题库的体验优化
 ## 上传试题和选项图片
-
 ## 路由颜色和面包屑
-
 ## 关于填空题正确答案的判断
-
 ## 本地访问图片的baseurl拦截
-
-## select & option  radio inputd的返回值差异
-
-## 时间控制设定
-	检查时间强制交卷
+## select & option radio inputd的返回值差异
+## 时间控制设定API
+## 其他功能模块编写
+## 路由与命名优化
+## 类型文件优化
 
 ## 动态返回路由参数
 ```javascript

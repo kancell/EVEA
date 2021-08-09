@@ -19,7 +19,7 @@ export default function ScoreResult(props: {
         </div>
 
         <div className="z-10 order-2 md:order-1 w-full h-full md:w-3/5 flex items-center -mt-6 md:mt-0 bg-white ">
-          <div className="p-8 md:pr-18 md:pl-14 md:py-12 mx-2 md:mx-0 h-full rounded-lg md:rounded-none md:rounded-l-lg shadow-xl md:shadow-none">
+          <div className="p-8 md:pr-18 md:pl-14 md:py-12 mx-2 md:mx-0 h-full rounded-lg md:rounded-none md:rounded-l-lg md:shadow-none">
             <h4 className="hidden md:block text-xl text-gray-400">
               {props.userName}，你好，{props.msg}
             </h4>
@@ -29,7 +29,7 @@ export default function ScoreResult(props: {
             <p className="text-gray-600 text-justify">
               考试满分：{props.totalScore}，及格分：{props.qualifyScore}
             </p>
-            <p className="flex items-baseline mt-3 text-blue-600 hover:text-blue-900 focus:text-blue-900" href="">
+            <p className="flex items-baseline mt-3 text-blue-600 hover:text-blue-900 focus:text-blue-900">
               <span>您的分数：{props.userScore}</span>
             </p>
           </div>

@@ -10,10 +10,9 @@ export default function ExamStartCheck(props: { exam: API.Exam; show: Boolean; s
   });
   useEffect(() => {
     setCreateData({ ...createData, examId: props.exam.id });
-  }, []);
+  }, [props]);
 
   const createNewExam = async (id: string, password?: string) => {
-    console.log(id, password);
     try {
       await createExam({
         data: {

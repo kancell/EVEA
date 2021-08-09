@@ -33,7 +33,7 @@ export default function QuestionSubCard(props: {
     };
   }, []);
   return (
-    <div className="overflow-y-auto">
+    <div className="overflow-y-auto absolute top-2/3 right-4 shadow lg:static ">
       <div className="max-w-xs mx-auto overflow-hidden bg-white rounded-lg shadow-lg">
         <div className="py-5 text-center">
           <a href="#" className="block text-xl font-bold text-gray-800 dark:text-white">

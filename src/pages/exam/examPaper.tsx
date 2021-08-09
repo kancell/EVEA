@@ -128,7 +128,9 @@ export default function ExamPaper() {
           query: { id: createResult.id },
         });
       });
-    } catch (error) {}
+    } catch (error) {
+      history.push('/');
+    }
   };
   return (
     <>

@@ -129,7 +129,6 @@ export default function examPublish() {
     } catch (error) {}
   };
   useEffect(() => {
-    console.log(queryType);
     /* 如果为add，则使用preflight作为预设选择，单独请求getExamInfo */
     /* 如果为update，则使用preflight作为预设选择，然后getExamSettingDetail进行更新。更新后请求getExamInfo */
     queryType === 'update' ? getExamSettingDetail(queryId) : getExamInfo(queryId);

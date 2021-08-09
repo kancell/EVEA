@@ -461,7 +461,7 @@ declare namespace API {
     id?: string;
     image?: string;
     isRight?: boolean;
-    quId?: string;
+    answerId?: string;
     tag?: string;
   };
   type RepoQuestion = {
