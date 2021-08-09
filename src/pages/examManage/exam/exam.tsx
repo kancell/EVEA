@@ -139,7 +139,7 @@ export default function Exam() {
               className="m-1"
               onClick={() => {
                 history.push({
-                  pathname: '/examManage/examUpdate',
+                  pathname: '/examManage/exam/update',
                   query: {
                     type: 'update',
                     id: record.id,

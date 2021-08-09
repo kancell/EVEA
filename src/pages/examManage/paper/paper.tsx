@@ -1,8 +1,8 @@
-import { Button, Table } from 'antd';
+import { Button, Table, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
-import { PaperManage } from '@/services/examManage';
+import { PaperManage, PaperDelete } from '@/services/examManage';
 import { history, useLocation } from 'umi';
 
 export default function Paper() {
@@ -13,9 +13,9 @@ export default function Paper() {
     total: 1,
   });
   const [paperList, setPaperList] = useState<API.PaperManagePaging>();
-  const queryXExamList = async (current = page.current, size = page.size) => {
+  const queryPaperList = async (current = page.current, size = page.size) => {
     try {
-      const currentExamList = await PaperManage({
+      const currentPaperList = await PaperManage({
         data: {
           current: current,
           size: size,
@@ -26,18 +26,35 @@ export default function Paper() {
         },
       });
       setPage({
-        current: currentExamList.data.current,
-        pages: currentExamList.data.pages,
-        size: currentExamList.data.size,
-        total: currentExamList.data.total,
+        current: currentPaperList.data.current,
+        pages: currentPaperList.data.pages,
+        size: currentPaperList.data.size,
+        total: currentPaperList.data.total,
       });
-      setPaperList(currentExamList.data);
+      setPaperList(currentPaperList.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const deletePaper = async (id: string) => {
+    const cache = [];
+    cache.push(id);
+    try {
+      const result = await PaperDelete({
+        data: {
+          ids: cache,
+        },
+      });
+      if (result.success) {
+        message.success(result.msg);
+        queryPaperList();
+      }
+    } catch (error) {}
+  };
+
   useEffect(() => {
-    queryXExamList();
+    queryPaperList();
   }, []);
 
   const columns = [
@@ -104,7 +121,7 @@ export default function Paper() {
               className="m-1"
               onClick={() => {
                 history.push({
-                  pathname: '/examManage/paperPreview',
+                  pathname: '/examManage/paper/preview',
                   query: {
                     id: record.id,
                   },
@@ -118,7 +135,7 @@ export default function Paper() {
               className="m-1"
               onClick={() => {
                 history.push({
-                  pathname: '/examManage/examUpdate',
+                  pathname: '/examManage/exam/update',
                   query: {
                     type: 'add',
                     id: record.id,
@@ -128,7 +145,13 @@ export default function Paper() {
             >
               创建考试
             </Button>
-            <Button danger className="mx-1">
+            <Button
+              danger
+              className="mx-1"
+              onClick={() => {
+                deletePaper(record.id);
+              }}
+            >
               删除
             </Button>
           </>

@@ -118,7 +118,7 @@ export default function Repo() {
               className="m-1"
               onClick={() => {
                 history.push({
-                  pathname: '/examManage/questionList',
+                  pathname: '/examManage/repo/questionList',
                   query: {
                     id: record.id || 'error',
                   },
