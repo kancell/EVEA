@@ -5,7 +5,7 @@ import { selectOption } from '@/services/selectOption';
 import { useModel, history, useLocation } from 'umi';
 import QuestionEdit from '@/components/exam/question/QuestionEdit';
 import { PaperSave, PaperUpdate } from '@/services/examManage';
-import question from '../repo/questionList';
+
 const { Option } = Select;
 
 type Upload = {
