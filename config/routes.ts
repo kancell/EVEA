@@ -127,7 +127,7 @@ const setting = {
   access: 'admin',
   hideInBreadcrumb: true,
   routes: [
-    {
+    /*     {
       path: '/setting/system',
       name: '系统设置',
       component: 'setting/index',
@@ -150,11 +150,11 @@ const setting = {
       name: '部门管理',
       component: 'setting/index',
       icon: 'smile',
-    },
+    }, */
     {
       path: '/setting/user',
       name: '用户管理',
-      component: 'setting/index',
+      component: 'setting/user',
       icon: 'smile',
     },
     {
@@ -175,13 +175,13 @@ const statistics = {
     {
       path: '/statistics/user',
       name: '用户统计',
-      component: 'statistics/index',
+      component: 'statistics/user',
       icon: 'smile',
     },
     {
       path: '/statistics/exam',
       name: '考试统计',
-      component: 'statistics/index',
+      component: 'statistics/exam',
       icon: 'smile',
     },
   ],

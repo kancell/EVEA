@@ -182,9 +182,21 @@ declare namespace API {
     totalScore?: number;
     title?: string;
     joinType?: number;
-    catId?: string;
     timeType?: number;
     groupList?: RepoQuestionGroupList[];
+    catId?: string;
+    catId_dictText?: string;
+    createBy?: string;
+    createBy_dictText?: string;
+    createTime?: string;
+    deptCode?: string;
+    id?: string;
+    joinType_dictText?: string;
+    objScore?: number;
+    subjScore?: number;
+  };
+  type WarpPaperEditParams = httpRespone & {
+    data: PaperEditParams;
   };
   type PaperDetail = {
     actionInterval: number;
@@ -455,6 +467,21 @@ declare namespace API {
     data: UserStatisPaging;
   };
 
+  type ExamStatis = {
+    dateStr: string;
+    examCount: number;
+    examUser: number;
+    passRate: string;
+    passUser: number;
+    statDate: string;
+  };
+  type ExamStatisPaging = paging & {
+    records: Review[];
+  };
+  type WarpExamStatisPaging = httpRespone & {
+    data: UserStatisPaging;
+  };
+
   type RepoAnswer = {
     analysis?: string;
     content?: string;
@@ -522,6 +549,30 @@ declare namespace API {
     points?: number;
     id?: string;
     dataScope?: number;
+  };
+
+  type User = {
+    avatar: string;
+    createBy: string;
+    createTime: string;
+    dataFlag: number;
+    deptCode: string;
+    id: string;
+    idCard: string;
+    password: string;
+    points: number;
+    realName: string;
+    salt: string;
+    state: number;
+    updateBy: string;
+    updateTime: string;
+    userName: string;
+  };
+  type UserPaging = paging & {
+    records: User[];
+  };
+  type WarpUserPaging = httpRespone & {
+    data: UserPaging;
   };
 
   type CurrentUser = {
