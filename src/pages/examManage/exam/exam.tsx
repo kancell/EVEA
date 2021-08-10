@@ -12,7 +12,7 @@ export default function Exam() {
     total: 1,
   });
   const [examList, setExamList] = useState<API.ExamPaging>();
-  const queryXExamList = async (current = page.current, size = page.size) => {
+  const queryExamList = async (current = page.current, size = page.size) => {
     try {
       const currentExamList = await ExamManage({
         data: {
@@ -36,7 +36,7 @@ export default function Exam() {
     }
   };
   useEffect(() => {
-    queryXExamList();
+    queryExamList();
   }, []);
 
   const deleteExam = async (ids: string) => {
@@ -49,7 +49,7 @@ export default function Exam() {
       });
       if (result.success) {
         message.success(result.msg);
-        queryXExamList();
+        queryExamList();
       } else {
         message.warning(result.msg);
       }
@@ -179,7 +179,7 @@ export default function Exam() {
             rowKey={'id'}
             pagination={{ defaultCurrent: page.current, total: page.total }}
             onChange={(pagination) => {
-              queryXExamList(pagination.current, pagination.pageSize);
+              queryExamList(pagination.current, pagination.pageSize);
             }}
           />
         )}

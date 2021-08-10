@@ -34,7 +34,7 @@ export default function QuestionEdit(props: { content: API.RepoQuestion }) {
               /* quType为4是简答题，有answer字段，无checked字段 */
               props.content.quType &&
                 props.content.answerList &&
-                ['1', '2', '3'].includes(props.content.quType) &&
+                ['1', '2', '3'].includes(props.content.quType.toString()) &&
                 props.content.answerList.map((answer: API.RepoAnswer) => {
                   return (
                     <div

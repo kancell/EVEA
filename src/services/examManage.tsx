@@ -59,7 +59,13 @@ export async function PaperDelete(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
-
+/* 修改试卷 http://10.44.36.217:8101/exam/api/tmpl/tmpl/detail */
+export async function PaperUpdate(options?: { [key: string]: any }) {
+  return request<API.WarpPaperEditParams>('/exam/api/tmpl/tmpl/detail', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
 /* 保存试卷 http://localhost:8101/exam/api/tmpl/tmpl/save */
 export async function PaperSave(options?: { [key: string]: any }) {
   return request<API.WarpRepoQuestionList>('/exam/api/tmpl/tmpl/save', {

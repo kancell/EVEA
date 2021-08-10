@@ -66,20 +66,16 @@ export default function examResult() {
                 selectQuestion={setNextQuestion}
               ></QuestionSelectCard>
               <div className="col-span-4">
-                {examResult.groupList.map((group, groupIndex) => {
-                  return group.quList.map((question, questionIndex) => {
-                    return (
-                      <>
-                        <QuestionResolution
-                          key={question.id}
-                          content={question}
-                          anchor={`#${groupIndex}${questionIndex}`}
-                        ></QuestionResolution>
+                {examResult.groupList.map((group, groupIndex) => (
+                  <div key={group.id}>
+                    {group.quList.map((question, questionIndex) => (
+                      <span key={question.quId}>
+                        <QuestionResolution content={question} anchor={`#${groupIndex}${questionIndex}`}></QuestionResolution>
                         <QuestionConclision key={question.id} content={question}></QuestionConclision>
-                      </>
-                    );
-                  });
-                })}
+                      </span>
+                    ))}
+                  </div>
+                ))}
               </div>
               <div className="max-w-xs mx-auto overflow-hidden bg-white rounded-lg shadow-lg h-48 max-w-full w-full px-8 py-4 sticky top-0 col-span-4 xl:col-span-1">
                 <div className="py-2 text-center">

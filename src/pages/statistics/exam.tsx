@@ -3,17 +3,17 @@ import { useState, useEffect } from 'react';
 import { examStatis, userStatis } from '@/services/statistic';
 import moment from 'moment';
 
-export default function User() {
+export default function Exam() {
   const [page, setPage] = useState({
     current: 1,
     pages: 1,
     size: 10,
     total: 1,
   });
-  const [userList, setUserList] = useState<API.ExamPaging>();
-  const queryUserList = async (current = page.current, size = page.size) => {
+  const [examList, setExamList] = useState<API.ExamPaging>();
+  const queryExamList = async (current = page.current, size = page.size) => {
     try {
-      const currentExamList = await userStatis({
+      const currentExamList = await examStatis({
         data: {
           current: current,
           size: size,
@@ -27,13 +27,13 @@ export default function User() {
         size: currentExamList.data.size,
         total: currentExamList.data.total,
       });
-      setUserList(currentExamList.data);
+      setExamList(currentExamList.data);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    queryUserList();
+    queryExamList();
   }, []);
 
   const columns = [
@@ -43,33 +43,39 @@ export default function User() {
       key: 'dateStr',
     },
     {
-      title: '用户数量',
-      dataIndex: 'allUser',
-      key: 'allUser',
+      title: '考试人次',
+      dataIndex: 'examCount',
+      key: 'examCount',
     },
     {
-      title: '活跃用户',
-      dataIndex: 'activeUser',
-      key: 'activeUser',
+      title: '考试人数',
+      dataIndex: 'examUser',
+      key: 'examUser',
     },
     {
-      title: '新增用户',
-      dataIndex: 'newUser',
-      key: 'newUser',
+      title: '通过人数',
+      dataIndex: 'passUser',
+      key: 'passUser',
+    },
+    {
+      title: '通过率',
+      dataIndex: 'passRate',
+      key: 'passRate',
+      render: (passRate: String) => <div>{passRate}%</div>,
     },
   ];
 
   return (
     <div>
       <div className="px-2 bg-white">
-        {userList && (
+        {examList && (
           <Table
             columns={columns}
-            dataSource={userList.records}
+            dataSource={examList.records}
             rowKey={'dateStr'}
             pagination={{ defaultCurrent: page.current, total: page.total }}
             onChange={(pagination) => {
-              queryUserList(pagination.current, pagination.pageSize);
+              queryExamList(pagination.current, pagination.pageSize);
             }}
           />
         )}

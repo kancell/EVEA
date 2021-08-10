@@ -1,4 +1,3 @@
-import InputNumber from '@/components/common/InputNumber';
 import { RepoChapterGroup, RepoChapterGroupAdd } from '@/services/examManage';
 import { Button, Card, Input } from 'antd';
 import { useState, useEffect } from 'react';
@@ -52,7 +51,7 @@ export default function SelectRow(props: {
                 <p className="leading-7 w-16 text-base mx-2">{item.title}</p>
                 <Input
                   type="number"
-                  value={(props.initValue && props.initValue[chapterIndex]?.levels?.[index].num) || 0}
+                  value={(props.initValue && props.initValue[chapterIndex]?.levels?.[index]?.num) || 0}
                   onChange={(value) => {
                     props.update && props.update(chapterIndex, index, value.target.value);
                   }}

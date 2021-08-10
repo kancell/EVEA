@@ -112,7 +112,12 @@ export default function Paper() {
             <Button
               className="m-1"
               onClick={() => {
-                console.log(record.id);
+                history.push({
+                  pathname: '/examManage/paper/add',
+                  query: {
+                    id: record.id,
+                  },
+                });
               }}
             >
               修改

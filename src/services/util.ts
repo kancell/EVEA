@@ -23,9 +23,7 @@ const init = (screenChange: Function) => {
 const enterFullScreen = () => {
   window.document.documentElement
     .requestFullscreen()
-    .then((res) => {
-      console.log(res);
-    })
+    .then((res) => {})
     .catch((error) => {
       console.log(error);
     });

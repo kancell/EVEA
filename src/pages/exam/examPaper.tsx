@@ -122,15 +122,17 @@ export default function ExamPaper() {
           id: exam?.id,
         },
       }).then((res: API.WarpUnknownResult) => {
-        const createResult = exam as { id: any };
-        history.push({
-          pathname: '/exam/examResult',
-          query: { id: createResult.id },
-        });
+        if (res.success === true) {
+          const createResult = exam as { id: any };
+          history.push({
+            pathname: '/exam/examResult',
+            query: { id: createResult.id },
+          });
+        } else {
+          history.push('/');
+        }
       });
-    } catch (error) {
-      history.push('/');
-    }
+    } catch (error) {}
   };
   return (
     <>
