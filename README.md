@@ -14,6 +14,6 @@ Start the dev server,
 $ yarn start
 ```
 ```
-http://localhost:8101/exam/api/paper/paper/check-process //检查登录状态
-http://localhost:8101/exam/api/exam/exam/online-paging //考试
+http://10.44.36.217:8101/exam/api/paper/paper/check-process //检查登录状态
+http://10.44.36.217:8101/exam/api/exam/exam/online-paging //考试
 ```

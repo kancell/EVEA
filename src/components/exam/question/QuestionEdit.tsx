@@ -27,7 +27,7 @@ export default function QuestionEdit(props: { content: API.RepoQuestion }) {
             <span>{props.content.content}</span>
           </div>
           <div className={`w-96 ${props.content.image === '' || props.content.image === undefined ? 'hidden' : ''}`}>
-            <img src={`http://localhost:8101${props.content.image}`} />
+            <img src={`http://10.44.36.217:8101${props.content.image}`} />
           </div>
           <div className="shadow rounded-lg p-4">
             {

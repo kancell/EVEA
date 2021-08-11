@@ -12,7 +12,7 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
   const [page, setPage] = useState({
     current: 1,
     pages: 1,
-    size: 4,
+    size: 5,
     total: 1,
   });
   const { paperEditData, setPaperEditData } = useModel('usePaperGenerate');
@@ -166,7 +166,7 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
 
   return (
     <div className="flex flex-col">
-      <div className="w-full mx-4 flex">
+      <div className="w-full my-4  flex">
         <div className="w-64">
           <Select disabled className="w-64 w-64" value={props.questionType}>
             <Option value="1">单选题</Option>
@@ -210,7 +210,10 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
                   ),
                   rowExpandable: (record) => true,
                 }}
-                pagination={{ defaultCurrent: page.current, total: page.total }}
+                pagination={{ defaultCurrent: page.current, defaultPageSize: page.size, total: page.total }}
+                onChange={(pagination) => {
+                  queryRepoList(pagination.current, pagination.pageSize);
+                }}
               />
             )}
           </div>

@@ -1,10 +1,22 @@
-import { Button, Table, Tag, Space, message } from 'antd';
+import { Button, Table, Tag, Modal, message } from 'antd';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { ExamManage, DeleteExam } from '@/services/examManage';
 import { history } from 'umi';
+import Paper from '@/pages/examManage/paper/paper';
 
 export default function Exam() {
+  const [verifyVisible, setVerifyVisible] = useState(false);
+  const verifyShow = () => {
+    setVerifyVisible(true);
+  };
+  const handleOk = () => {
+    setVerifyVisible(false);
+  };
+  const handleCancel = () => {
+    setVerifyVisible(false);
+  };
+
   const [page, setPage] = useState({
     current: 1,
     pages: 1,
@@ -166,8 +178,11 @@ export default function Exam() {
 
   return (
     <div>
+      <Modal width="80%" title="新建考试" visible={verifyVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Paper></Paper>
+      </Modal>
       <div className="bg-white p-2 mb-2">
-        <Button type="primary" shape="round">
+        <Button type="primary" shape="round" onClick={() => verifyShow()}>
           添加新的考试
         </Button>
       </div>

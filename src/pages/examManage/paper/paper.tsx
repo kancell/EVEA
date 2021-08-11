@@ -185,6 +185,9 @@ export default function Paper() {
           dataSource={paperList.records}
           rowKey={'id'}
           pagination={{ defaultCurrent: page.current, total: page.total }}
+          onChange={(pagination) => {
+            queryPaperList(pagination.current, pagination.pageSize);
+          }}
         />
       )}
     </div>

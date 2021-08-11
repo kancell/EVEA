@@ -100,13 +100,13 @@ const examManage = {
       component: 'examManage/repo/repo',
       icon: 'smile',
     },
-    {
+    /*     {
       path: '/examManage/repo/questionAdd',
       name: '新增试题',
       component: 'examManage/repo/questionAdd',
       icon: 'smile',
       hideInMenu: true,
-    },
+    }, */
     {
       path: '/examManage/repo/questionList',
       name: '试题管理',

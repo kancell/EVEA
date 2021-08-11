@@ -142,7 +142,8 @@ export const layout = ({
 初始化fetch网络请求配置
 */
 //http://10.44.36.217:8101
-const baseUrl = 'http://localhost:8101';
+//http://10.44.36.217:8101
+const baseUrl = 'http://10.44.36.217:8101';
 export const request: RequestConfig = {
   timeout: 5000,
   errorConfig: {

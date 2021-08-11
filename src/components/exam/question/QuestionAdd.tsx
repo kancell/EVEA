@@ -7,23 +7,14 @@ import { RepoQuestionAdd, RepoQuestionDetail } from '@/services/examManage';
 const { Option } = Select;
 
 export default function QuestionAdd(props: { type?: string; id?: string; repoId?: string; refresh: Function }) {
-  const [answerList, setAnswerList] = useState<API.RepoAnswer[]>([
-    {
-      analysis: '',
-      content: '',
-      isRight: false,
-    },
-    {
-      analysis: '',
-      content: '',
-      isRight: false,
-    },
-  ]);
+  const [answerList, setAnswerList] = useState<API.RepoAnswer[]>([]);
   const [question, setQuestion] = useState<API.RepoQuestion>();
   const InitQuestionData = async () => {
-    setQuestion({ ...question, tagList: [] });
-    props.repoId === undefined ? '' : setQuestion({ ...question, repoId: props.repoId });
-    if (props.type === undefined || props.type === 'add') return;
+    /* 初始化试题内容，如果类型为update，则取props.id更新question与answerList  */
+    if (props.repoId === undefined) return;
+    setQuestion({ ...question, tagList: [], repoId: props.repoId });
+
+    if (props.type !== 'update' || props.id === undefined) return;
     try {
       const result = await RepoQuestionDetail({
         data: {
@@ -39,6 +30,7 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
   }, []);
 
   const addAnswer = () => {
+    /* 添加新选项 */
     setAnswerList([
       ...answerList,
       {
@@ -49,7 +41,15 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
     ]);
   };
 
+  const deleteAnswer = (index: number) => {
+    /* 删除选项 */
+    let cache = [...answerList];
+    cache.splice(index, 1);
+    setAnswerList(cache);
+  };
+
   const updateAnswer = (index: number, key: string, value: string | boolean) => {
+    /* 更新选项 */
     let cache = [...answerList];
     key === 'content' && typeof value === 'string' ? (cache[index][key] = value) : '';
     key === 'analysis' && typeof value === 'string' ? (cache[index][key] = value) : '';
@@ -57,11 +57,29 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
     setAnswerList(cache);
   };
 
-  const deleteAnswer = (index: number) => {
-    let cache = [...answerList];
-    cache.splice(index, 1);
-    setAnswerList(cache);
-  };
+  useEffect(() => {
+    /* add模式下，切换题目类型时重置选项列表 */
+    if (props.type !== 'add') return;
+    switch (question?.quType) {
+      case '3':
+        setAnswerList([
+          ...answerList,
+          {
+            analysis: '',
+            content: '',
+            isRight: true,
+          },
+          {
+            analysis: '',
+            content: '',
+            isRight: false,
+          },
+        ]);
+        break;
+      default:
+        setAnswerList([]);
+    }
+  }, [question?.quType]);
 
   const sumbitAnswer = async () => {
     let cache = { ...question, answerList: answerList };
@@ -69,8 +87,12 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
       const result = await RepoQuestionAdd({
         data: cache,
       });
-      props.refresh();
-      message.success(result.msg);
+
+      if (result.success) {
+        props.refresh();
+        message.success(result.msg);
+      }
+      props.type === 'add' ? setQuestion(undefined) : '';
     } catch (error) {}
   };
   return (
@@ -148,7 +170,7 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
             </div>
             <div className="w-96 p-4">
               <Upload
-                action="http://localhost:8101/common/api/file/upload"
+                action="http://10.44.36.217:8101/common/api/file/upload"
                 withCredentials={true}
                 listType="picture"
                 defaultFileList={[]}
@@ -163,15 +185,9 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
       </div>
       <div className="p-2 w-96">
         <Card className={`${props.type === 'update' ? 'hidden' : ''}`}>
-          <Button className="w-full m-2" onClick={() => sumbitAnswer()}>
-            下载试题导入模板
-          </Button>
-          <Button className="w-full m-2" onClick={() => sumbitAnswer()}>
-            试题导入
-          </Button>
-          <Button className="w-full m-2" onClick={() => sumbitAnswer()}>
-            试题导出
-          </Button>
+          <Button className="w-full m-2">下载试题导入模板</Button>
+          <Button className="w-full m-2">试题导入</Button>
+          <Button className="w-full m-2">试题导出</Button>
         </Card>
       </div>
       {
@@ -212,6 +228,7 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
         )
       }
       {question?.quType && question.quType === '3' && (
+        /* 判断 */
         <div className="p-2 w-full">
           <Card>
             {answerList.map((item, index) => (
@@ -240,8 +257,12 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
         </div>
       )}
       {question?.quType && question.quType === '5' && (
+        /* 填空 */
         <div className="p-2 w-full">
           <Card>
+            <Button onClick={() => addAnswer()} type="primary" className="my-2">
+              增加选项
+            </Button>
             {answerList.map((item, index) => (
               <div className="flex my-4" key={index}>
                 <Button className="flex w-1/5">

@@ -31,7 +31,6 @@ export default function PaperAdd() {
   const location = useLocation();
   const queryLocationData = location as unknown as queryLocation;
   const paperEditDataInit = async () => {
-    console.log(queryLocationData.query);
     if (queryLocationData.query === undefined) {
       return;
     }
@@ -41,7 +40,6 @@ export default function PaperAdd() {
           id: queryLocationData.query.id,
         },
       });
-      console.log(result);
       setPaperEditData(result.data);
     } catch (error) {}
   };
@@ -89,6 +87,7 @@ export default function PaperAdd() {
     });
     setPaperEditData({ ...paperEditData, quCount: quCount, totalScore: totalScore, timeType: 1 });
   };
+
   const paperSave = async () => {
     try {
       const result = await PaperSave({
@@ -97,6 +96,12 @@ export default function PaperAdd() {
       message.info(result.msg);
       history.push('/examManage/paper');
     } catch (error) {}
+  };
+
+  const paperQuestionGroupDelete = (index: number) => {
+    const cacheGroupList = paperEditData?.groupList;
+    cacheGroupList?.splice(index, 1);
+    setPaperEditData({ ...paperEditData, groupList: cacheGroupList });
   };
 
   return (
@@ -109,17 +114,17 @@ export default function PaperAdd() {
         ></PaperSelect>
       </Drawer>
       <Card title="新增试卷">
-        <div className="flex">
-          <div className="flex w-3/4 mr-8">
+        <div className="flex flex-wrap justify-around">
+          <div className="flex flex-wrap max-w-2xl">
             <div className="flex justify-between flex-wrap">
-              <div className="w-full m-2">
+              <div className="flex-grow m-2 w-full">
                 <Input
                   onChange={(e) => setPaperEditData({ ...paperEditData, title: e.target.value })}
                   addonBefore="试卷名称"
                   value={paperEditData?.title}
                 />
               </div>
-              <div className="w-96 m-2">
+              <div className="flex-grow m-2">
                 <Radio.Group
                   value={Number(paperEditData?.joinType)}
                   disabled={!(paperEditData?.groupList === undefined || paperEditData?.groupList.length === 0)}
@@ -138,12 +143,13 @@ export default function PaperAdd() {
               <div className="w-48 m-2">
                 <Input disabled addonBefore="试题数量" value={paperEditData?.quCount} />
               </div>
-              <div className="w-96 m-2">
+              <div className="flex-grow m-2">
                 <Select
                   onChange={(value) => {
                     if (!value) return;
                     setPaperEditData({ ...paperEditData, catId: value.toString() });
                   }}
+                  placeholder="试卷分类"
                   className="w-full"
                   value={paperEditData?.catId}
                 >
@@ -156,7 +162,7 @@ export default function PaperAdd() {
               </div>
             </div>
           </div>
-          <div className="w-1/4 p-4 border rounded">
+          <div className="p-4 border rounded">
             <div className="w-full my-2">
               <Button onClick={() => paperSave()} className="w-full" type="primary" htmlType="submit">
                 保存试卷
@@ -276,6 +282,9 @@ export default function PaperAdd() {
               </div>
               <Button type="primary" className="m-1 ">
                 添加试题
+              </Button>
+              <Button type="primary" danger className="m-1" onClick={() => paperQuestionGroupDelete(index)}>
+                删除本试题组
               </Button>
             </div>
 

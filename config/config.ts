@@ -28,7 +28,7 @@ export default defineConfig({
     /* 配置tailwindcss，目前为postcss7.0兼容版本 */
     tailwindcss(),
   ],
-  /*   chainWebpack(config){
+  chainWebpack(config) {
     config.optimization.splitChunks({
       cacheGroups: {
         styles: {
@@ -37,7 +37,7 @@ export default defineConfig({
           chunks: 'async',
           minChunks: 1,
           minSize: 0,
-        }
+        },
       },
     });
     config.merge({
@@ -52,16 +52,19 @@ export default defineConfig({
             vendor: {
               name: 'vendors',
               test: /^.*node_modules[\\/](?!ag-grid-|lodash|wangeditor|react-virtualized|rc-select|rc-drawer|rc-time-picker|rc-tree|rc-table|rc-calendar|antd).*$/,
-              chunks: "all",
+              chunks: 'all',
               priority: 10,
             },
-          }
-        }
-      }
+          },
+        },
+      },
     });
     //过滤掉momnet的那些不使用的国际化文件
-    config.plugin("replace").use(require("webpack").ContextReplacementPlugin).tap(() => {
+    config
+      .plugin('replace')
+      .use(require('webpack').ContextReplacementPlugin)
+      .tap(() => {
         return [/moment[/\\]locale$/, /zh-cn/];
-    });
-  } */
+      });
+  },
 });

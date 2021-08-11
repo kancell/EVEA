@@ -1,7 +1,7 @@
-import { Button, Table, Collapse, Input, TreeSelect, Checkbox } from 'antd';
+import { Button, Table, Collapse, Input, TreeSelect, Checkbox, message } from 'antd';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
-import { RepoManage, RepoUpdate } from '@/services/examManage';
+import { RepoManage, RepoUpdate, RepoDelete } from '@/services/examManage';
 import { history } from 'umi';
 const { Panel } = Collapse;
 
@@ -63,12 +63,32 @@ export default function Repo() {
       const updateResult = await RepoUpdate({
         data: data,
       });
-      if (updateResult.success) queryRepoList();
+      if (updateResult.success) {
+        queryRepoList();
+        setRepo({
+          catId: '',
+          chapters: [],
+        });
+      }
     } catch (error) {
       console.log(error);
     }
   };
-
+  const deleteRepo = async (id: string) => {
+    const param = [];
+    param.push(id);
+    try {
+      const result = await RepoDelete({
+        data: {
+          ids: param,
+        },
+      });
+      if (result.success) {
+        message.success(result.msg);
+        queryRepoList();
+      }
+    } catch (error) {}
+  };
   useEffect(() => {
     queryRepoList();
   }, []);
@@ -131,7 +151,7 @@ export default function Repo() {
               danger
               className="m-1"
               onClick={() => {
-                console.log(record.id);
+                if (record.id) deleteRepo(record.id);
               }}
             >
               删除
@@ -154,6 +174,7 @@ export default function Repo() {
                     onChange={(e) => {
                       setRepo({ ...repo, title: e.target.value });
                     }}
+                    value={repo.title}
                     addonBefore="新题库名称"
                     placeholder="输入名称"
                   />
@@ -176,12 +197,14 @@ export default function Repo() {
                     onChange={(e) => {
                       setRepo({ ...repo, remark: e.target.value });
                     }}
+                    value={repo.remark}
                     addonBefore="备注"
                     placeholder="输入备注"
                   />
                 </div>
                 <div className="p-2">
                   <Checkbox
+                    checked={repo.isExam}
                     onChange={(e) => {
                       setRepo({ ...repo, isExam: e.target.checked });
                     }}
@@ -191,6 +214,7 @@ export default function Repo() {
                 </div>
                 <div className="p-2">
                   <Checkbox
+                    checked={repo.isTrain}
                     onChange={(e) => {
                       setRepo({ ...repo, isTrain: e.target.checked });
                     }}
@@ -213,7 +237,7 @@ export default function Repo() {
             activeKey={repoUpdateShow}
             onChange={() => setRepoUpdateShow(repoUpdateShow === 0 ? 1 : 0)}
           >
-            <Panel header="修改题库" key={1}>
+            <Panel header="修改题库" key={1} collapsible={repoUpdateShow === 0 ? 'disabled' : 'header'}>
               <div className="flex flex-wrap">
                 <div className={`w-96 p-2`}>
                   <Input
