@@ -6,44 +6,44 @@ const exam = {
   flatMenu: true,
   routes: [
     {
-      path: '/exam/examList',
+      path: '/exam/exam',
       name: '考试列表',
-      component: 'exam/examList',
+      component: 'exam/exam/exam',
       icon: 'smile',
     },
     {
-      path: '/exam/examPaper',
+      path: '/exam/exam/paper',
       name: '在线考试',
-      component: 'exam/examPaper',
+      component: 'exam/exam/paper',
       hideInMenu: true,
       icon: 'smile',
     },
     {
-      path: '/exam/examRecordList',
+      path: '/exam/record',
       name: '成绩记录',
-      component: 'exam/examRecordList',
+      component: 'exam/record/record',
       icon: 'smile',
     },
     {
-      path: '/exam/examRecordPaper',
+      path: '/exam/record/paper',
       name: '在线考试',
-      component: 'exam/examRecordPaper',
+      component: 'exam/record/paper',
       hideInMenu: true,
       icon: 'smile',
     },
     {
-      path: '/exam/examResult',
+      path: '/exam/record/result',
       name: '我的成绩',
-      component: 'exam/examResult',
+      component: 'exam/record/result',
       hideInMenu: true,
       icon: 'smile',
     },
-    /*     {
+    {
       path: '/exam/practice',
       name: '题库训练',
-      component: 'exam/practice',
+      component: 'exam/practice/practice',
       icon: 'smile',
-    }, */
+    },
   ],
 };
 const examManage = {
@@ -117,7 +117,7 @@ const examManage = {
     {
       path: '/examManage/review',
       name: '阅卷管理',
-      component: 'examManage/review',
+      component: 'examManage/review/review',
       icon: 'smile',
     },
   ],

@@ -13,7 +13,7 @@ declare namespace API {
     title: string;
     value: string;
   };
-  type WarpSelectOption = httpRespone & {
+  type wrapSelectOption = httpRespone & {
     data: SelectOption[];
   };
   type paging = {
@@ -26,7 +26,7 @@ declare namespace API {
     size: number;
     total: number;
   };
-  type WarpUnknownResult = httpRespone & {
+  type wrapUnknownResult = httpRespone & {
     data?: unknown;
   };
 
@@ -57,7 +57,7 @@ declare namespace API {
     userScore: number;
     userTime: number;
   };
-  type WarpProcessExam = httpRespone & {
+  type wrapProcessExam = httpRespone & {
     data?: ProcessExam;
   };
 
@@ -103,7 +103,7 @@ declare namespace API {
   type ExamPaging = paging & {
     records: Exam[];
   };
-  type WarpExamPaging = httpRespone & {
+  type wrapExamPaging = httpRespone & {
     data: ExamPaging;
   };
 
@@ -142,7 +142,7 @@ declare namespace API {
     sort: number;
     video: string;
   };
-  type WarpQuestion = httpRespone & {
+  type wrapQuestion = httpRespone & {
     data: Question;
   };
 
@@ -158,7 +158,7 @@ declare namespace API {
     repoId: string;
     title: string;
   };
-  type WarpChapterGroup = httpRespone & {
+  type wrapChapterGroup = httpRespone & {
     data: ChapterGroup[];
   };
   type QuestionGroup = {
@@ -195,7 +195,7 @@ declare namespace API {
     objScore?: number;
     subjScore?: number;
   };
-  type WarpPaperEditParams = httpRespone & {
+  type wrapPaperEditParams = httpRespone & {
     data: PaperEditParams;
   };
   type PaperDetail = {
@@ -239,7 +239,7 @@ declare namespace API {
     userTime: number;
     groupList: QuestionGroup[];
   };
-  type WarpPaperDetail = httpRespone & {
+  type wrapPaperDetail = httpRespone & {
     data: PaperDetail;
   };
 
@@ -273,7 +273,7 @@ declare namespace API {
     userTime: number;
     groupList: QuestionGroup[];
   };
-  type WarpPaperResult = httpRespone & {
+  type wrapPaperResult = httpRespone & {
     data: PaperResult;
   };
 
@@ -293,7 +293,7 @@ declare namespace API {
   type PaperRecord = paging & {
     records: Record[];
   };
-  type WarpPaperRecord = httpRespone & {
+  type wrapPaperRecord = httpRespone & {
     data: PaperRecord;
   };
 
@@ -329,7 +329,7 @@ declare namespace API {
   type ExamRecordPaging = paging & {
     records: ExamRecord[];
   };
-  type WarpExamRecordPaging = httpRespone & {
+  type wrapExamRecordPaging = httpRespone & {
     data: ExamRecordPaging;
   };
 
@@ -350,13 +350,13 @@ declare namespace API {
     title: string;
     totalScore: number;
   };
-  type WarpPaperManageSingle = httpRespone & {
+  type wrapPaperManageSingle = httpRespone & {
     data: PaperManage;
   };
   type PaperManagePaging = paging & {
     records: PaperManage[];
   };
-  type WarpPaperManagePaging = httpRespone & {
+  type wrapPaperManagePaging = httpRespone & {
     data: PaperManagePaging;
   };
 
@@ -389,10 +389,10 @@ declare namespace API {
     records: RepoManage[];
   };
 
-  type WarpRepoManage = httpRespone & {
+  type wrapRepoManage = httpRespone & {
     data: RepoManage;
   };
-  type WarpRepoManagePaging = httpRespone & {
+  type wrapRepoManagePaging = httpRespone & {
     data: RepoManagePaging;
   };
 
@@ -441,7 +441,7 @@ declare namespace API {
   type ReviewPaging = paging & {
     records: Review[];
   };
-  type WarpReviewPaging = httpRespone & {
+  type wrapReviewPaging = httpRespone & {
     data: ReviewPaging;
   };
 
@@ -449,7 +449,7 @@ declare namespace API {
     deptCode: string;
     deptCodes: unknown[];
   };
-  type WarpExamDetail = httpRespone & {
+  type wrapExamDetail = httpRespone & {
     data: ExamDetail;
   };
 
@@ -463,7 +463,7 @@ declare namespace API {
   type UserStatisPaging = paging & {
     records: Review[];
   };
-  type WarpUserStatisPaging = httpRespone & {
+  type wrapUserStatisPaging = httpRespone & {
     data: UserStatisPaging;
   };
 
@@ -478,7 +478,7 @@ declare namespace API {
   type ExamStatisPaging = paging & {
     records: Review[];
   };
-  type WarpExamStatisPaging = httpRespone & {
+  type wrapExamStatisPaging = httpRespone & {
     data: UserStatisPaging;
   };
 
@@ -526,16 +526,16 @@ declare namespace API {
     quList?: RepoQuestion[];
     pathScore?: boolean;
   };
-  type WarpRepoQuestion = httpRespone & {
+  type wrapRepoQuestion = httpRespone & {
     data: RepoQuestion;
   };
-  type WarpRepoQuestionList = httpRespone & {
+  type wrapRepoQuestionList = httpRespone & {
     data: RepoQuestion[];
   };
   type RepoQuestionPaging = paging & {
     records: RepoQuestion[];
   };
-  type WarpRepoQuestionPaging = httpRespone & {
+  type wrapRepoQuestionPaging = httpRespone & {
     data: RepoQuestionPaging;
   };
 
@@ -571,7 +571,7 @@ declare namespace API {
   type UserPaging = paging & {
     records: User[];
   };
-  type WarpUserPaging = httpRespone & {
+  type wrapUserPaging = httpRespone & {
     data: UserPaging;
   };
 

@@ -68,7 +68,7 @@ export default function IndexPage(): ReactChild {
                   !nowProcessExam && message.info('当前没有未交卷的考试');
                   nowProcessExam &&
                     history.push({
-                      pathname: '/exam/examPaper',
+                      pathname: '/exam/exam/paper',
                       query: {
                         id: nowProcessExam.id,
                       },
@@ -117,7 +117,7 @@ export default function IndexPage(): ReactChild {
               <div
                 onClick={() => {
                   history.push({
-                    pathname: '/exam/examList',
+                    pathname: '/exam/exam',
                   });
                 }}
                 className="flex-grow cursor-pointer"
@@ -162,7 +162,7 @@ export default function IndexPage(): ReactChild {
               <div
                 onClick={() => {
                   history.push({
-                    pathname: '/exam/examRecordList',
+                    pathname: '/exam/record/record',
                   });
                 }}
                 className="flex-grow cursor-pointer"

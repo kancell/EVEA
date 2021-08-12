@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { currentExam, processExam } from '@/services/exam';
-import ExamStartCheck from '@/components/exam/verify/EaxmStartCheck';
+import ExamStartCheck from '@/components/exam/verify/ExamStartCheck';
 import Pagination from '@/components/pagination/Pagination';
 import moment from 'moment';
 import { history } from 'umi';
@@ -62,7 +62,7 @@ export default function ExamList() {
               className="px-4 py-2 -mx-3 cursor-pointer"
               onClick={() => {
                 history.push({
-                  pathname: '/exam/examPaper',
+                  pathname: '/exam/exam/paper',
                   query: {
                     id: nowProcessExam.id,
                   },

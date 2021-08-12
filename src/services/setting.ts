@@ -2,7 +2,7 @@
 import { request } from 'umi';
 /* 用户统计 */
 export async function userList(options?: { [key: string]: any }) {
-  return request<API.WarpUserPaging>('/exam/api/sys/user/paging', {
+  return request<API.wrapUserPaging>('/exam/api/sys/user/paging', {
     method: 'POST',
     ...(options || {}),
   });
@@ -10,7 +10,7 @@ export async function userList(options?: { [key: string]: any }) {
 
 /* 获取公告 /exam/api/sys/notice/paging*/
 export async function noticeList(options?: { [key: string]: any }) {
-  return request<API.WarpUserPaging>('/exam/api/sys/user/paging', {
+  return request<API.wrapUserPaging>('/exam/api/sys/user/paging', {
     method: 'POST',
     ...(options || {}),
   });
@@ -26,7 +26,7 @@ title: "asd1"
 updateTime: "2021-08-12 11:03:07}"
 */
 export async function noticeUpdate(options?: { [key: string]: any }) {
-  return request<API.WarpUserPaging>('/exam/api/sys/user/paging', {
+  return request<API.wrapUserPaging>('/exam/api/sys/user/paging', {
     method: 'POST',
     ...(options || {}),
   });

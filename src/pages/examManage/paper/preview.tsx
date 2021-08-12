@@ -18,7 +18,7 @@ export default function paperPreview() {
       return;
     }
     try {
-      const currentExamResult: API.WarpPaperDetail = await PaperPreview({
+      const currentExamResult: API.wrapPaperDetail = await PaperPreview({
         data: {
           id: queryLocationData.query.id,
         },

@@ -22,7 +22,7 @@ export default function ExamStartCheck(props: { exam: API.Exam; show: Boolean; s
       }).then((res) => {
         const createResult = res.data as { id: any };
         history.push({
-          pathname: '/exam/examPaper',
+          pathname: '/exam/exam/paper',
           query: {
             id: createResult.id,
           },

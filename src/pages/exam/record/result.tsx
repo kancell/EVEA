@@ -20,7 +20,7 @@ export default function examResult() {
       return;
     }
     try {
-      const currentExamResult: API.WarpPaperResult = await examFinalResult({
+      const currentExamResult: API.wrapPaperResult = await examFinalResult({
         data: {
           id: queryLocationData.query.id,
         },
@@ -47,7 +47,7 @@ export default function examResult() {
     <>
       {!examResult && <Loading />}
       {examResult && (
-        <div className="w-full h-full max-h-full overflow-auto">
+        <div className="w-full h-full overflow-auto">
           {examResult.resultType === 1 && <ThanksResult msg={examResult.thanks} />}
           {examResult.resultType === 2 && (
             <ScoreResult
@@ -59,7 +59,7 @@ export default function examResult() {
             ></ScoreResult>
           )}
           {examResult.resultType === 3 && (
-            <div className="grid grid-flow-row grid-cols-4 xl:grid-cols-6 grid-rows-1 xl:grid-rows-2 gap-4 ">
+            <div className="grid grid-flow-row grid-cols-4 xl:grid-cols-6 grid-rows-1 xl:grid-rows-1 gap-4">
               <QuestionSelectCard
                 type={'result'}
                 data={[...examResult.groupList]}

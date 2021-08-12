@@ -33,7 +33,7 @@ export default function ExamPaper() {
       return;
     }
     try {
-      const currentExam: API.WarpPaperDetail = await examContent({
+      const currentExam: API.wrapPaperDetail = await examContent({
         data: {
           id: queryLocationData.query.id,
         },
@@ -69,7 +69,7 @@ export default function ExamPaper() {
   const [question, setQuestion] = useState<API.Question>();
   const queryQuestionContent = async (currentExamID: string, currentQuestionID: string) => {
     try {
-      const currentQuestion: API.WarpQuestion = await questionContent({
+      const currentQuestion: API.wrapQuestion = await questionContent({
         data: {
           paperId: currentExamID,
           quId: currentQuestionID,
@@ -121,11 +121,11 @@ export default function ExamPaper() {
           handFlag: 0,
           id: exam?.id,
         },
-      }).then((res: API.WarpUnknownResult) => {
+      }).then((res: API.wrapUnknownResult) => {
         if (res.success === true) {
           const createResult = exam as { id: any };
           history.push({
-            pathname: '/exam/examResult',
+            pathname: '/exam/record/result',
             query: { id: createResult.id },
           });
         } else {
