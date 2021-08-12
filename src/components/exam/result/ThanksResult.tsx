@@ -13,7 +13,7 @@ export default function ThanksResult(props: { msg: string }) {
           </svg>
           <p className="leading-relaxed text-lg">感谢您的参与！</p>
           <span className="inline-block h-1 w-10 rounded bg-indigo-500 mt-8 mb-6"></span>
-          <h2 className="text-gray-900 font-medium title-font tracking-wider text-sm">EVEA考试系统</h2>
+          <h2 className="text-gray-900 font-medium title-font tracking-wider text-sm">{process.env.TITLE}</h2>
           <p className="text-gray-500">中国联通武汉市公司</p>
         </div>
       </div>

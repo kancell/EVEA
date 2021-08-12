@@ -3,6 +3,7 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { request, useModel, history } from 'umi';
+import logo from '@/assets/logo.png';
 
 const LoginForm = (): ReactChild => {
   const { initialState, loading, error, refresh, setInitialState } = useModel('@@initialState');
@@ -21,7 +22,7 @@ const LoginForm = (): ReactChild => {
 
   useEffect(() => {
     const verifyRandomKeyUrl = () => {
-      const objectURL = `http://10.44.36.217:8101/common/api/captcha/gen?key=${verifyRandomKey}`;
+      const objectURL = `${process.env.BASEURL}/common/api/captcha/gen?key=${verifyRandomKey}`;
       setVerifyCodePic(objectURL);
       setLoginData({ ...loginData, captchaKey: verifyRandomKey });
     };
@@ -50,14 +51,10 @@ const LoginForm = (): ReactChild => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+      <div className="max-w-sm w-full space-y-8">
         <div>
-          <img
-            className="mx-auto h-12 w-auto block"
-            src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-            alt="Workflow"
-          />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">数科考试系统</h2>
+          <img className="mx-auto h-12 w-auto block" src={logo} alt="Workflow" />
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">{process.env.TITLE}</h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
               没有账号？前往注册
@@ -66,10 +63,11 @@ const LoginForm = (): ReactChild => {
         </div>
         <Form
           name="login"
-          className="max-w-md w-ful"
+          className="max-w-sm w-full"
           initialValues={{
             remember: true,
           }}
+          onFinish={Login}
         >
           <Form.Item
             name="userName"
@@ -133,12 +131,7 @@ const LoginForm = (): ReactChild => {
             </a>
           </span>
 
-          <Button
-            onClick={() => Login()}
-            type="primary"
-            htmlType="submit"
-            className="group relative w-full flex justify-center py-2 px-4 mt-4"
-          >
+          <Button type="primary" htmlType="submit" className="group relative w-full flex justify-center py-2 px-4 mt-4">
             登录
           </Button>
         </Form>

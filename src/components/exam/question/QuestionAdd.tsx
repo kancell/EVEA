@@ -170,7 +170,7 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
             </div>
             <div className="w-96 p-4">
               <Upload
-                action="http://10.44.36.217:8101/common/api/file/upload"
+                action={`${process.env.BASEURL}/common/api/file/upload`}
                 withCredentials={true}
                 listType="picture"
                 defaultFileList={[]}

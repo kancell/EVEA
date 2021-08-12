@@ -8,6 +8,7 @@ import type { RequestConfig } from 'umi';
 import type { BasicLayoutProps } from '@ant-design/pro-layout';
 
 import './style/style.css';
+import logo from '@/assets/logo.png';
 
 let runTimeToken: string = '';
 const loginPath = '/user/login';
@@ -36,7 +37,7 @@ export async function getInitialState(): Promise<unknown> {
   let LayoutSettingData: BasicLayoutProps = {
     title: '考试平台',
     layout: 'side',
-    logo: 'https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ',
+    logo: logo,
   };
 
   let localUserData;
@@ -141,9 +142,8 @@ export const layout = ({
 /*
 初始化fetch网络请求配置
 */
-//http://10.44.36.217:8101
-//http://10.44.36.217:8101
-const baseUrl = 'http://10.44.36.217:8101';
+
+const baseUrl = process.env.BASEURL;
 export const request: RequestConfig = {
   timeout: 5000,
   errorConfig: {

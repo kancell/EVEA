@@ -1,8 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "start": "umi dev",
-    "build": "umi build",
+    "start": "cross-env UMI_ENV=dev umi dev",
+    "local": "cross-env UMI_ENV=localhost umi dev",
+    "build": "cross-env UMI_ENV=prod umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
@@ -25,6 +26,7 @@
     "@antv/l7-maps": "^2.4.3",
     "@antv/l7-react": "^2.3.0",
     "@umijs/preset-react": "1.x",
+    "cross-env": "^7.0.3",
     "react-spring": "^9.2.4",
     "umi": "^3.4.25",
     "uuid": "^8.3.2"

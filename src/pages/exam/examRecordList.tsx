@@ -3,12 +3,11 @@ import { PaperRecord as queryExamRecord } from '@/services/exam';
 import moment from 'moment';
 import { history } from 'umi';
 import Pagination from '@/components/pagination/Pagination';
-import { useModel } from 'umi';
+
 import Loading from '@/components/loading/Loading';
 
 export default function examRecordList() {
   const [PaperRecord, setExamRecord] = useState<API.PaperRecord>();
-  /* const { page, setPage } = useModel('useExamRecordListPagesModel'); */
   const [page, setPage] = useState({
     current: 1,
     pages: 1,

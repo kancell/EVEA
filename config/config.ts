@@ -28,6 +28,7 @@ export default defineConfig({
     /* 配置tailwindcss，目前为postcss7.0兼容版本 */
     tailwindcss(),
   ],
+  /*
   chainWebpack(config) {
     config.optimization.splitChunks({
       cacheGroups: {
@@ -67,4 +68,5 @@ export default defineConfig({
         return [/moment[/\\]locale$/, /zh-cn/];
       });
   },
+  */
 });

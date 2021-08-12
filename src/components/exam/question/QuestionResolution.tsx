@@ -33,7 +33,7 @@ export default function QuestionResolution(props: { content: API.Question; ancho
             </span>
           </div>
           <div className={`w-96 ${props.content.image === '' ? 'hidden' : ''}`}>
-            <img src={`http://10.44.36.217:8101${props.content.image}`} />
+            <img src={`${process.env.BASEURL}${props.content.image}`} />
           </div>
           <div className="shadow rounded-lg p-4">
             {

@@ -34,10 +34,10 @@ export default function QuestionSubCard(props: {
   }, []);
   return (
     <div
-      className="static lg:top-0 w-full lg:w-auto
+      className="static md:top-0 w-full md:w-auto
       h-full overflow-y-auto "
     >
-      <div className="fixed bottom-2 w-full flex items-start mx-auto lg:hidden right-0">
+      <div className="fixed bottom-2 w-full flex items-start mx-auto md:hidden right-0">
         {/* 手机端操作卡片 */}
         <div
           onClick={() => {
@@ -47,9 +47,9 @@ export default function QuestionSubCard(props: {
         >
           上一题
         </div>
-        <div className="max-w-xs mx-auto overflow-hidden border bg-white rounded-lg shadow-lg">
+        <div className="max-w-xs mx-auto overflow-hidden border bg-white rounded shadow-lg">
           <div className="text-center">
-            <a href="#" className="block text-xl font-bold text-gray-800 dark:text-white mt-2 mx-2">
+            <a href="#" className="block text-lg font-bold text-red-400 dark:text-white mt-2 mx-2">
               剩余时间
             </a>
             <span className="text-lg text-gray-700 dark:text-gray-200">{restTime}</span>
@@ -64,7 +64,7 @@ export default function QuestionSubCard(props: {
           下一题
         </div>
       </div>
-      <div className="hidden lg:block">
+      <div className="hidden md:block">
         {/* 桌面端操作卡片 */}
         <div className="max-w-xs mx-auto overflow-hidden border bg-white rounded-lg shadow-lg">
           <div className="py-5 text-center">
@@ -79,7 +79,7 @@ export default function QuestionSubCard(props: {
             onClick={() => {
               selectNextQuestion('pre');
             }}
-            className="flex-grow px-4 py-2 my-1 mr-1 font-bold tracking-wide text-white text-center cursor-pointer capitalize transition-colors duration-200 transform bg-green-500 rounded-md"
+            className="flex-grow px-4 py-2 my-1 mr-1 font-bold tracking-wide text-white text-center cursor-pointer capitalize transition-colors duration-200 transform bg-green-500 rounded"
           >
             上一题
           </div>
@@ -87,7 +87,7 @@ export default function QuestionSubCard(props: {
             onClick={() => {
               selectNextQuestion('next');
             }}
-            className="flex-grow px-4 py-2 my-1 ml-1 font-bold tracking-wide text-white text-center cursor-pointer capitalize transition-colors duration-200 transform bg-blue-500 rounded-md"
+            className="flex-grow px-4 py-2 my-1 ml-1 font-bold tracking-wide text-white text-center cursor-pointer capitalize transition-colors duration-200 transform bg-blue-500 rounded"
           >
             下一题
           </div>
@@ -98,8 +98,8 @@ export default function QuestionSubCard(props: {
         onClick={() => {
           props.fill();
         }}
-        className="absolute top-0 right-0 lg:static
-        px-4 py-2 my-1 font-bold text-lg shadow-lg tracking-wide text-white text-center cursor-pointer capitalize transition-colors duration-200 transform bg-red-400 rounded-md"
+        className="absolute top-0 right-0 md:static
+        px-4 py-2 my-1 font-bold text-lg shadow-lg tracking-wide text-white text-center cursor-pointer capitalize transition-colors duration-200 transform bg-red-400 rounded"
       >
         交卷
       </div>

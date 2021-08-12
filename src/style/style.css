@@ -527,7 +527,7 @@ samp {
  *    https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210
  */
 
-img,
+/* img会影响antd image的预览显示 */
 svg,
 video,
 canvas,

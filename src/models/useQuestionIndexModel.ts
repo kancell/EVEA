@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-
+import { message } from 'antd';
 export default function useQuestionIndexModel() {
   const [nowQuestionIndex, setNowQuestionIndex] = useState({
     groupIndex: 0,
@@ -24,6 +24,7 @@ export default function useQuestionIndexModel() {
           ) {
             setNowQuestionIndex({ questionIndex: 0, groupIndex: nowQuestionIndex.groupIndex + 1 });
           } else {
+            message.info('已是最后一题');
             return;
           }
           break;
@@ -36,6 +37,7 @@ export default function useQuestionIndexModel() {
               groupIndex: nowQuestionIndex.groupIndex - 1,
             });
           } else {
+            message.info('已是第一题');
             return;
           }
           break;
