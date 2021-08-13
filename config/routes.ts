@@ -19,6 +19,12 @@ const exam = {
       icon: 'smile',
     },
     {
+      path: '/exam/practice',
+      name: '题库训练',
+      component: 'exam/practice/practice',
+      icon: 'smile',
+    },
+    {
       path: '/exam/record',
       name: '成绩记录',
       component: 'exam/record/record',
@@ -31,17 +37,12 @@ const exam = {
       hideInMenu: true,
       icon: 'smile',
     },
+
     {
       path: '/exam/record/result',
       name: '我的成绩',
       component: 'exam/record/result',
       hideInMenu: true,
-      icon: 'smile',
-    },
-    {
-      path: '/exam/practice',
-      name: '题库训练',
-      component: 'exam/practice/practice',
       icon: 'smile',
     },
   ],
@@ -114,12 +115,12 @@ const examManage = {
       icon: 'smile',
       hideInMenu: true,
     },
-    {
+    /*     {
       path: '/examManage/review',
       name: '阅卷管理',
       component: 'examManage/review/review',
       icon: 'smile',
-    },
+    }, */
   ],
 };
 const setting = {
@@ -159,12 +160,12 @@ const setting = {
       component: 'setting/user',
       icon: 'smile',
     },
-    {
+    /*     {
       path: '/setting/notice',
       name: '公告设定',
       component: 'setting/index',
       icon: 'smile',
-    },
+    }, */
   ],
 };
 const statistics = {

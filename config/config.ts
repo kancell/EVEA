@@ -16,6 +16,7 @@ export default defineConfig({
   dynamicImport: {
     loading: '@/components/loading/Loading',
   },
+  history: { type: 'hash' },
   layout: {},
   request: {
     dataField: 'data',
@@ -28,9 +29,9 @@ export default defineConfig({
     /* 配置tailwindcss，目前为postcss7.0兼容版本 */
     tailwindcss(),
   ],
-  /*
+  /* 打包体积处理设定 */
   chainWebpack(config) {
-    config.optimization.splitChunks({
+    /*     config.optimization.splitChunks({
       cacheGroups: {
         styles: {
           name: 'styles',
@@ -40,7 +41,7 @@ export default defineConfig({
           minSize: 0,
         },
       },
-    });
+    }); */
     config.merge({
       optimization: {
         minimize: true,
@@ -68,5 +69,4 @@ export default defineConfig({
         return [/moment[/\\]locale$/, /zh-cn/];
       });
   },
-  */
 });

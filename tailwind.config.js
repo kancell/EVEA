@@ -7,13 +7,16 @@ module.exports = {
         exactH: 'calc(100vh - 96px)',
       },
       animation: {
-        'spin-slow': 'appear 1s cubic-bezier(0,0.2,0.5,1)',
+        'spin-slow': 'appear 1s ease-in',
       },
       keyframes: {
         appear: {
           '0%': { opacity: 0 },
-          '30%': { opacity: 0.3 },
           '100%': { opacity: 1 },
+        },
+        move: {
+          '0%': { transform: 'translateX(0vw)' },
+          '100%': { transform: 'translateX(100vw)' },
         },
       },
     },

@@ -552,27 +552,68 @@ declare namespace API {
   };
 
   type User = {
-    avatar: string;
-    createBy: string;
-    createTime: string;
-    dataFlag: number;
-    deptCode: string;
-    id: string;
-    idCard: string;
-    password: string;
-    points: number;
-    realName: string;
-    salt: string;
-    state: number;
-    updateBy: string;
-    updateTime: string;
-    userName: string;
+    avatar?: string;
+    createBy?: string;
+    createTime?: string;
+    dataFlag?: number;
+    deptCode?: string;
+    id?: string;
+    idCard?: string;
+    password?: string;
+    points?: number;
+    realName?: string;
+    roles?: string[];
+    salt?: string;
+    state?: number;
+    updateBy?: string;
+    updateTime?: string;
+    userName?: string;
+    email?: string;
+  };
+  type WrapUser = httpRespone & {
+    data: User;
   };
   type UserPaging = paging & {
     records: User[];
   };
   type wrapUserPaging = httpRespone & {
     data: UserPaging;
+  };
+
+  type Role = {
+    createBy: string;
+    createTime: string;
+    dataFlag: number;
+    dataScope: number;
+    dataScope_dictText: string;
+    id: string;
+    roleName: string;
+    roleType: number;
+    roleType_dictText: string;
+    updateBy: string;
+    updateTime: string;
+  };
+  type wrapRole = httpRespone & {
+    data: Role[];
+  };
+
+  type Depart = {
+    children: Depart[];
+    deptCode: string;
+    deptName: string;
+    deptType: number;
+    id: string;
+    parentId: string;
+    sort: number;
+  };
+  type WrapDepart = httpRespone & {
+    data: Depart[];
+  };
+  type Tree = {
+    title?: string;
+    key?: string;
+    value?: string;
+    children?: Tree[];
   };
 
   type CurrentUser = {

@@ -110,7 +110,7 @@ export default function question() {
           ),
           rowExpandable: (record) => true,
           expandedRowClassName: (record, index, indent): string => {
-            return 'bg-gray-200';
+            return 'bg-gray-50';
           },
         }}
         rowKey={'id'}
