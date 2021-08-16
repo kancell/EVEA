@@ -47,6 +47,7 @@ export default function SelectRow(props: {
         props.close && props.close();
         break;
       case 3:
+        console.log(chapterGroup);
         break;
       default:
         break;

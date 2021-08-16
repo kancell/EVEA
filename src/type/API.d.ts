@@ -514,15 +514,15 @@ declare namespace API {
     score?: number;
   };
   type RepoRule = {
-    quCount: number;
-    title: string;
-    num: number;
-    quType: string;
-    repoId: string;
-    repoTitle: string;
-    levelTitle: string;
-    chapterTitle: string;
-    chapterId: string;
+    quCount?: number;
+    title?: string;
+    num?: number;
+    quType?: string;
+    repoId?: string;
+    repoTitle?: string;
+    levelTitle?: string;
+    chapterTitle?: string;
+    chapterId?: string;
   };
 
   type RepoQuestionGroupList = {
