@@ -106,9 +106,10 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
                   expandedRowRender: (record) => (
                     <SelectRow
                       key={record.id}
+                      repoId={record.id}
+                      repoTitle={record.title}
                       questionType={props.questionType}
                       paperSelectType={props.paperSelectType}
-                      repoId={record.id}
                       close={props.close}
                     ></SelectRow>
                   ),

@@ -38,15 +38,7 @@ export default function usePaperGenerate() {
     */
     const processResult = [];
     for (let item of data) {
-      const answerList: {
-        analysis: string | undefined;
-        answerId: string | undefined;
-        content: string | undefined;
-        image: string | undefined;
-        isRight: boolean | undefined;
-        pathScore: number;
-        tag: string | undefined;
-      }[] = [];
+      const answerList: API.RepoAnswer[] = [];
 
       item.answerList?.forEach((item) => {
         const answer = {
@@ -72,9 +64,60 @@ export default function usePaperGenerate() {
     return processResult;
   };
 
+  const questionRuleUpdate = (data: API.ChapterGroup[], questionType: string, repoTitle: string = '') => {
+    const processData = questionRuleProcess(data, repoTitle);
+    const replace: API.RepoQuestionGroupList = {
+      anchor: new Date().getTime(),
+      title: data[0].title,
+      quType: questionType,
+      quCount: processData.quCount,
+      totalScore: 0,
+      perScore: 0,
+      quRand: false,
+      itemRand: false,
+      strictSort: 0,
+      pathScore: false,
+      quList: [],
+      ruleList: processData.ruleList,
+    };
+    let groupList = paperEditData?.groupList;
+    groupList === undefined ? (groupList = [replace]) : groupList.push(replace);
+    setPaperEditData({ ...paperEditData, groupList: groupList });
+  };
+
+  const questionRuleProcess = (data: API.ChapterGroup[], repoTitle: string) => {
+    let quCount = 0;
+    const ruleList: API.RepoRule[] = [];
+    data?.forEach((chapter) => {
+      chapter.levels.forEach((level) => {
+        let item: API.RepoRule = {
+          quCount: level.quCount,
+          title: level.title,
+          num: level.num,
+          quType: chapter.quType,
+          repoId: chapter.repoId,
+          repoTitle: repoTitle,
+          level: level.level,
+          levelTitle: level.title,
+          chapterTitle: chapter.title,
+          chapterId: chapter.chapterId,
+        };
+        if (level.num && level.num > 0) {
+          quCount += level.num;
+          ruleList.push(item);
+        }
+      });
+    });
+    return {
+      ruleList: ruleList,
+      quCount: quCount,
+    };
+  };
+
   return {
     paperEditData,
-    questionListUpdate,
     setPaperEditData,
+    questionListUpdate,
+    questionRuleUpdate,
   };
 }

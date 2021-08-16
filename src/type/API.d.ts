@@ -520,6 +520,7 @@ declare namespace API {
     quType?: string;
     repoId?: string;
     repoTitle?: string;
+    level?: string;
     levelTitle?: string;
     chapterTitle?: string;
     chapterId?: string;

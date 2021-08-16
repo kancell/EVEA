@@ -14,12 +14,20 @@ export default function SelectRow(props: {
   questionType?: string;
   paperSelectType?: number;
   repoId?: string;
+  repoTitle?: string;
   close?: Function;
 }) {
-  const { questionListUpdate } = useModel('usePaperGenerate');
+  const { questionListUpdate, questionRuleUpdate } = useModel('usePaperGenerate');
 
   const [chapterGroup, setChapterGroup] = useState<API.ChapterGroup[]>();
-
+  const queryQuestionSum = async (data: ChapterGroupParams) => {
+    try {
+      const result = await RepoChapterGroup({
+        data: data,
+      });
+      setChapterGroup(result.data);
+    } catch (error) {}
+  };
   const selectQuestionUpdate = (chapter: number, index: number, value: number) => {
     if (!chapterGroup) return;
 
@@ -47,21 +55,12 @@ export default function SelectRow(props: {
         props.close && props.close();
         break;
       case 3:
-        console.log(chapterGroup);
+        if (chapterGroup === undefined || props.questionType === undefined) return;
+        questionRuleUpdate(chapterGroup, props.questionType, props.repoTitle);
         break;
       default:
         break;
     }
-  };
-
-  const queryQuestionSum = async (data: ChapterGroupParams) => {
-    try {
-      const result = await RepoChapterGroup({
-        data: data,
-      });
-      setChapterGroup(result.data);
-      setChapterGroup(result.data);
-    } catch (error) {}
   };
 
   useEffect(() => {

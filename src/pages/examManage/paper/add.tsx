@@ -187,6 +187,7 @@ export default function PaperAdd() {
         </div>
       </Card>
       <div className="p-2">
+        {JSON.stringify(paperEditData)}
         {paperEditData?.groupList?.map((group: API.RepoQuestionGroupList, index: number) => (
           <div key={index}>
             <div className="my-2 flex flex-wrap bg-white p-2 rounded border">
