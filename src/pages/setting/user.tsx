@@ -222,17 +222,16 @@ export default function User() {
             <Form.Item name="password" rules={[{ required: true, message: '请输入密码' }]}>
               <Input addonBefore="登录密码"></Input>
             </Form.Item>
-            <Form.Item name="deptCode" rules={[{ required: true, message: '请选择部门' }]}>
+            <Form.Item name="deptCode" label="部门选择" rules={[{ required: true, message: '请选择部门' }]}>
               <TreeSelect
                 dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                 className="w-full"
                 treeDefaultExpandAll
                 treeData={Tree}
-                placeholder="部门选择"
               ></TreeSelect>
             </Form.Item>
-            <Form.Item name="roles" rules={[{ required: true, message: '请选择角色权限!' }]}>
-              <Select mode="multiple" allowClear className="w-full" placeholder="角色选择">
+            <Form.Item name="roles" label="角色选择" rules={[{ required: true, message: '请选择角色权限!' }]}>
+              <Select mode="multiple" allowClear className="w-full">
                 {roleList?.map((item) => (
                   <Option key={item.roleType} value={item.id}>
                     {item.roleName}

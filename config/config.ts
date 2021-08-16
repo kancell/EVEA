@@ -30,8 +30,9 @@ export default defineConfig({
     tailwindcss(),
   ],
   /* 打包体积处理设定 */
+  /*
   chainWebpack(config) {
-    /*     config.optimization.splitChunks({
+    config.optimization.splitChunks({
       cacheGroups: {
         styles: {
           name: 'styles',
@@ -41,7 +42,7 @@ export default defineConfig({
           minSize: 0,
         },
       },
-    }); */
+    });
     config.merge({
       optimization: {
         minimize: true,
@@ -69,4 +70,5 @@ export default defineConfig({
         return [/moment[/\\]locale$/, /zh-cn/];
       });
   },
+  */
 });

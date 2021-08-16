@@ -3,8 +3,7 @@ import { RepoManage, RepoChapterGroupAdd } from '@/services/examManage';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import SelectRow from '@/components/exam/paper/SelectRow';
-import { Button, Card, Input, Select, Form, DatePicker, Radio, Modal, Table } from 'antd';
-import { useModel } from 'umi';
+import { Button, Card, Select, Table } from 'antd';
 
 const { Option } = Select;
 
@@ -15,7 +14,7 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
     size: 5,
     total: 1,
   });
-  const { paperEditData, setPaperEditData } = useModel('usePaperGenerate');
+
   const [repoList, setRepoList] = useState<API.RepoManagePaging>();
 
   const queryRepoList = async (current = page.current, size = page.size) => {
@@ -40,98 +39,6 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const [selectParams, setSelectParams] = useState<API.ChapterGroup[]>();
-
-  const chapterParamUpdate = (chapter: number, index: number, value: number) => {
-    if (!selectParams) return;
-
-    const cacheSelectParams = [...selectParams];
-    let cache = cacheSelectParams[chapter]?.levels?.[index];
-    if (cache !== undefined) {
-      cache.num = value;
-      setSelectParams(cacheSelectParams);
-    }
-  };
-
-  const questionResultProcess = (data: API.RepoQuestion[]) => {
-    /* 修改上传的参数paperEditData，但有些组件需要显示的数据不包含在paperEditData中，导致显示异常，
-      是否需要把上传参数和显示参数分开？
-    */
-    const processResult = [];
-    for (let item of data) {
-      const answerList: {
-        analysis: string | undefined;
-        answerId: string | undefined;
-        content: string | undefined;
-        image: string | undefined;
-        isRight: boolean | undefined;
-        pathScore: number;
-        tag: string | undefined;
-      }[] = [];
-
-      item.answerList?.forEach((item) => {
-        const answer = {
-          analysis: item.analysis,
-          answerId: item.id,
-          content: item.content,
-          image: item.image,
-          isRight: item.isRight,
-          pathScore: 0 /* 选错也给分的具体分值 */,
-          tag: item.tag,
-        };
-        answerList.push(answer);
-      });
-      const cache = {
-        analysis: item.analysis,
-        answerList: answerList,
-        content: item.content,
-        quId: item.id,
-        quType: item.quType,
-      };
-
-      processResult.push(cache);
-    }
-    return processResult;
-  };
-
-  const questionGroupAdd = async () => {
-    /* 需要初始化选择试题数量 */
-    /* 此部分逻辑需要修整 */
-    selectParams?.forEach((chapter) => {
-      chapter.levels.forEach((level) => {
-        level.num === undefined ? (level.num = 0) : '';
-      });
-    });
-
-    try {
-      const result = await RepoChapterGroupAdd({
-        data: {
-          items: selectParams,
-        },
-      });
-      let cache = questionResultProcess(result.data);
-
-      let replace: API.RepoQuestionGroupList = {
-        anchor: new Date().getTime(),
-        title: result.data[0].quType_dictText,
-        quType: props.questionType,
-        quCount: result.data.length,
-        totalScore: 0,
-        perScore: 0,
-        quRand: false,
-        itemRand: false,
-        strictSort: 0,
-        pathScore: false,
-        quList: [...cache],
-      };
-      let groupList = paperEditData?.groupList;
-      groupList === undefined ? (groupList = [replace]) : groupList.push(replace);
-
-      setPaperEditData({ ...paperEditData, groupList: groupList });
-      props.close && props.close();
-    } catch (error) {}
   };
 
   useEffect(() => {
@@ -200,12 +107,9 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
                     <SelectRow
                       key={record.id}
                       questionType={props.questionType}
+                      paperSelectType={props.paperSelectType}
                       repoId={record.id}
                       close={props.close}
-                      update={chapterParamUpdate}
-                      add={questionGroupAdd}
-                      init={setSelectParams}
-                      initValue={selectParams}
                     ></SelectRow>
                   ),
                   rowExpandable: (record) => true,

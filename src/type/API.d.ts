@@ -513,6 +513,18 @@ declare namespace API {
     tagList?: unknown;
     score?: number;
   };
+  type RepoRule = {
+    quCount: number;
+    title: string;
+    num: number;
+    quType: string;
+    repoId: string;
+    repoTitle: string;
+    levelTitle: string;
+    chapterTitle: string;
+    chapterId: string;
+  };
+
   type RepoQuestionGroupList = {
     anchor?: number;
     title?: string;
@@ -524,6 +536,8 @@ declare namespace API {
     itemRand?: boolean;
     strictSort?: number;
     quList?: RepoQuestion[];
+    ruleList?: RepoRule[];
+
     pathScore?: boolean;
   };
   type wrapRepoQuestion = httpRespone & {

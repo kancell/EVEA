@@ -198,6 +198,7 @@ export default function ExamList() {
           </div>
         </div>
       )}
+      {/* 移动端 */}
       <div className="container px-5 py-8 md:py-24 mx-auto block lg:hidden">
         <div className="flex flex-wrap -m-4">
           {examList && (

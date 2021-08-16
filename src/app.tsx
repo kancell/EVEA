@@ -142,19 +142,27 @@ export const layout = ({
 /*
 初始化fetch网络请求配置
 */
-
+import { notification } from 'antd';
+const openNotification = (message: string, description: string) => {
+  notification['error']({
+    message: message,
+    description: description,
+  });
+};
 const baseUrl = process.env.BASEURL;
 export const request: RequestConfig = {
-  timeout: 5000,
+  timeout: 10000,
   errorConfig: {
     adaptor: (resData) => {
       return {
         ...resData,
-        showType: 1,
         success: resData.success,
         errorMessage: resData.msg,
       };
     },
+  },
+  errorHandler: (error) => {
+    openNotification('操作失败', error.message);
   },
   middlewares: [
     async function middlewareA(ctx, next) {

@@ -1,6 +1,7 @@
 import { RepoChapterGroup, RepoChapterGroupAdd } from '@/services/examManage';
 import { Button, Card, Input } from 'antd';
 import { useState, useEffect } from 'react';
+import { useModel } from 'umi';
 
 type ChapterGroupParams = {
   excludes?: string[];
@@ -11,14 +12,46 @@ type ChapterGroupParams = {
 
 export default function SelectRow(props: {
   questionType?: string;
+  paperSelectType?: number;
   repoId?: string;
   close?: Function;
-  update?: Function;
-  add?: Function;
-  init?: Function;
-  initValue?: API.ChapterGroup[];
 }) {
+  const { questionListUpdate } = useModel('usePaperGenerate');
+
   const [chapterGroup, setChapterGroup] = useState<API.ChapterGroup[]>();
+
+  const selectQuestionUpdate = (chapter: number, index: number, value: number) => {
+    if (!chapterGroup) return;
+
+    const cacheSelectParams = [...chapterGroup];
+    let cache = cacheSelectParams[chapter]?.levels?.[index];
+    if (cache !== undefined) {
+      cache.num = value;
+      setChapterGroup(cacheSelectParams);
+    }
+  };
+
+  const questionUpdate = async () => {
+    /* 初始化选择试题数量 */
+    /* 此部分逻辑需要修整 */
+    chapterGroup?.forEach((chapter) => {
+      chapter.levels.forEach((level) => {
+        level.num === undefined ? (level.num = 0) : '';
+      });
+    });
+
+    switch (props.paperSelectType) {
+      case 1:
+        if (chapterGroup === undefined || props.questionType === undefined) return;
+        questionListUpdate(chapterGroup, props.questionType);
+        props.close && props.close();
+        break;
+      case 3:
+        break;
+      default:
+        break;
+    }
+  };
 
   const queryQuestionSum = async (data: ChapterGroupParams) => {
     try {
@@ -26,9 +59,10 @@ export default function SelectRow(props: {
         data: data,
       });
       setChapterGroup(result.data);
-      props.init && props.init(result.data);
+      setChapterGroup(result.data);
     } catch (error) {}
   };
+
   useEffect(() => {
     let params: ChapterGroupParams = {
       excludes: [],
@@ -38,7 +72,6 @@ export default function SelectRow(props: {
     };
     queryQuestionSum(params);
   }, [props.questionType]);
-  /* 每次进入时刷新该组件 */
 
   return (
     <Card type="inner">
@@ -51,9 +84,9 @@ export default function SelectRow(props: {
                 <p className="leading-7 w-16 text-base mx-2">{item.title}</p>
                 <Input
                   type="number"
-                  value={(props.initValue && props.initValue[chapterIndex]?.levels?.[index]?.num) || 0}
-                  onChange={(value) => {
-                    props.update && props.update(chapterIndex, index, value.target.value);
+                  value={(chapterGroup && chapterGroup[chapterIndex]?.levels?.[index]?.num) || 0}
+                  onChange={(e) => {
+                    selectQuestionUpdate && selectQuestionUpdate(chapterIndex, index, Number(e.target.value));
                   }}
                 ></Input>
                 <p className="leading-8 w-24 text-base mx-2">共{item.quCount}题</p>
@@ -66,7 +99,7 @@ export default function SelectRow(props: {
         <Button
           className="w-64 mx-auto"
           onClick={() => {
-            props.add && props.add();
+            questionUpdate();
           }}
           type="primary"
         >

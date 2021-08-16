@@ -8,16 +8,6 @@ import { PaperSave, PaperUpdate } from '@/services/examManage';
 
 const { Option } = Select;
 
-type Upload = {
-  quCount: number;
-  totalScore: number;
-  title: string;
-  joinType: number;
-  catId: string;
-  timeType: number;
-  groupList: API.QuestionGroup[];
-};
-
 export default function PaperAdd() {
   const { paperEditData, setPaperEditData } = useModel('usePaperGenerate');
   const [visible, setVisible] = useState(false);

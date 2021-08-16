@@ -287,12 +287,19 @@ export default function examPublish() {
             <div className={`w-96 p-4 ${examSettingData.timeLimit ? '' : 'hidden'}`}>
               <RangePicker
                 showTime
-                value={[moment(examSettingData.startTime), moment(examSettingData.endTime)]}
+                value={[
+                  examSettingData.startTime === '' ? null : moment(examSettingData.startTime),
+                  examSettingData.endTime === '' ? null : moment(examSettingData.endTime),
+                ]}
                 format="YYYY-MM-DD HH:mm"
                 onOk={(e) => {
+                  console.log(e);
                   if (e === null || e[0] === null || e[1] === null) return;
-                  e[0] && setExamSettingData({ ...examSettingData, startTime: e[0].format('YYYY-MM-DD HH:mm') });
-                  e[1] && setExamSettingData({ ...examSettingData, startTime: e[1].format('YYYY-MM-DD HH:mm') });
+                  setExamSettingData({
+                    ...examSettingData,
+                    startTime: e[0].format('YYYY-MM-DD HH:mm'),
+                    endTime: e[1].format('YYYY-MM-DD HH:mm'),
+                  });
                 }}
                 className="w-full"
               />

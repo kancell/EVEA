@@ -76,9 +76,7 @@ export default function IndexPage(): ReactChild {
                 }}
                 className="flex-grow cursor-pointer"
               >
-                <p className="leading-relaxed text-base">
-                  {nowProcessExam ? `您的考试 “${nowProcessExam.title}” 还没有交卷，点击返回考试` : '暂无'}
-                </p>
+                <p className="leading-relaxed text-base"></p>
                 <a className="mt-3 text-indigo-500 inline-flex items-center">
                   <svg
                     fill="none"
@@ -91,6 +89,9 @@ export default function IndexPage(): ReactChild {
                   >
                     <path d="M5 12h14M12 5l7 7-7 7"></path>
                   </svg>
+                  <span className="mx-2">
+                    {nowProcessExam ? `您的考试 “${nowProcessExam.title}” 还没有交卷，点击返回考试` : '暂无'}
+                  </span>
                 </a>
               </div>
             </div>
@@ -112,7 +113,7 @@ export default function IndexPage(): ReactChild {
                     <circle cx="12" cy="7" r="4"></circle>
                   </svg>
                 </div>
-                <h2 className="text-gray-900 text-lg title-font font-medium font-bold">考试</h2>
+                <h2 className="text-gray-900 text-lg title-font font-medium font-bold">我的考试</h2>
               </div>
               <div
                 onClick={() => {
@@ -122,7 +123,7 @@ export default function IndexPage(): ReactChild {
                 }}
                 className="flex-grow cursor-pointer"
               >
-                <p className="leading-relaxed text-base">点击查看当前可以进行的全部考试</p>
+                <p className="leading-relaxed text-base"></p>
                 <a className="mt-3 text-indigo-500 inline-flex items-center">
                   <svg
                     fill="none"
@@ -135,6 +136,7 @@ export default function IndexPage(): ReactChild {
                   >
                     <path d="M5 12h14M12 5l7 7-7 7"></path>
                   </svg>
+                  <span className="mx-2">点击查看当前可以进行的全部考试</span>
                 </a>
               </div>
             </div>
@@ -157,17 +159,17 @@ export default function IndexPage(): ReactChild {
                     <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
                   </svg>
                 </div>
-                <h2 className="text-gray-900 text-lg title-font font-medium font-bold">成绩</h2>
+                <h2 className="text-gray-900 text-lg title-font font-medium font-bold">我的成绩</h2>
               </div>
               <div
                 onClick={() => {
                   history.push({
-                    pathname: '/exam/record/record',
+                    pathname: '/exam/record',
                   });
                 }}
                 className="flex-grow cursor-pointer"
               >
-                <p className="leading-relaxed text-base">点击查看考试的历史记录与成绩</p>
+                <p className="leading-relaxed text-base"></p>
                 <a className="mt-3 text-indigo-500 inline-flex items-center">
                   <svg
                     fill="none"
@@ -180,6 +182,53 @@ export default function IndexPage(): ReactChild {
                   >
                     <path d="M5 12h14M12 5l7 7-7 7"></path>
                   </svg>
+                  <span className="mx-2">点击查看考试的历史记录与成绩</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="p-4 w-full md:w-1/3">
+            <div className="flex rounded-lg h-full bg-gray-50 px-8 py-6 flex-col">
+              <div className="flex items-center mb-3">
+                <div className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="w-5 h-5"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle cx="6" cy="6" r="3"></circle>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
+                  </svg>
+                </div>
+                <h2 className="text-gray-900 text-lg title-font font-medium font-bold">我的练习</h2>
+              </div>
+              <div
+                onClick={() => {
+                  history.push({
+                    pathname: '/exam/practice',
+                  });
+                }}
+                className="flex-grow cursor-pointer"
+              >
+                <p className="leading-relaxed text-base"></p>
+                <a className="mt-3 text-indigo-500 inline-flex items-center">
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="w-4 h-4 ml-2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                  </svg>
+                  <span className="mx-2">点击前往题库训练</span>
                 </a>
               </div>
             </div>
