@@ -3,10 +3,11 @@ import { PageHeader } from 'antd';
 import { Breadcrumb } from 'antd';
 import { useLocation } from 'umi';
 import { useRouteMatch } from 'umi';
-import { withRouter } from 'umi';
+import { withRouter, Switch } from 'umi';
 import { Link } from 'umi';
 import PhoneNav from '@/layouts/phoneNav';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { useSpring, animated, useTransition } from 'react-spring';
+
 //ant-page-header
 import defaultRouter from '../../config/routes';
 import React from 'react';
@@ -28,17 +29,23 @@ const ANIMATION_MAP: any = {
   POP: 'back',
 };
 
-export default withRouter(({ location, children, history }: any) => {
-  return (
-    <TransitionGroup
-      childFactory={(child: React.FunctionComponentElement<{ classNames: any }>) =>
-        React.cloneElement(child, { classNames: ANIMATION_MAP[history.action] })
-      }
-    >
-      <CSSTransition key={location.pathname} timeout={300}>
-        <>{children}</>
-      </CSSTransition>
+export default withRouter(({ locations, children, history }: any) => {
+  const location = useLocation();
+  const transitions = useTransition(location, {
+    immediate: true,
+    enter: (item) => [{ life: '100%', opacity: 1, translateX: '0px', display: 'block' }],
+    leave: (item) => async (next, cancel) => {
+      await next({ life: '0%', display: 'none' });
+    },
+    from: { life: '0%', opacity: 0, translateX: '-100vw', top: '0px', display: 'none' },
+  });
+
+  return transitions((props, item) => (
+    <>
+      <animated.div style={props}>
+        <Switch location={item}>{children}</Switch>
+      </animated.div>
       <PhoneNav></PhoneNav>
-    </TransitionGroup>
-  );
+    </>
+  ));
 });

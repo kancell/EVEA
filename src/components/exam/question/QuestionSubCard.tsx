@@ -1,8 +1,7 @@
 /* 显示考试的辅助信息 */
 import { useModel } from 'umi';
 import moment from 'moment';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function QuestionSubCard(props: {
   totalTime: number;
