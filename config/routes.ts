@@ -32,7 +32,7 @@ const exam = {
     },
     {
       path: '/exam/record/paper',
-      name: '在线考试',
+      name: '记录',
       component: 'exam/record/paper',
       hideInMenu: true,
       icon: 'smile',

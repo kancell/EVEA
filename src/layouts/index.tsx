@@ -6,9 +6,10 @@ import { useRouteMatch } from 'umi';
 import { withRouter } from 'umi';
 import { Link } from 'umi';
 import PhoneNav from '@/layouts/phoneNav';
-
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 //ant-page-header
 import defaultRouter from '../../config/routes';
+import React from 'react';
 const breadRoutes = {
   itemRender: (route: any, params: any, routes: any, paths: any) => {
     const secondRoute = routes.indexOf(route) === 1;
@@ -22,13 +23,22 @@ const breadRoutes = {
   },
 };
 
-export default withRouter(({ history, location, match, children }) => {
+const ANIMATION_MAP: any = {
+  PUSH: 'forward',
+  POP: 'back',
+};
+
+export default withRouter(({ location, children, history }: any) => {
   return (
-    <>
-      <div className="animate-spin-slow p-4 w-full h-full" key={location.pathname}>
-        {children}
-      </div>
+    <TransitionGroup
+      childFactory={(child: React.FunctionComponentElement<{ classNames: any }>) =>
+        React.cloneElement(child, { classNames: ANIMATION_MAP[history.action] })
+      }
+    >
+      <CSSTransition key={location.pathname} timeout={300}>
+        <>{children}</>
+      </CSSTransition>
       <PhoneNav></PhoneNav>
-    </>
+    </TransitionGroup>
   );
 });

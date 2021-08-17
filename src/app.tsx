@@ -8,6 +8,7 @@ import type { RequestConfig } from 'umi';
 import type { BasicLayoutProps } from '@ant-design/pro-layout';
 
 import './style/style.css';
+import './style/animation.less';
 import logo from '@/assets/logo.png';
 
 let runTimeToken: string = '';
