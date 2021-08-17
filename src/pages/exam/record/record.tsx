@@ -126,7 +126,8 @@ export default function examRecordList() {
           </div>
         </div>
       )}
-      <div className="container px-5 py-8 md:py-24 mx-auto block lg:hidden">
+      <div className="container px-5 py-4 md:py-24 mx-auto block lg:hidden">
+        <div className="text-gray-500 text-lg font-bold mb-2 ml-1">已交卷试卷</div>
         <div className="flex flex-wrap -m-4">
           {PaperRecord && (
             <>

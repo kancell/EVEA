@@ -55,11 +55,6 @@ const LoginForm = (): ReactChild => {
         <div>
           <img className="mx-auto h-12 w-auto block" src={logo} alt="Workflow" />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">{process.env.TITLE}</h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-              没有账号？前往注册
-            </a>
-          </p>
         </div>
         <Form
           name="login"
@@ -130,10 +125,19 @@ const LoginForm = (): ReactChild => {
               忘记密码？
             </a>
           </span>
-
-          <Button type="primary" htmlType="submit" className="group relative w-full flex justify-center py-2 px-4 mt-4">
-            登录
-          </Button>
+          <div className="flex">
+            <Button type="primary" htmlType="submit" className="group relative w-full flex justify-center py-2 px-4 mt-4 mr-4">
+              登录
+            </Button>
+            <Button
+              type="primary"
+              disabled
+              htmlType="submit"
+              className="group relative w-full flex justify-center py-2 px-4 mt-4 ml-4"
+            >
+              注册
+            </Button>
+          </div>
         </Form>
       </div>
     </div>
