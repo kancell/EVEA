@@ -1,9 +1,9 @@
 /* 试题列表，修改和新增 */
-import { Button, Card, Input, Select, TreeSelect, Checkbox, Radio, message, Upload } from 'antd';
+import { Button, Card, Input, Select, TreeSelect, Checkbox, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { RepoQuestionAdd, RepoQuestionDetail } from '@/services/examManage';
+import { RepoQuestionAdd, RepoQuestionDetail, RepoUpload, RepoExport, RepoUploadTemplate } from '@/services/examManage';
 const { Option } = Select;
 
 export default function QuestionAdd(props: { type?: string; id?: string; repoId?: string; refresh: Function }) {
@@ -93,6 +93,59 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
         message.success(result.msg);
       }
       props.type === 'add' ? setQuestion(undefined) : '';
+    } catch (error) {}
+  };
+
+  const mockDownloadButton = (result: BlobPart, fileName: string) => {
+    const blob = new Blob([result]);
+    const objectURL = URL.createObjectURL(blob);
+    let btn = document.createElement('a');
+    btn.download = fileName;
+    btn.href = objectURL;
+    btn.click();
+    URL.revokeObjectURL(objectURL);
+  };
+
+  const uploadRepoFromExcel = async (e: any) => {
+    /*     try {
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        if (!e || !e.target || !e.target.result || !props.repoId) return
+        const formData = new FormData();
+        formData.append("repoId", props.repoId);
+        formData.append("file", e.target.result);
+        const result = await RepoUpload({
+          data:{}
+        })
+        console.log(result);
+      };
+      reader.readAsBinaryString(e.target.files[0]);
+
+
+    } catch (error) {
+
+    } */
+  };
+  const downloadTemplate = async () => {
+    try {
+      const result = await RepoUploadTemplate({
+        responseType: 'blob',
+        data: {},
+      });
+      mockDownloadButton(result, '导入模板.xlsx');
+    } catch (error) {}
+  };
+  const exportToExcel = async () => {
+    try {
+      const result = await RepoExport({
+        responseType: 'blob',
+        data: {
+          content: '',
+          quType: '',
+          repoId: props.repoId,
+        },
+      });
+      mockDownloadButton(result, `${props.repoId === undefined ? '' : props.repoId}题库导出内容.xlsx`);
     } catch (error) {}
   };
   return (
@@ -185,9 +238,21 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
       </div>
       <div className="p-2 w-96">
         <Card className={`${props.type === 'update' ? 'hidden' : ''}`}>
-          <Button className="w-full m-2">下载试题导入模板</Button>
-          <Button className="w-full m-2">试题导入</Button>
-          <Button className="w-full m-2">试题导出</Button>
+          <Button onClick={() => downloadTemplate()} className="w-full m-2">
+            下载试题导入模板
+          </Button>
+          <Button className="w-full m-2">
+            <Input
+              type="file"
+              onChange={(e) => {
+                uploadRepoFromExcel(e);
+              }}
+            />
+            试题导入
+          </Button>
+          <Button onClick={() => exportToExcel()} className="w-full m-2">
+            试题导出
+          </Button>
         </Card>
       </div>
       {

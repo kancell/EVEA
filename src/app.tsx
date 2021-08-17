@@ -186,10 +186,13 @@ export const request: RequestConfig = {
   ],
   responseInterceptors: [
     async (response, options) => {
-      const data = await response.clone().json();
-      if (data.code === 10010002 && data.success === false && location.pathname !== loginPath) {
-        history.push(loginPath);
-      }
+      try {
+        const data = await response.clone().json();
+        if (data.code === 10010002 && data.success === false && location.pathname !== loginPath) {
+          history.push(loginPath);
+        }
+      } catch (error) {}
+
       return response;
     },
   ],

@@ -74,6 +74,33 @@ export async function PaperSave(options?: { [key: string]: any }) {
   });
 }
 
+/* 批量上传题库 /exam/api/qu/qu/import
+repoId: 1422450104851169282
+file: (binary)*/
+export async function RepoUpload(options?: { [key: string]: any }) {
+  return request<API.httpRespone>('/exam/api/qu/qu/import', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+/* 导出试题 /exam/api/qu/qu/export
+content: ""
+quType: ""
+repoId: "1422450104851169282"
+*/
+export async function RepoExport(options?: { [key: string]: any }) {
+  return request('/exam/api/qu/qu/export', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+/* 下载试题模板 exam/api/qu/qu/import/template*/
+export async function RepoUploadTemplate(options?: { [key: string]: any }) {
+  return request('/exam/api/qu/qu/import/template', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
 /* 管理端获取所有题库 /exam/api/repo/paging*/
 export async function RepoManage(options?: { [key: string]: any }) {
   return request<API.wrapRepoManagePaging>('/exam/api/repo/paging', {
