@@ -43,7 +43,7 @@ export default withRouter(({ locations, children, history }: any) => {
   return transitions((props, item) => (
     <>
       <animated.div style={props}>
-        <Switch location={item}>{children}</Switch>
+        <div className="p-4">{children}</div>
       </animated.div>
       <PhoneNav></PhoneNav>
     </>

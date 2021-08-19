@@ -22,52 +22,50 @@ export default withRouter(({ history, location, match, children }) => {
 
   return (
     <>
-      <Switch>
-        <ul
-          className={`fixed flex mb-0 justify-around bg-gray-50 list-none flex-row w-full bottom-0 md:hidden text-gray-500 z-10 border
-        ${navBarShow ? 'block' : 'hidden'}`}
-        >
-          <li className="-mb-px mr-2 last:mr-0 text-center">
-            <a
-              onClick={() => history.push('/')}
-              className={`text-xs font-bold px-5 rounded block leading-normal hover:text-white ${
-                pathToIndex ? 'bg-red-400 text-white' : 'bg-gray-50'
-              }`}
-            >
-              <div className="text-base">
-                <BookOutlined />
-              </div>
-              首页
-            </a>
-          </li>
-          <li className="-mb-px mr-2 last:mr-0  text-center">
-            <a
-              onClick={() => history.push('/exam/exam')}
-              className={`text-xs font-bold px-5 rounded block leading-normal hover:text-white ${
-                pathToExam ? 'bg-red-400 text-white' : 'bg-gray-50'
-              }`}
-            >
-              <div className="text-base">
-                <EditOutlined />
-              </div>
-              考试
-            </a>
-          </li>
-          <li className="-mb-px text-center">
-            <a
-              onClick={() => history.push('/exam/record')}
-              className={`text-xs font-bold px-5 rounded block leading-normal hover:text-white ${
-                pathTorecord ? 'bg-red-400 text-white' : 'bg-gray-50'
-              }`}
-            >
-              <div className="text-base">
-                <TrophyOutlined />
-              </div>
-              成绩
-            </a>
-          </li>
-        </ul>
-      </Switch>
+      <ul
+        className={`fixed flex mb-0 justify-around bg-gray-50 list-none flex-row w-full bottom-0 md:hidden text-gray-500 z-10 border
+      ${navBarShow ? 'block' : 'hidden'}`}
+      >
+        <li className="-mb-px mr-2 last:mr-0 text-center">
+          <a
+            onClick={() => history.push('/')}
+            className={`text-xs font-bold px-5 rounded block leading-normal hover:text-white ${
+              pathToIndex ? 'bg-red-400 text-white' : 'bg-gray-50'
+            }`}
+          >
+            <div className="text-base">
+              <BookOutlined />
+            </div>
+            首页
+          </a>
+        </li>
+        <li className="-mb-px mr-2 last:mr-0  text-center">
+          <a
+            onClick={() => history.push('/exam/exam')}
+            className={`text-xs font-bold px-5 rounded block leading-normal hover:text-white ${
+              pathToExam ? 'bg-red-400 text-white' : 'bg-gray-50'
+            }`}
+          >
+            <div className="text-base">
+              <EditOutlined />
+            </div>
+            考试
+          </a>
+        </li>
+        <li className="-mb-px text-center">
+          <a
+            onClick={() => history.push('/exam/record')}
+            className={`text-xs font-bold px-5 rounded block leading-normal hover:text-white ${
+              pathTorecord ? 'bg-red-400 text-white' : 'bg-gray-50'
+            }`}
+          >
+            <div className="text-base">
+              <TrophyOutlined />
+            </div>
+            成绩
+          </a>
+        </li>
+      </ul>
     </>
   );
 });

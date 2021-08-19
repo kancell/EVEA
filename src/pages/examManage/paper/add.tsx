@@ -63,9 +63,6 @@ export default function PaperAdd() {
 
   useEffect(() => {
     paperSaveParams();
-    return () => {
-      setPaperEditData(undefined);
-    };
   }, [paperEditData?.groupList?.length]);
 
   const paperSaveParams = () => {
@@ -104,8 +101,8 @@ export default function PaperAdd() {
         ></PaperSelect>
       </Drawer>
       <Card title="新增试卷">
-        <div className="flex flex-wrap justify-around">
-          <div className="flex flex-wrap max-w-2xl">
+        <div className="flex flex-wrap justify-between">
+          <div className="flex flex-wrap max-w-4xl">
             <div className="flex justify-between flex-wrap">
               <div className="flex-grow m-2 w-full">
                 <Input
@@ -152,7 +149,7 @@ export default function PaperAdd() {
               </div>
             </div>
           </div>
-          <div className="p-4 border rounded">
+          <div className="p-4 border rounded w-80">
             <div className="w-full my-2">
               <Button onClick={() => paperSave()} className="w-full" type="primary" htmlType="submit">
                 保存试卷
@@ -187,7 +184,6 @@ export default function PaperAdd() {
         </div>
       </Card>
       <div className="p-2">
-        {JSON.stringify(paperEditData)}
         {paperEditData?.groupList?.map((group: API.RepoQuestionGroupList, index: number) => (
           <div key={index}>
             <div className="my-2 flex flex-wrap bg-white p-2 rounded border">
@@ -224,7 +220,7 @@ export default function PaperAdd() {
                     value={group.perScore}
                     addonBefore="每题得分"
                     addonAfter={`共（${group.quCount}）题，总分（${
-                      group.quList && group.perScore && group.quList.length * group.perScore
+                      group.quCount && group.perScore && group.quCount * group.perScore
                     }）分`}
                     type="number"
                   />
@@ -279,9 +275,28 @@ export default function PaperAdd() {
               </Button>
             </div>
 
-            {group?.quList?.map((question, index) => (
-              <QuestionEdit key={question.quId} content={question}></QuestionEdit>
-            ))}
+            {paperEditData.joinType === 1 &&
+              group?.quList?.map((question, index) => <QuestionEdit key={question.quId} content={question}></QuestionEdit>)}
+            {paperEditData.joinType === 3 &&
+              group?.ruleList?.map((rule, index) => {
+                const questionType = {
+                  '1': '单选题',
+                  '2': '多选题',
+                  '3': '判断题',
+                  '4': '简答题',
+                  '5': '填空题',
+                }[rule.quType !== undefined ? rule.quType : '1'];
+                return (
+                  <div className="my-2" key={index}>
+                    <Card title={<div className="px-2 py-1 font-bold text-base">{'抽题规则'}</div>} size="small">
+                      <div className="m-2 text-base">从{rule.repoTitle}中抽取试题</div>
+                      <div className="m-2 text-base">
+                        试题类型（{questionType}），试题数量（{rule.num}），试题难度（{rule.levelTitle}）
+                      </div>
+                    </Card>
+                  </div>
+                );
+              })}
           </div>
         ))}
       </div>
