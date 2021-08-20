@@ -282,6 +282,7 @@ export default function ExamList() {
                   </div>
                 </div>
               ))}
+              <Pagination page={page} setPage={queryCurrentExam}></Pagination>
             </>
           )}
         </div>

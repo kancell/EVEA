@@ -19,18 +19,20 @@ export default function Pagination(props: {
     props.setPage(props.page.current + tag, props.page.size);
   };
   return (
-    <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+    <div
+      className={`${
+        props.page.pages > 1 ? '' : 'hidden'
+      } mx-auto rounded bg-white p-4 py-3 flex items-center justify-between border-t border-gray-200 mb-8 sm:mb-0 sm:px-6 w-11/12 sm:w-full`}
+    >
       <div className="flex-1 flex justify-between sm:hidden">
         <a
           onClick={() => preORnxt(-1)}
-          href="#"
           className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
         >
           上一页
         </a>
         <a
           onClick={() => preORnxt(1)}
-          href="#"
           className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
         >
           下一页
@@ -47,7 +49,6 @@ export default function Pagination(props: {
         <div>
           <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
             <a
-              href="#"
               onClick={() => preORnxt(-1)}
               className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
             >
@@ -58,11 +59,12 @@ export default function Pagination(props: {
               return (
                 <a
                   onClick={() => pageChange(item)}
-                  href="#"
                   key={item}
                   aria-current="page"
                   className={`${
-                    item === props.page.current ? 'bg-indigo-50 border-indigo-500 text-indigo-600 border' : 'border-gray-300'
+                    item === props.page.current
+                      ? 'bg-indigo-50 border-indigo-500 text-indigo-600 border'
+                      : 'border border-gray-300'
                   } z-10  relative inline-flex items-center px-4 py-2  text-sm font-medium`}
                 >
                   {item}
@@ -70,7 +72,6 @@ export default function Pagination(props: {
               );
             })}
             <a
-              href="#"
               onClick={() => preORnxt(1)}
               className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
             >

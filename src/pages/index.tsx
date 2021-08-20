@@ -15,14 +15,15 @@ export default function IndexPage(): ReactChild {
       console.log(error);
     }
   };
+
   useEffect(() => {
     queryCurrentExam();
   }, []);
 
   /* 后续通过公告进行 */
   let carouselImg = [
-    'https://img.zcool.cn/community/016ae55d79e8e2a801211d53cd83bd.jpg@1280w_1l_2o_100sh.jpg',
-    'https://img.zcool.cn/community/01ff0f5ba5d38da8012099c8f85996.jpg@1280w_1l_0o_100sh.jpg',
+    'https://img.zcool.cn/community/01c77f5d9c517fa8012060be53caa7.jpg@1280w_1l_2o_100sh.jpg',
+    'https://img.zcool.cn/community/01726a5d9c518da8012060beb10db2.jpg@1280w_1l_0o_100sh.jpg',
   ];
 
   return (
@@ -30,7 +31,7 @@ export default function IndexPage(): ReactChild {
       <div>
         <Carousel autoplay>
           {carouselImg.map((url, index) => (
-            <div key={index} className="w-full mx-auto h-36 bg-white lg:h-44">
+            <div key={index} className="w-full mx-auto h-36 bg-white lg:h-48">
               <Image src={`${url}`} width="100%" placeholder />
             </div>
           ))}

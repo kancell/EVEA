@@ -9,7 +9,7 @@ import PhoneNav from '@/layouts/phoneNav';
 import { useSpring, animated, useTransition } from 'react-spring';
 
 //ant-page-header
-import defaultRouter from '../../config/routes';
+/* import defaultRouter from '../../config/routes';
 import React from 'react';
 const breadRoutes = {
   itemRender: (route: any, params: any, routes: any, paths: any) => {
@@ -27,17 +27,16 @@ const breadRoutes = {
 const ANIMATION_MAP: any = {
   PUSH: 'forward',
   POP: 'back',
-};
+}; */
 
 export default withRouter(({ locations, children, history }: any) => {
   const location = useLocation();
   const transitions = useTransition(location, {
-    immediate: true,
-    enter: (item) => [{ life: '100%', opacity: 1, translateX: '0px', display: 'block' }],
+    enter: (item) => [{ life: '100%', translateX: '0px', display: 'block' }],
     leave: (item) => async (next, cancel) => {
-      await next({ life: '0%', display: 'none' });
+      await next({ display: 'none', life: '0%' });
     },
-    from: { life: '0%', opacity: 0, translateX: '-100vw', top: '0px', display: 'none' },
+    from: { life: '0%', translateX: '-100vw', display: 'none' },
   });
 
   return transitions((props, item) => (

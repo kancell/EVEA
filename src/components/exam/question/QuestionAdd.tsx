@@ -3,6 +3,8 @@ import { Button, Card, Input, Select, TreeSelect, Checkbox, message, Upload } fr
 import { UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { history, useModel } from 'umi';
+
 import { RepoQuestionAdd, RepoQuestionDetail, RepoUpload, RepoExport, RepoUploadTemplate } from '@/services/examManage';
 const { Option } = Select;
 
@@ -106,8 +108,8 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
     URL.revokeObjectURL(objectURL);
   };
 
-  const uploadRepoFromExcel = async (e: any) => {
-    /*     try {
+  /*   const uploadRepoFromExcel = async (e: any) => {
+    try {
       const reader = new FileReader();
       reader.onload = async function(e) {
         if (!e || !e.target || !e.target.result || !props.repoId) return
@@ -124,8 +126,17 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
 
     } catch (error) {
 
-    } */
+    }
+  }; */
+  const { initialState } = useModel('@@initialState');
+  const inital = initialState as {
+    user: API.userData;
   };
+  const [runTimeToken, setRunTimeToken] = useState('');
+  useEffect(() => {
+    setRunTimeToken(inital.user.token);
+  }, []);
+
   const downloadTemplate = async () => {
     try {
       const result = await RepoUploadTemplate({
@@ -241,18 +252,35 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
           <Button onClick={() => downloadTemplate()} className="w-full m-2">
             下载试题导入模板
           </Button>
-          <Button className="w-full m-2">
-            <Input
+
+          <Button onClick={() => exportToExcel()} className="w-full m-2">
+            试题导出
+          </Button>
+          <div className="w-full m-2">
+            <Upload
+              headers={{
+                token: runTimeToken,
+                'Content-Type': 'application/json;charset=UTF-8',
+              }}
+              method="post"
+              action={`${process.env.BASEURL}/exam/api/qu/qu/import`}
+              withCredentials={true}
+              listType="picture"
+              defaultFileList={[]}
+            >
+              <Button type="primary" icon={<UploadOutlined />}>
+                通过模板导入试题
+              </Button>
+            </Upload>
+          </div>
+
+          {/* <Input
+              className="w-80%"
               type="file"
               onChange={(e) => {
                 uploadRepoFromExcel(e);
               }}
-            />
-            试题导入
-          </Button>
-          <Button onClick={() => exportToExcel()} className="w-full m-2">
-            试题导出
-          </Button>
+            />*/}
         </Card>
       </div>
       {
@@ -350,8 +378,8 @@ export default function QuestionAdd(props: { type?: string; id?: string; repoId?
         </div>
       )}
       <div className="w-full">
-        <Button className="w-96 m-2" size="large" type="primary" onClick={() => sumbitAnswer()}>
-          提交
+        <Button className="m-2" size="large" type="primary" onClick={() => sumbitAnswer()}>
+          确认新增试题
         </Button>
       </div>
     </div>

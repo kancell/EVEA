@@ -36,7 +36,7 @@ export default function ExamStartCheck(props: { exam: API.Exam; show: Boolean; s
     [3, '需要密码'],
   ]);
   return (
-    <div className={`${props.show ? 'fixed' : 'hidden'} w-full h-full bg-gray-300 bg-opacity-30 z-10 left-0 top-0`}>
+    <div className={`${props.show ? 'fixed' : 'hidden'} w-full h-full bg-gray-600 bg-opacity-60 z-10 left-0 top-0`}>
       {/* fixed受到父元素padding影响 */}
       <div className="flex w-full h-full justify-center items-center relative -top-16">
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all w-4/5 sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">

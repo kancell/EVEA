@@ -17,12 +17,13 @@ export default function examRecordPaper() {
     total: 1,
   });
 
-  const [examList, setExamList] = useState<API.ExamRecordPaging>();
+  const [recordList, setRecordList] = useState<API.ExamRecordPaging>();
   const requestExamRecord = async (current = page.current, size = page.size) => {
     if (queryLocationData.query === undefined || queryLocationData.query.id === undefined) {
       console.log('异常，跳转至首页');
       return;
     }
+
     try {
       const currentRecord = await ExamRecordPaging({
         data: {
@@ -34,7 +35,7 @@ export default function examRecordPaper() {
           t: moment().unix(),
         },
       });
-      setExamList(currentRecord.data);
+      setRecordList(currentRecord.data);
       setPage({
         current: currentRecord.data.current,
         pages: currentRecord.data.pages,
@@ -58,8 +59,8 @@ export default function examRecordPaper() {
 
   return (
     <>
-      {!examList && <Loading />}
-      {examList && (
+      {!recordList && <Loading />}
+      {recordList && (
         <div className="w-full container mx-auto hidden lg:block">
           <div className="my-2 overflow-x-auto">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -97,7 +98,7 @@ export default function examRecordPaper() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {examList.records.map((exam, index) => (
+                    {recordList.records.map((exam, index) => (
                       <tr key={exam.id} className=" border-gray-200 border-solid border">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
@@ -183,11 +184,11 @@ export default function examRecordPaper() {
       <div className="container px-5 py-4 md:py-24 mx-auto block lg:hidden">
         <div className="text-gray-500 text-lg font-bold mb-2 ml-1">交卷记录</div>
         <div className="flex flex-wrap -m-4">
-          {examList && (
+          {recordList && (
             <>
-              {examList.records.map((exam, index) => (
+              {recordList.records.map((exam, index) => (
                 <div className="p-4 w-full md:w-1/3" key={exam.id}>
-                  <div className="flex rounded-lg h-full bg-gray-50 p-8 flex-col">
+                  <div className="flex rounded-lg h-full bg-gray-50 px-8 py-4 flex-col">
                     <div className="flex items-center mb-3">
                       <div className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
                         <svg
@@ -264,6 +265,7 @@ export default function examRecordPaper() {
                   </div>
                 </div>
               ))}
+              <Pagination page={page} setPage={requestExamRecord}></Pagination>
             </>
           )}
         </div>

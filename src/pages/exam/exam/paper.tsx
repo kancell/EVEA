@@ -5,11 +5,12 @@ import QuestionSelectCard from '@/components/exam/question/QuestionSelectCard';
 import QuestionSubCard from '@/components/exam/question/QuestionSubCard';
 import Question from '@/components/exam/question/Question';
 import Loading from '@/components/loading/Loading';
+import ExamEndCheck from '@/components/exam/verify/ExamEndCheck';
 import { useModel } from 'umi';
 import FullSrceen from '@/services/util';
 
 export default function ExamPaper() {
-  const { nowQuestionIndex, setNowQuestionIndex, setExamLength } = useModel('useQuestionIndexModel');
+  const { nowQuestionIndex, setNowQuestionIndex, setExamLength } = useModel('useQuestionIndexModel'); //公用逻辑，试题序号与试题组长度信息
 
   const [isScreenFull, setIsScreenFull] = useState(false); //是否全屏
   useEffect(() => {
@@ -114,6 +115,18 @@ export default function ExamPaper() {
     }
   }, [question]);
 
+  const [checkShow, setCheckShow] = useState(false); //exam end modal显示控制
+  const [noAnswerdNum, setNoAnswerdNum] = useState(0);
+  const fillExamCheck = () => {
+    let num = 0;
+    exam?.groupList?.forEach((grounp) => {
+      grounp.quList.forEach((qu) => {
+        if (!qu.answered) num += 1;
+      });
+    });
+    setNoAnswerdNum(num);
+    setCheckShow(true);
+  };
   const fillExamRequest = async () => {
     try {
       await fillExam({
@@ -137,6 +150,7 @@ export default function ExamPaper() {
   return (
     <>
       {(!exam || !question) && <Loading />}
+      {<ExamEndCheck show={checkShow} setShow={setCheckShow} num={noAnswerdNum} submit={fillExamRequest}></ExamEndCheck>}
       {exam && question && (
         <div className="grid grid-flow-row grid-cols-4 xl:grid-cols-6 grid-rows-1 gap-4 min-h-full h-full overflow-auto">
           <QuestionSelectCard type={'exam'} data={[...exam.groupList]} selectQuestion={setNextQuestion}></QuestionSelectCard>
@@ -145,7 +159,7 @@ export default function ExamPaper() {
             totalTime={exam.totalTime}
             createdTime={exam.createTime}
             useCamera={exam.camOn}
-            fill={fillExamRequest}
+            fill={fillExamCheck}
           ></QuestionSubCard>
         </div>
       )}

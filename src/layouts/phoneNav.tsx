@@ -21,10 +21,10 @@ export default withRouter(({ history, location, match, children }) => {
   let pathTorecord = path.includes('/exam/record');
 
   return (
-    <>
+    <div>
       <ul
-        className={`fixed flex mb-0 justify-around bg-gray-50 list-none flex-row w-full bottom-0 md:hidden text-gray-500 z-10 border
-      ${navBarShow ? 'block' : 'hidden'}`}
+        className={`fixed bottom-0  mb-0 justify-around bg-gray-50 list-none flex-row w-full bottom-0 md:hidden text-gray-500 z-10 border
+      ${navBarShow ? 'flex' : 'hidden'}`}
       >
         <li className="-mb-px mr-2 last:mr-0 text-center">
           <a
@@ -66,6 +66,6 @@ export default withRouter(({ history, location, match, children }) => {
           </a>
         </li>
       </ul>
-    </>
+    </div>
   );
 });

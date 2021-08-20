@@ -189,6 +189,7 @@ export default function examRecordList() {
                   </div>
                 </div>
               ))}
+              <Pagination page={page} setPage={requestExamRecord}></Pagination>
             </>
           )}
         </div>

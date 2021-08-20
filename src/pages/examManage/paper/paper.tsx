@@ -3,7 +3,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { PaperManage, PaperDelete } from '@/services/examManage';
-import { history, useLocation } from 'umi';
+import { history } from 'umi';
 
 export default function Paper() {
   const [page, setPage] = useState({

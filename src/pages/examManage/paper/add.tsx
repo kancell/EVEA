@@ -275,7 +275,7 @@ export default function PaperAdd() {
               </Button>
             </div>
 
-            {paperEditData.joinType === 1 &&
+            {(paperEditData.joinType === 1 || paperEditData.joinType === 2) &&
               group?.quList?.map((question, index) => <QuestionEdit key={question.quId} content={question}></QuestionEdit>)}
             {paperEditData.joinType === 3 &&
               group?.ruleList?.map((rule, index) => {
