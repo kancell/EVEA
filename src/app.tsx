@@ -178,6 +178,7 @@ export const request: RequestConfig = {
           interceptors: true,
           headers: {
             token: runTimeToken,
+            'Content-Type': 'application/json',
           },
         },
       };
