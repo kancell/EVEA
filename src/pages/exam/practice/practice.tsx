@@ -1,7 +1,9 @@
 import { Button } from 'antd';
 import React from 'react';
+import { useEffect } from 'react';
 
 export default function ChartPage() {
+  useEffect(() => console.log(1), []);
   return (
     <div>
       <div className="w-96 mx-auto">
