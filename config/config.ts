@@ -16,7 +16,7 @@ export default defineConfig({
   dynamicImport: {
     loading: '@/components/loading/Loading',
   },
-
+  history: { type: 'hash' },
   layout: {},
   request: {
     dataField: 'data',
@@ -30,7 +30,6 @@ export default defineConfig({
     tailwindcss(),
   ],
   /* 打包体积处理设定 */
-  /*
   chainWebpack(config) {
     config.optimization.splitChunks({
       cacheGroups: {
@@ -69,5 +68,5 @@ export default defineConfig({
       .tap(() => {
         return [/moment[/\\]locale$/, /zh-cn/];
       });
-  },*/
+  },
 });
