@@ -58,11 +58,19 @@ export default function PaperAdd() {
     } catch (error) {}
   };
   useEffect(() => {
-    getSelectOption();
+    let isUnmount = false;
+    !isUnmount && getSelectOption();
+    return () => {
+      isUnmount = true;
+    };
   }, []);
 
   useEffect(() => {
-    paperSaveParams();
+    let isUnmount = false;
+    !isUnmount && paperSaveParams();
+    return () => {
+      isUnmount = true;
+    };
   }, [paperEditData?.groupList?.length]);
 
   const paperSaveParams = () => {

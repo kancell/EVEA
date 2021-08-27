@@ -54,7 +54,11 @@ export default function Paper() {
   };
 
   useEffect(() => {
-    queryPaperList();
+    let isUnmount = false;
+    !isUnmount && queryPaperList();
+    return () => {
+      isUnmount = true;
+    };
   }, []);
 
   const columns = [

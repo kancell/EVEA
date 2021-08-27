@@ -42,7 +42,11 @@ export default function PaperSelect(props: { questionType?: string; paperSelectT
   };
 
   useEffect(() => {
-    queryRepoList();
+    let isUnmount = false;
+    !isUnmount && queryRepoList();
+    return () => {
+      isUnmount = true;
+    };
   }, [props.paperSelectType, props.questionType]);
 
   const columns = [

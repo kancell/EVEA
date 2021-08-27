@@ -64,13 +64,17 @@ export default function SelectRow(props: {
   };
 
   useEffect(() => {
+    let isUnmount = false;
     let params: ChapterGroupParams = {
       excludes: [],
       groups: [],
       quType: props.questionType,
       repoId: props.repoId,
     };
-    queryQuestionSum(params);
+    !isUnmount && queryQuestionSum(params);
+    return () => {
+      isUnmount = true;
+    };
   }, [props.questionType]);
 
   return (
