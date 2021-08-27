@@ -32,11 +32,11 @@ const ANIMATION_MAP: any = {
 export default withRouter(({ locations, children, history }: any) => {
   const location = useLocation();
   const transitions = useTransition(location, {
-    enter: (item) => [{ life: '100%', translateX: '0px', display: 'block' }],
+    enter: (item) => [{ life: '100%', translateX: '0px', display: 'block', opacity: '1' }],
     leave: (item) => async (next, cancel) => {
-      await next({ display: 'none', life: '0%' });
+      await next({ life: '0%', display: 'none' });
     },
-    from: { life: '0%', translateX: '-100vw', display: 'none' },
+    from: { life: '0%', translateX: '-100vw', display: 'none', opacity: '0' },
   });
 
   return transitions((props, item) => (

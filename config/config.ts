@@ -30,7 +30,7 @@ export default defineConfig({
     tailwindcss(),
   ],
   /* 打包体积处理设定 */
-  /*
+
   chainWebpack(config) {
     config.optimization.splitChunks({
       cacheGroups: {
@@ -70,5 +70,4 @@ export default defineConfig({
         return [/moment[/\\]locale$/, /zh-cn/];
       });
   },
-  */
 });

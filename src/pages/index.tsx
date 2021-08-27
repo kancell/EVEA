@@ -29,10 +29,10 @@ export default function IndexPage(): ReactChild {
   return (
     <section className="text-gray-600 body-font">
       <div>
-        <Carousel autoplay>
+        <Carousel>
           {carouselImg.map((url, index) => (
-            <div key={index} className="w-full mx-auto h-36 bg-white lg:h-48">
-              <Image src={`${url}`} width="100%" placeholder />
+            <div key={index} className="mx-auto h-36 bg-white lg:h-48">
+              <Image src={`${url}`} />
             </div>
           ))}
         </Carousel>
