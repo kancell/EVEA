@@ -125,13 +125,8 @@ export const layout = ({
       );
     },
     menuHeaderRender: (logo, title) => (
-      <div
-        id="customize_menu_header"
-        onClick={() => {
-          window.open('https://remaxjs.org/');
-        }}
-      >
-        {logo}
+      <div id="customize_menu_header">
+        {/* {logo} */}
         {title}
       </div>
     ),
