@@ -1,9 +1,18 @@
+/*
+ * @Author: xxxafu
+ * @Date: 2021-11-09 14:36:28
+ * @LastEditTime: 2021-11-18 17:07:39
+ * @LastEditors: xxxafu
+ * @Description:
+ * @FilePath: \evea-admin\config\config.ts
+ */
 import { defineConfig } from 'umi';
 import routes from './routes';
 import tailwindcss from '@tailwindcss/postcss7-compat';
 
 export default defineConfig({
   routes: routes.defaultRouter,
+  publicPath: '/examlgd/',
   antd: {},
   theme: {
     //'@primary-color': 'rgba(129, 140, 248, 1)',
