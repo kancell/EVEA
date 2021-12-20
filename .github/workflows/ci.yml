@@ -20,13 +20,14 @@ jobs:
     - name: Install and Build # 下载依赖 打包项目
       run: |
         yarn
-        yarn run build
+        yarn build
         
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@4.1.7
       with:
         branch: master # The branch the action should deploy to.
         folder: dist # The folder the action should deploy.
-        ACCESS_TOKEN: ${{ secrets.WWA }}
-        REPOSITORY_NAME: kancell/kancell.github.io # 这是我的 github page 仓库
+        token: ${{ secrets.WWA }}
+        repository-name: kancell/kancell.github.io # 这是我的 github page 仓库
+        target-folder: client
 
