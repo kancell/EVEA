@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { currentExam, processExam } from '@/services/exam';
 import ExamStartCheck from '@/components/exam/verify/ExamStartCheck';
-import Pagination from '@/components/pagination/Pagination';
+import Pagination from '@/components/pagination/pagination';
 import moment from 'moment';
 import { history } from 'umi';
 import Loading from '@/components/loading/Loading';

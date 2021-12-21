@@ -200,7 +200,7 @@ export default {
     {
       path: 'user/login',
       name: '登录',
-      component: 'login/Index',
+      component: 'login/index',
       hideInMenu: true,
       headerRender: false,
       footerRender: false,
