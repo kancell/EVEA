@@ -25,7 +25,7 @@ jobs:
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@4.1.7
       with:
-        branch: gh-pages # The branch the action should deploy to.
+        branch: main # The branch the action should deploy to.
         folder: dist # The folder the action should deploy.
         token: ${{ secrets.WWA }}
         repository-name: kancell/kancell.github.io # 这是我的 github page 仓库
