@@ -215,7 +215,7 @@ export default {
         {
           path: '/',
           name: '首页',
-          component: 'Index',
+          component: 'index',
           icon: 'smile',
         },
         exam,

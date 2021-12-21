@@ -3,7 +3,7 @@ import { ExamRecordPaging } from '@/services/exam';
 import moment from 'moment';
 import { useLocation } from 'umi';
 import { history } from 'umi';
-import Pagination from '@/components/pagination/Pagination';
+import Pagination from '@/components/pagination/pagination';
 import Loading from '@/components/loading/Loading';
 
 export default function examRecordPaper() {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PaperRecord as queryExamRecord } from '@/services/exam';
 import moment from 'moment';
 import { history } from 'umi';
-import Pagination from '@/components/pagination/Pagination';
+import Pagination from '@/components/pagination/pagination';
 
 import Loading from '@/components/loading/Loading';
 
